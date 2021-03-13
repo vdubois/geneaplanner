@@ -1,0 +1,23 @@
+{
+  "name": "geneaplanner-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "handler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\"",
+    "deploy-dev": "serverless deploy --stage=dev",
+    "postdeploy-dev": "STAGE=dev AWS_REGION=eu-west-3 serverless migrations up",
+    "deploy-prod": "serverless deploy --stage=prod",
+    "postdeploy-prod": "STAGE=prod AWS_REGION=eu-west-3 serverless migrations up"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-lambda-utils": "0.0.2",
+    "aws-sdk-fluent-builder": "0.3.0",
+    "read-gedcom": "0.1.2"
+  },
+  "devDependencies": {
+    "serverless-plugin-umzug": "1.3.0"
+  }
+}

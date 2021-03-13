@@ -1,0 +1,32 @@
+.AppBarContenu {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.AppBarIcones {
+    display: flex !important;
+    flex-direction: row-reverse;
+    width: 100% !important;
+}
+
+.AppTitre {
+    width: 234px;
+    height: 36px;
+}
+
+.AppBarTitre {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
+}
+
+.Avatar {
+    width: 30px;
+    height: 30px;
+}
+
+.BoutonAvatar {
+    padding: 0 !important;
+}

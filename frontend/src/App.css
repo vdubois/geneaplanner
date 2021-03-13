@@ -1,0 +1,30 @@
+.MuiIcon-root {
+  width: 2em !important;
+}
+
+.MuiAutocomplete-popupIndicator {
+  display: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.MuiInput-underline:before {
+  border-bottom: 0 !important;
+}
+
+.MuiInput-underline.Mui-focused:before {
+  border-bottom: 0 !important;
+}
+
+.MuiInput-underline:after {
+  border-bottom: 0 !important;
+}
+
+.MuiInput-underline.Mui-focused:after {
+  border-bottom: 0 !important;
+}
+
+.MuiAutocomplete-popper {
+  width: 500px !important;
+  left: 80px !important;
+}

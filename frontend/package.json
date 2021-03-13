@@ -1,0 +1,42 @@
+{
+  "name": "geneaplanner",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@auth0/auth0-react": "1.3.0",
+    "@auth0/auth0-spa-js": "1.13.6",
+    "@material-ui/core": "4.11.3",
+    "@material-ui/icons": "4.11.2",
+    "@material-ui/lab": "4.0.0-alpha.57",
+    "react": "17.0.1",
+    "react-dom": "17.0.1",
+    "react-router-dom": "5.2.0",
+    "react-scripts": "4.0.3"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "deploy-dev": "sed -i 's/cVoGtUWf2frEb37nk32xcABCycMSlgoE/'\"$OAUTH0_DEV_CLIENT_ID\"'/g' src/auth0.js && sed -i 's/http:\\/\\/localhost:3000/https:\\/\\/geneaplanner-dev\\.surge\\.sh/g' src/index.jsx && npm run build && surge build/ geneaplanner-dev.surge.sh",
+    "deploy-prod": "sed -i 's/8yorb33jo9/dzmwu65136/g' src/api/api.js && sed -i 's/cVoGtUWf2frEb37nk32xcABCycMSlgoE/'\"$OAUTH0_PROD_CLIENT_ID\"'/g' src/auth0.js && sed -i 's/http:\\/\\/localhost:3000/https:\\/\\/geneaplanner\\.surge\\.sh/g' src/index.jsx && npm run build && surge build/ geneaplanner.surge.sh"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "surge": "0.21.7"
+  }
+}

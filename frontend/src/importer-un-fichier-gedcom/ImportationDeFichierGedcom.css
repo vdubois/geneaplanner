@@ -1,0 +1,56 @@
+.ImportationDeFichierGedcom {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+input.ImportationDeFichierGedcom {
+    display: none;
+}
+
+.ImportationDeFichierGedcomTitre {
+    margin-bottom: 3vh !important;
+}
+
+.ImportationDeFichierGedcomActions {
+    margin-bottom: 1vh !important;
+}
+
+.ImportationDeFichierGedcomBoutonAction {
+    margin-top: 1rem;
+    margin-right: 1rem;
+}
+
+.ImportationDeFichierGedcomContenu {
+    display: flex;
+    flex-direction: column;
+    min-width: 80vw;
+}
+
+.ImportationDeFichierGedcomAvancement {
+    display: flex;
+    flex-direction: row;
+}
+
+.ImportationDeFichierGedcomSyntheseConteneur {
+    display: flex;
+    flex-direction: column;
+}
+
+.ImportationDeFichierGedcomSynthese {
+    display: flex;
+    flex-direction: row;
+}
+
+.ImportationDeFichierGedcomAvancementTexte {
+    margin-left: 1vw !important;
+    display: flex;
+    align-items: center;
+}
+
+.ImportationDeFichierGedcomSyntheseTexte {
+    margin-left: 1vw !important;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1vh !important;
+}
