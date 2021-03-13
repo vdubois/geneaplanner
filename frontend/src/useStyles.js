@@ -18,7 +18,11 @@ export const useStyles = makeStyles((theme) => ({
         marginRight: theme.spacing(2) + ' !important',
     },
     // necessary for content to be below app bar
-    toolbar: theme.mixins.toolbar,
+    toolbar: {
+        ...theme.mixins.toolbar,
+        display: 'flex',
+        justifyContent: 'center'
+    },
     drawerPaper: {
         width: drawerWidth,
     },
