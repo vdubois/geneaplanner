@@ -29,7 +29,7 @@ export const useStyles = makeStyles((theme) => ({
     content: {
         flexGrow: 1,
         // padding: theme.spacing(3),
-        paddingTop: '100px !important'
+        paddingTop: '84px !important'
     },
     search: {
         position: 'relative',
