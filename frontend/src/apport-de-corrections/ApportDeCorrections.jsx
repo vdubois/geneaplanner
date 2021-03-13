@@ -40,7 +40,7 @@ export const ApportDeCorrections = () => {
         <>
             <Paper className={classes.paper}>
                 <Typography variant="h6" gutterBottom>
-                    Payment method
+                    Recenser un correctif
                 </Typography>
                 <Grid container spacing={3}>
                     <Grid item xs={12} md={6}>
