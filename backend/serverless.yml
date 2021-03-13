@@ -12,6 +12,8 @@ provider:
   tracing:
     apiGateway: true
     lambda: true
+  environment:
+    BUCKET_FICHIERS_GEDCOM: geneaplanner-${opt:stage, self:provider.stage}-fichiers-gedcom
   httpApi:
     cors:
       allowedHeaders:
@@ -69,6 +71,12 @@ provider:
         - xray:PutTraceSegments
         - xray:PutTelemetryRecords
       Resource: "*"
+    - Effect: "Allow"
+      Action:
+        - "s3:GetObject"
+        - "s3:PutObject"
+      Resource:
+        - "arn:aws:s3:::*/*"
 
 plugins:
   - serverless-plugin-umzug
@@ -81,7 +89,9 @@ custom:
 package:
   include:
     - "node_modules/aws-lambda-utils/**"
+    - "node_modules/aws-sdk-fluent-builder/**"
     - "node_modules/read-gedcom/**"
+    - "node_modules/uuid/**"
   exclude:
     - "node_modules/**"
 #    - "node_modules/aws-sdk/**"

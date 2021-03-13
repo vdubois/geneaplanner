@@ -3,8 +3,7 @@ const utilisateurConnecte = require('../authentification/utilisateurConnecte');
 const gedcom = require('read-gedcom');
 const S3Builder = require('aws-sdk-fluent-builder').S3Builder;
 const espaceDeStockageDesFichiersGEDCOM = new S3Builder()
-    .createIfNotExists()
-    .withBucketName("geneaplanner-fichiers-gedcom")
+    .withBucketName(process.env.BUCKET_FICHIERS_GEDCOM)
     .asStorageService()
     .build();
 
