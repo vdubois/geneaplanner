@@ -10,7 +10,7 @@ import {PreparationPassageAuxArchives} from "./preparer-passage-aux-archives/Pre
 import {RechercheDIndividus} from "./recherche-d-individus/RechercheDIndividus";
 import {Accueil} from "./accueil/Accueil";
 import {ImportationDeFichierGedcom} from "./importer-un-fichier-gedcom/ImportationDeFichierGedcom";
-import {ApportDeCorrections} from "./apport-de-corrections/ApportDeCorrections";
+import {ApportDeCorrections} from "./apporter-des-corrections/ApportDeCorrections";
 
 export const App = () => {
     const classes = useStyles();
@@ -41,7 +41,7 @@ export const App = () => {
                         <Route path="/organiser-les-recherches">
                             <OrganisationDesRecherches />
                         </Route>
-                        <Route path="/apport-de-corrections">
+                        <Route path="/apporter-des-corrections">
                             <ApportDeCorrections/>
                         </Route>
                         <Route path="/preparer-passage-aux-archives">

@@ -37,7 +37,8 @@ export const ApportDeCorrections = () => {
     const classes = useStyles();
 
     return (
-        <>
+        <div className="ApportDeCorrections">
+            <Typography variant="h4" className="ApportDeCorrectionsTitre">Apporter des corrections</Typography>
             <Paper className={classes.paper}>
                 <Typography variant="h6" gutterBottom>
                     Recenser un correctif
@@ -76,6 +77,6 @@ export const ApportDeCorrections = () => {
                     </Grid>
                 </Grid>
             </Paper>
-        </>
+        </div>
     );
 }

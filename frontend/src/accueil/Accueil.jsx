@@ -6,7 +6,7 @@ import RubriquePreparationPassageAuxArchives from './RubriquePreparationPassageA
 import RubriqueRechercheDIndividus from './RubriqueRechercheDIndividus.jpg';
 import RubriqueImportGedcom from './RubriqueImportGedcom.jpg';
 import RubriqueApportDeCorrections from './RubriqueApportDeCorrections.jpeg';
-import { useHistory } from "react-router-dom";
+import {useHistory} from "react-router-dom";
 
 export const Accueil = () => {
     const history = useHistory();
@@ -21,7 +21,7 @@ export const Accueil = () => {
                 titre="Apporter des corrections"
                 description="Dans cette rubrique, notez des corrections à apporter à votre généalogie pour les réaliser plus tard"
                 image={RubriqueApportDeCorrections}
-                onClick={() => history.push('/apport-de-corrections')}
+                onClick={() => history.push('/apporter-des-corrections')}
             />
             <Rubrique
                 titre="Préparer votre passage aux archives"

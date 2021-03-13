@@ -25,7 +25,7 @@ export const AppMenu = (props) => {
                     keepMounted: true,
                 }}
             >
-                <ListeDuMenu />
+                <ListeDuMenu close={props.basculerMenu}/>
             </Drawer>
         </nav>
     );

@@ -48,21 +48,17 @@ export const IdentificationAvatar = () => {
                                 src={user.picture}
                                 className="Avatar"
                             />
-
                         </Tooltip>
                     </IconButton>
                     <Menu
                         id="menu-appbar"
                         anchorEl={ancreDuMenuAvatar}
                         anchorOrigin={{
-                            vertical: 'top',
+                            vertical: 'bottom',
                             horizontal: 'right',
                         }}
+                        getContentAnchorEl={null}
                         keepMounted
-                        transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
-                        }}
                         open={menuAvatarEstOuvert}
                         onClose={fermerMenuAvatar}
                     >

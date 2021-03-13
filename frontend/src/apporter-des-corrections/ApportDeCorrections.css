@@ -1,0 +1,9 @@
+.ApportDeCorrections {
+    display: flex;
+    flex-direction: column;
+}
+
+.ApportDeCorrectionsTitre {
+    display: flex;
+    justify-content: center;
+}
