@@ -1,3 +1,4 @@
+/*
 const gedcom = require('read-gedcom');
 const fs = require('fs');
 
@@ -48,3 +49,14 @@ const mappedIndividuals = searchedIndividuals.array().map(individual => ({
     mariage: evenementFamilial(individual, 'Marriage')
 }));
 console.log(mappedIndividuals);
+*/
+
+const DynamoDBBuilder = require('aws-sdk-fluent-builder').DynamoDbBuilder;
+const dynamoDB = new DynamoDBBuilder()
+    .withTableName("test")
+    .withPartitionKeyName("id")
+    .build();
+
+dynamoDB.findOneByPartitionKey("mail#corrections")
+    .then(result => console.log(result))
+    .catch(error => console.error(error));

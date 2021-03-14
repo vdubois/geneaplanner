@@ -1,4 +1,14 @@
-import {Button, CircularProgress, Snackbar, Step, StepContent, StepLabel, Stepper, Typography} from "@material-ui/core";
+import {
+    Button,
+    CircularProgress,
+    Container,
+    Snackbar,
+    Step,
+    StepContent,
+    StepLabel,
+    Stepper,
+    Typography
+} from "@material-ui/core";
 import './ImportationDeFichierGedcom.css';
 import {useState} from "react";
 import CheckIcon from '@material-ui/icons/Check';
@@ -48,65 +58,63 @@ export const ImportationDeFichierGedcom = () => {
         }
     }
     return (
-        <div className="ImportationDeFichierGedcom">
-            <div className="ImportationDeFichierGedcomContenu">
-                <Typography variant="h4" className="ImportationDeFichierGedcomTitre">Importer un fichier GEDCOM</Typography>
-                <Stepper activeStep={etapeActive} orientation="vertical">
-                    <Step key="step-select-gedcom">
-                        <StepLabel>Sélection du fichier GEDCOM</StepLabel>
-                        <StepContent>
-                            <Typography>Sélectionnez ci-dessous un fichier GEDCOM permettant d'importer votre arbre généalogique dans GénéaPlanner.</Typography>
+        <Container maxWidth="md">
+            <Typography variant="h4" className="ImportationDeFichierGedcomTitre">Importer un fichier GEDCOM</Typography>
+            <Stepper activeStep={etapeActive} orientation="vertical">
+                <Step key="step-select-gedcom">
+                    <StepLabel>Sélection du fichier GEDCOM</StepLabel>
+                    <StepContent>
+                        <Typography>Sélectionnez ci-dessous un fichier GEDCOM permettant d'importer votre arbre généalogique dans GénéaPlanner.</Typography>
+                        <div className="ImportationDeFichierGedcomActions">
+                            <label htmlFor="contained-button-file">
+                                <Button variant="contained" color="primary" component="label">
+                                    Sélectionner un fichier GEDCOM
+                                    <input
+                                        accept="*"
+                                        className="ImportationDeFichierGedcom"
+                                        type="file"
+                                        onChange={selectionnerUnFichierGEDCOM}
+                                    />
+                                </Button>
+                            </label>
+                        </div>
+                    </StepContent>
+                </Step>
+                <Step key="step-import-gedcom">
+                    <StepLabel>Import du fichier GEDCOM</StepLabel>
+                    <StepContent>
+                        <div className="ImportationDeFichierGedcomAvancement">
+                            <CircularProgress />
+                            <Typography className="ImportationDeFichierGedcomAvancementTexte">Import du fichier GEDCOM en cours, veuillez patienter...</Typography>
+                        </div>
+                    </StepContent>
+                </Step>
+                <Step key="step-resume-de-l-import">
+                    <StepLabel>Import effectué</StepLabel>
+                    <StepContent>
+                        <div className="ImportationDeFichierGedcomSyntheseConteneur">
+                            <div className="ImportationDeFichierGedcomSynthese">
+                                <CheckIcon color="primary" />
+                                <Typography className="ImportationDeFichierGedcomSyntheseTexte">Fichier GEDCOM importé avec succès, {individus} individus ont été importés</Typography>
+                            </div>
                             <div className="ImportationDeFichierGedcomActions">
-                                <label htmlFor="contained-button-file">
-                                    <Button variant="contained" color="primary" component="label">
-                                        Sélectionner un fichier GEDCOM
-                                        <input
-                                            accept="*"
-                                            className="ImportationDeFichierGedcom"
-                                            type="file"
-                                            onChange={selectionnerUnFichierGEDCOM}
-                                        />
-                                    </Button>
-                                </label>
+                                <Button variant="contained" color="primary" component="span">
+                                    Voir votre généalogie
+                                </Button>
                             </div>
-                        </StepContent>
-                    </Step>
-                    <Step key="step-import-gedcom">
-                        <StepLabel>Import du fichier GEDCOM</StepLabel>
-                        <StepContent>
-                            <div className="ImportationDeFichierGedcomAvancement">
-                                <CircularProgress />
-                                <Typography className="ImportationDeFichierGedcomAvancementTexte">Import du fichier GEDCOM en cours, veuillez patienter...</Typography>
-                            </div>
-                        </StepContent>
-                    </Step>
-                    <Step key="step-resume-de-l-import">
-                        <StepLabel>Import effectué</StepLabel>
-                        <StepContent>
-                            <div className="ImportationDeFichierGedcomSyntheseConteneur">
-                                <div className="ImportationDeFichierGedcomSynthese">
-                                    <CheckIcon color="primary" />
-                                    <Typography className="ImportationDeFichierGedcomSyntheseTexte">Fichier GEDCOM importé avec succès, {individus} individus ont été importés</Typography>
-                                </div>
-                                <div className="ImportationDeFichierGedcomActions">
-                                    <Button variant="contained" color="primary" component="span">
-                                        Voir votre généalogie
-                                    </Button>
-                                </div>
-                            </div>
-                        </StepContent>
-                    </Step>
-                </Stepper>
-                {erreurAffichee && <Snackbar open={erreurAffichee}>
-                    <Alert
-                        severity="error"
-                        onClose={() => setErreurAffichee(false)}
-                        variant="filled"
-                    >
-                        {erreur}
-                    </Alert>
-                </Snackbar>}
-            </div>
-        </div>
+                        </div>
+                    </StepContent>
+                </Step>
+            </Stepper>
+            {erreurAffichee && <Snackbar open={erreurAffichee}>
+                <Alert
+                    severity="error"
+                    onClose={() => setErreurAffichee(false)}
+                    variant="filled"
+                >
+                    {erreur}
+                </Alert>
+            </Snackbar>}
+        </Container>
     );
 };

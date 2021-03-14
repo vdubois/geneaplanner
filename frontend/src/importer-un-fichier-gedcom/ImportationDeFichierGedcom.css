@@ -1,9 +1,3 @@
-.ImportationDeFichierGedcom {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-}
-
 input.ImportationDeFichierGedcom {
     display: none;
 }
@@ -12,6 +6,12 @@ input.ImportationDeFichierGedcom {
     display: flex;
     justify-content: center;
     margin-bottom: 3vh !important;
+}
+
+@media screen and (max-width: 470px) {
+    .ImportationDeFichierGedcomTitre {
+        font-size: 1.5rem !important;
+    }
 }
 
 .ImportationDeFichierGedcomActions {

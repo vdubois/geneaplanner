@@ -1,9 +1,37 @@
-.ApportDeCorrections {
-    display: flex;
-    flex-direction: column;
-}
-
 .ApportDeCorrectionsTitre {
     display: flex;
+    justify-content: center !important;
+    margin-bottom: 3vh !important;
+}
+
+@media screen and (max-width: 440px) {
+    .ApportDeCorrectionsTitre {
+        font-size: 1.5rem !important;
+    }
+}
+
+.CorrectionsEnCoursDeChargement {
+    display: flex;
     justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.CorrectionsEnCoursDeChargement p {
+    margin-left: 1vw;
+}
+
+.AucuneCorrection {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    gap: 1vh;
+}
+
+@media screen and (max-width: 320px) {
+    .AucuneCorrectionTexte {
+        font-size: 0.75rem !important;
+    }
 }
