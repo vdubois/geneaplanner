@@ -31,8 +31,6 @@ export async function callApi(options) {
 
     let response = await fetch(url, request);
 
-    console.log(response);
-
     let json;
     if (hasNoContent(response)) {
         json = undefined;

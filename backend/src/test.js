@@ -1,4 +1,3 @@
-/*
 const gedcom = require('read-gedcom');
 const fs = require('fs');
 
@@ -41,6 +40,7 @@ const searchedIndividuals = individuals
     .filter(individual => individual.getName().valueAsParts().values[0].includes('DUBOIS'));
 console.log(searchedIndividuals);
 const mappedIndividuals = searchedIndividuals.array().map(individual => ({
+    id: individual._data.tree[0].pointer,
     nom: individual.getName().valueAsParts().values[0].join(' '),
     naissance: evenementPersonnel(individual, 'Birth'),
     bapteme: evenementPersonnel(individual, 'Baptism'),
@@ -49,14 +49,3 @@ const mappedIndividuals = searchedIndividuals.array().map(individual => ({
     mariage: evenementFamilial(individual, 'Marriage')
 }));
 console.log(mappedIndividuals);
-*/
-
-const DynamoDBBuilder = require('aws-sdk-fluent-builder').DynamoDbBuilder;
-const dynamoDB = new DynamoDBBuilder()
-    .withTableName("test")
-    .withPartitionKeyName("id")
-    .build();
-
-dynamoDB.findOneByPartitionKey("mail#corrections")
-    .then(result => console.log(result))
-    .catch(error => console.error(error));

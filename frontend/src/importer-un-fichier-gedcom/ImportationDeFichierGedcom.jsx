@@ -26,13 +26,11 @@ export const ImportationDeFichierGedcom = () => {
     const [individus, setIndividus] = useState();
     const selectionnerUnFichierGEDCOM = ({target}) => {
         const fichier = target.files[0];
-        console.log(fichier);
         if (fichier) {
             const fileReader = new FileReader();
             fileReader.readAsDataURL(fichier);
             fileReader.onload = async ({target}) => {
                 const contenuDuFichier = target.result;
-                console.log(contenuDuFichier);
                 if (!contenuDuFichier.startsWith('data:application/x-gedcom')) {
                     setErreur(`Le fichier ${fichier.name} n'est pas de type GEDCOM`);
                     setErreurAffichee(true);
@@ -40,10 +38,12 @@ export const ImportationDeFichierGedcom = () => {
                 } else {
                     etapeSuivante();
                     try {
+                        const contenuDuFichierGEDCOM =
+                            contenuDuFichier.split('data:application/x-gedcom;base64,')[1];
                         const arbre = await callApi({
                             endpoint: `/utilisateurs/${user.email}/arbre`,
                             method: 'PUT',
-                            body: contenuDuFichier.split('data:application/x-gedcom;base64,')[1]
+                            body: contenuDuFichierGEDCOM
                         });
                         setIndividus(arbre.individus);
                         etapeSuivante();

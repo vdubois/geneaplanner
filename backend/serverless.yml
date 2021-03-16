@@ -105,6 +105,14 @@ functions:
           method: put
           authorizer:
             name: accessTokenAuth0
+  recherche-gedcom:
+    handler: src/utilisateurs/arbre.rechercher
+    events:
+      - httpApi:
+          path: /utilisateurs/{identifiant}/arbre
+          method: get
+          authorizer:
+            name: accessTokenAuth0
   recuperation-corrections:
     handler: src/corrections/corrections.recupererLesCorrections
     events:
