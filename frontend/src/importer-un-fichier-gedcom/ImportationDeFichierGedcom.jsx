@@ -13,17 +13,16 @@ import './ImportationDeFichierGedcom.css';
 import {useState} from "react";
 import CheckIcon from '@material-ui/icons/Check';
 import {Alert} from "@material-ui/lab";
-import {useAuth0} from "@auth0/auth0-react";
-import {callApi} from '../api/api';
+import {usePublierArbre} from "../api/arbres.hooks";
 
 export const ImportationDeFichierGedcom = () => {
-    const { user } = useAuth0();
     const [etapeActive, setEtapeActive] = useState(0);
     const [erreur, setErreur] = useState();
     const [erreurAffichee, setErreurAffichee] = useState(false);
     const etapeSuivante = () => setEtapeActive(etapePrecedente => etapePrecedente + 1);
     const etapePrecedente = () => setEtapeActive(etapePrecedente => etapePrecedente - 1);
     const [individus, setIndividus] = useState();
+    const publierArbre = usePublierArbre();
     const selectionnerUnFichierGEDCOM = ({target}) => {
         const fichier = target.files[0];
         if (fichier) {
@@ -40,11 +39,7 @@ export const ImportationDeFichierGedcom = () => {
                     try {
                         const contenuDuFichierGEDCOM =
                             contenuDuFichier.split('data:application/x-gedcom;base64,')[1];
-                        const arbre = await callApi({
-                            endpoint: `/utilisateurs/${user.email}/arbre`,
-                            method: 'PUT',
-                            body: contenuDuFichierGEDCOM
-                        });
+                        const arbre = await publierArbre(contenuDuFichierGEDCOM)
                         setIndividus(arbre.individus);
                         etapeSuivante();
                     } catch (erreur) {

@@ -101,7 +101,7 @@ functions:
     handler: src/utilisateurs/arbre.charger
     events:
       - httpApi:
-          path: /utilisateurs/{identifiant}/arbre
+          path: /arbres/{identifiant}
           method: put
           authorizer:
             name: accessTokenAuth0
@@ -109,7 +109,7 @@ functions:
     handler: src/utilisateurs/arbre.rechercher
     events:
       - httpApi:
-          path: /utilisateurs/{identifiant}/arbre
+          path: /arbres/{identifiant}
           method: get
           authorizer:
             name: accessTokenAuth0

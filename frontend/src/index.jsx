@@ -5,8 +5,11 @@ import * as serviceWorker from './serviceWorker';
 import {BrowserRouter as Router} from "react-router-dom";
 import {App} from "./App";
 import {Auth0Provider} from "@auth0/auth0-react";
-import {domain, clientId, audience} from './auth0';
+import {audience, clientId, domain} from './auth0';
 import {createMuiTheme, ThemeProvider} from "@material-ui/core/styles";
+import {QueryClient, QueryClientProvider,} from 'react-query';
+import {ReactQueryDevtools} from 'react-query/devtools';
+import {FetchProvider} from "./api/FetchProvider";
 
 const theme = createMuiTheme({
     palette: {
@@ -19,6 +22,8 @@ const theme = createMuiTheme({
     },
 });
 
+const queryClient = new QueryClient();
+
 ReactDOM.render(
     <ThemeProvider theme={theme}>
         <Auth0Provider
@@ -27,9 +32,14 @@ ReactDOM.render(
             redirectUri="http://localhost:3000"
             audience={audience}
         >
-            <Router>
-                <App/>
-            </Router>
+            <FetchProvider>
+                <QueryClientProvider client={queryClient}>
+                    <Router>
+                        <App/>
+                    </Router>
+                    <ReactQueryDevtools initialIsOpen={false} />
+                </QueryClientProvider>
+            </FetchProvider>
         </Auth0Provider>
     </ThemeProvider>
     ,

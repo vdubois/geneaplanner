@@ -1,40 +1,20 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import {Container} from "@material-ui/core";
 import './ApportDeCorrections.css';
-import {callApi} from "../api/api";
-import {useAuth0} from "@auth0/auth0-react";
 import {CorrectionsEnCoursDeChargement} from "./CorrectionsEnCoursDeChargement";
 import {AucuneCorrection} from "./AucuneCorrection";
 import {FenetreDeSaisie} from "./FenetreDeSaisie";
+import {useCorrections} from "../api/corrections.hooks";
+import {useIndividus} from "../api/arbres.hooks";
 
 export const ApportDeCorrections = () => {
     const [fenetreDeSaisieOuverte, setFenetreDeSaisieOuverte] = useState(false);
-    const fermerFenetreDeSaisie = () => setFenetreDeSaisieOuverte(false);
-    const [corrections, setCorrections] = useState();
-    const [individusDeLArbre, setIndividusDeLArbre] = useState();
-    const { user } = useAuth0();
-    useEffect(() => {
-        if (user) {
-            const recupererCorrections = async () => {
-                const correctionsDeLUtilisateur = await callApi({
-                    method: 'GET',
-                    endpoint: `/utilisateurs/${user.email}/corrections`
-                });
-                setCorrections(correctionsDeLUtilisateur);
-            };
-            recupererCorrections();
-            const recupererIndividusDeLArbre = async () => {
-                const individusDeLArbreDeLUtilisateur = await callApi({
-                    method: 'GET',
-                    endpoint: `/utilisateurs/${user.email}/arbre`
-                });
-                setIndividusDeLArbre(individusDeLArbreDeLUtilisateur);
-            }
-            recupererIndividusDeLArbre();
-        }
-    }, [user]);
+
+    const {correctionsEnCoursDeChargement, correctionsEnErreur, corrections} = useCorrections();
+    const {individusEnCoursDeChargement, individusEnErreur, individus} = useIndividus();
+
     return (
         <>
             <Container maxWidth="lg">
@@ -42,14 +22,14 @@ export const ApportDeCorrections = () => {
                 <Paper
                     elevation={3}
                     className="PageApportDeCorrections">
-                    {corrections === undefined && <CorrectionsEnCoursDeChargement/>}
+                    {(correctionsEnCoursDeChargement || individusEnCoursDeChargement) && <CorrectionsEnCoursDeChargement/>}
                     {corrections?.length === 0 && <AucuneCorrection setFenetreDeSaisieOuverte={setFenetreDeSaisieOuverte}/>}
                 </Paper>
             </Container>
             <FenetreDeSaisie
                 ouverte={fenetreDeSaisieOuverte}
-                fermer={fermerFenetreDeSaisie}
-                individus={individusDeLArbre}
+                fermer={() => setFenetreDeSaisieOuverte(false)}
+                individus={individus}
             />
         </>
     );
