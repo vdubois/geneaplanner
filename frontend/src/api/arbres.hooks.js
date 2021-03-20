@@ -12,6 +12,5 @@ export const useIndividus = () => {
     };
 }
 
-export const usePublierArbre = () => {
-    return usePutMutationWithAuth(`/arbres/[email]`, ['individus']);
-}
+export const usePublierArbre = () =>
+    usePutMutationWithAuth(`/arbres/[email]`, ['individus'])

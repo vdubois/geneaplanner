@@ -2,7 +2,6 @@ import {
     Button,
     CircularProgress,
     Container,
-    Snackbar,
     Step,
     StepContent,
     StepLabel,
@@ -12,17 +11,17 @@ import {
 import './ImportationDeFichierGedcom.css';
 import {useState} from "react";
 import CheckIcon from '@material-ui/icons/Check';
-import {Alert} from "@material-ui/lab";
 import {usePublierArbre} from "../api/arbres.hooks";
+import {Erreur} from "../components/Erreur";
 
 export const ImportationDeFichierGedcom = () => {
     const [etapeActive, setEtapeActive] = useState(0);
     const [erreur, setErreur] = useState();
-    const [erreurAffichee, setErreurAffichee] = useState(false);
     const etapeSuivante = () => setEtapeActive(etapePrecedente => etapePrecedente + 1);
     const etapePrecedente = () => setEtapeActive(etapePrecedente => etapePrecedente - 1);
     const [individus, setIndividus] = useState();
     const publierArbre = usePublierArbre();
+
     const selectionnerUnFichierGEDCOM = ({target}) => {
         const fichier = target.files[0];
         if (fichier) {
@@ -32,8 +31,6 @@ export const ImportationDeFichierGedcom = () => {
                 const contenuDuFichier = target.result;
                 if (!contenuDuFichier.startsWith('data:application/x-gedcom')) {
                     setErreur(`Le fichier ${fichier.name} n'est pas de type GEDCOM`);
-                    setErreurAffichee(true);
-                    setTimeout(() => setErreurAffichee(false), 6000);
                 } else {
                     etapeSuivante();
                     try {
@@ -44,8 +41,6 @@ export const ImportationDeFichierGedcom = () => {
                         etapeSuivante();
                     } catch (erreur) {
                         setErreur(erreur.message);
-                        setErreurAffichee(true);
-                        setTimeout(() => setErreurAffichee(false), 6000);
                         etapePrecedente();
                     }
                 }
@@ -101,15 +96,7 @@ export const ImportationDeFichierGedcom = () => {
                     </StepContent>
                 </Step>
             </Stepper>
-            {erreurAffichee && <Snackbar open={erreurAffichee}>
-                <Alert
-                    severity="error"
-                    onClose={() => setErreurAffichee(false)}
-                    variant="filled"
-                >
-                    {erreur}
-                </Alert>
-            </Snackbar>}
+            {erreur && <Erreur message={erreur} />}
         </Container>
     );
 };

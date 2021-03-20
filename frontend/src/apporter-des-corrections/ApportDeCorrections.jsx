@@ -8,6 +8,7 @@ import {AucuneCorrection} from "./AucuneCorrection";
 import {FenetreDeSaisie} from "./FenetreDeSaisie";
 import {useCorrections} from "../api/corrections.hooks";
 import {useIndividus} from "../api/arbres.hooks";
+import {Erreur} from "../components/Erreur";
 
 export const ApportDeCorrections = () => {
     const [fenetreDeSaisieOuverte, setFenetreDeSaisieOuverte] = useState(false);
@@ -31,6 +32,8 @@ export const ApportDeCorrections = () => {
                 fermer={() => setFenetreDeSaisieOuverte(false)}
                 individus={individus}
             />
+            {correctionsEnErreur && <Erreur message={correctionsEnErreur} />}
+            {individusEnErreur && <Erreur message={individusEnErreur} />}
         </>
     );
 }

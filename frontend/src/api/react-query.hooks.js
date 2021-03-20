@@ -7,18 +7,21 @@ const CHAMP_EMAIL_TOKEN_AUTH0 = 'https://geneaplanner/email';
 
 export const useQueryWithAuth = (queryKey, serviceUrl) => {
     const {getAccessTokenSilently} = useAuth0();
-    return useQuery(queryKey, () => {
-        return getAccessTokenSilently().then(token => {
-            const accessToken = jwt_decode(token);
-            return fetch(
-                `${BACKEND_URL}${serviceUrl.replace(/\[email\]/g, accessToken[CHAMP_EMAIL_TOKEN_AUTH0])}`,
-                {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
+    return useQuery(queryKey, async () => {
+        const token = await getAccessTokenSilently();
+        const accessToken = jwt_decode(token);
+        const response = await fetch(
+            `${BACKEND_URL}${serviceUrl.replace(/\[email\]/g, accessToken[CHAMP_EMAIL_TOKEN_AUTH0])}`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`
                 }
-            );
-        }).then(res => res.json());
+            }
+        );
+        if (!response.ok) {
+            throw new Error(response.json());
+        }
+        return response.json();
     });
 }
 
@@ -34,20 +37,23 @@ export const useDeleteMutationWithAuth = (serviceUrl, queriesToInvalidate = []) 
 const useMutationWithAuth = (method, serviceUrl, queriesToInvalidate = []) => {
     const queryClient = useQueryClient();
     const {getAccessTokenSilently} = useAuth0();
-    const {mutateAsync} = useMutation(body => {
-        return getAccessTokenSilently().then(token => {
-            const accessToken = jwt_decode(token);
-            return fetch(
-                `${BACKEND_URL}${serviceUrl.replace(/\[email\]/g, accessToken[CHAMP_EMAIL_TOKEN_AUTH0])}`,
-                {
-                    method,
-                    body,
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
+    const {mutateAsync} = useMutation(async body => {
+        const token = await getAccessTokenSilently();
+        const accessToken = jwt_decode(token);
+        const response = await fetch(
+            `${BACKEND_URL}${serviceUrl.replace(/\[email\]/g, accessToken[CHAMP_EMAIL_TOKEN_AUTH0])}`,
+            {
+                method,
+                body,
+                headers: {
+                    'Authorization': `Bearer ${token}`
                 }
-            );
-        }).then(res => res.json());
+            }
+        );
+        if (!response.ok) {
+            throw new Error(response.json());
+        }
+        return response.json();
     }, {
         onSuccess: () => {
             if (queriesToInvalidate.length > 0) {

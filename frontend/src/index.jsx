@@ -22,7 +22,13 @@ const theme = createMuiTheme({
     },
 });
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            retry: false
+        }
+    }
+});
 
 ReactDOM.render(
     <ThemeProvider theme={theme}>
