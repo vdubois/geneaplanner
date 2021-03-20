@@ -15,6 +15,7 @@ provider:
   environment:
     BUCKET_FICHIERS_GEDCOM: geneaplanner-${opt:stage, self:provider.stage}-fichiers-gedcom
     TABLE_DONNEES: geneaplanner-${opt:stage, self:provider.stage}-donnees
+    thundra_apiKey: THUNDRAAPIKEY
   httpApi:
     cors:
       allowedHeaders:
@@ -80,8 +81,8 @@ provider:
         - "arn:aws:s3:::*/*"
 
 plugins:
+  - serverless-plugin-thundra
   - serverless-plugin-umzug
-#  - serverless-plugin-thundra
 
 custom:
   umzug:
@@ -93,6 +94,7 @@ package:
     - "node_modules/aws-sdk-fluent-builder/**"
     - "node_modules/read-gedcom/**"
     - "node_modules/uuid/**"
+    - "node_modules/@thundra/core/**"
   exclude:
     - "node_modules/**"
 
@@ -119,5 +121,21 @@ functions:
       - httpApi:
           path: /utilisateurs/{identifiant}/corrections
           method: get
+          authorizer:
+            name: accessTokenAuth0
+  ajout-correction:
+    handler: src/corrections/corrections.ajouterUneCorrection
+    events:
+      - httpApi:
+          path: /utilisateurs/{identifiant}/corrections
+          method: post
+          authorizer:
+            name: accessTokenAuth0
+  validation-correction:
+    handler: src/corrections/corrections.validerUneCorrection
+    events:
+      - httpApi:
+          path: /utilisateurs/{identifiant}/corrections/{identifiantCorrection}
+          method: delete
           authorizer:
             name: accessTokenAuth0
