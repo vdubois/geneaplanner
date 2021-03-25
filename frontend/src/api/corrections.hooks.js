@@ -1,12 +1,12 @@
 import {useDeleteMutationWithAuth, usePostMutationWithAuth, useQueryWithAuth} from "./react-query.hooks";
 
 export const useCorrections = () => {
-    const {isLoading, error, data} = useQueryWithAuth(
+    const {isLoading, isFetching, error, data} = useQueryWithAuth(
         "corrections",
         `/utilisateurs/[email]/corrections`
     );
     return {
-        correctionsEnCoursDeChargement: isLoading,
+        correctionsEnCoursDeChargement: isLoading || isFetching,
         correctionsEnErreur: error,
         corrections: data
     };

@@ -44,14 +44,15 @@ const useMutationWithAuth = (method, serviceUrl, queriesToInvalidate = []) => {
             `${BACKEND_URL}${serviceUrl.replace(/\[email\]/g, accessToken[CHAMP_EMAIL_TOKEN_AUTH0])}`,
             {
                 method,
-                body,
+                body : JSON.stringify(body),
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
             }
         );
         if (!response.ok) {
-            throw new Error(response.json());
+            const json = await response.json();
+            throw new Error(json.message);
         }
         return response.json();
     }, {

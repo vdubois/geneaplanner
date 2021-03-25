@@ -3,6 +3,16 @@ import {fade, makeStyles} from "@material-ui/core";
 const drawerWidth = 240;
 
 export const useStyles = makeStyles((theme) => ({
+    accordionColumn: {
+        flexBasis: '50%',
+    },
+    accordionHeading: {
+        fontSize: theme.typography.pxToRem(15)
+    },
+    accordionSecondaryHeading: {
+        fontSize: theme.typography.pxToRem(15),
+        color: theme.palette.text.secondary,
+    },
     root: {
         display: 'flex',
     },
