@@ -52,7 +52,7 @@ module.exports.validerUneCorrection = async event => {
         return badRequest(`La correction n'existe pas`);
     } else {
         correctionsDeLUtilisateur.corrections =
-            correctionsDeLUtilisateur.filter(correction => correction.identifiant !== event.pathParameters.identifiantCorrection);
+            correctionsDeLUtilisateur.corrections.filter(correction => correction.identifiant !== event.pathParameters.identifiantCorrection);
     }
     await dynamoDBRepository.save(correctionsDeLUtilisateur);
     return noContent();

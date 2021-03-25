@@ -5,10 +5,10 @@
   "main": "handler.js",
   "scripts": {
     "test": "echo \"Error: no test specified\"",
-    "deploy-dev": "serverless deploy --stage=dev",
-    "postdeploy-dev": "sed -i 's/THUNDRAAPIKEY/'\"$THUNDRA_API_KEY\"'/g' serverless.yml && STAGE=dev AWS_REGION=eu-west-3 serverless migrations up",
-    "deploy-prod": "serverless deploy --stage=prod",
-    "postdeploy-prod": "sed -i 's/THUNDRAAPIKEY/'\"$THUNDRA_API_KEY\"'/g' serverless.yml && STAGE=prod AWS_REGION=eu-west-3 serverless migrations up"
+    "deploy-dev": "sed -i 's/THUNDRAAPIKEY/'\"$THUNDRA_API_KEY\"'/g' serverless.yml && serverless deploy --stage=dev",
+    "postdeploy-dev": "STAGE=dev AWS_REGION=eu-west-3 serverless migrations up",
+    "deploy-prod": "sed -i 's/THUNDRAAPIKEY/'\"$THUNDRA_API_KEY\"'/g' serverless.yml && serverless deploy --stage=prod",
+    "postdeploy-prod": "STAGE=prod AWS_REGION=eu-west-3 serverless migrations up"
   },
   "author": "",
   "license": "ISC",
