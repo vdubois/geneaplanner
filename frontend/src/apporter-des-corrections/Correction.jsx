@@ -48,8 +48,8 @@ export const Correction = ({correction}) => {
                         style={{ backgroundColor: couleurRaison(correction.raison) }}/>
                 </div>
             </AccordionSummary>
-            <AccordionDetails className={classes.accordionDetails}>
-                <div className={classes.accordionColumn}>{correction.description}</div>
+            <AccordionDetails>
+                <div className={classes.accordionDetails}>{correction.description}</div>
             </AccordionDetails>
             <Divider/>
             <AccordionActions>

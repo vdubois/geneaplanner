@@ -1,5 +1,6 @@
 import {
     Button,
+    CircularProgress,
     Dialog,
     DialogActions,
     DialogContent,
@@ -16,15 +17,41 @@ import React, {useState} from "react";
 import './FenetreDeSaisie.css';
 import {useAjouterCorrection} from "../api/corrections.hooks";
 import {raisons} from "./raisons";
+import {Erreur} from "../components/Erreur";
 
 export const FenetreDeSaisie = ({ouverte, fermer, individus}) => {
     const [individu, setIndividu] = useState('');
     const [raison, setRaison] = useState('');
     const [description, setDescription] = useState('');
+    const [enCoursDeValidation, setEnCoursDeValidation] = useState(false);
+    const [erreur, setErreur] = useState();
 
     const formulairePasComplet = !individu || !raison || !description;
 
     const ajouterCorrection = useAjouterCorrection();
+
+    const viderLesChamps = () => {
+        setIndividu('');
+        setRaison('');
+        setDescription('');
+    };
+
+    const ajouterLaCorrection = async () => {
+        try {
+            setEnCoursDeValidation(true);
+            await ajouterCorrection({
+                individu,
+                raison,
+                description
+            });
+            viderLesChamps();
+            fermer();
+        } catch (erreur) {
+            setErreur(erreur.message);
+        } finally {
+            setEnCoursDeValidation(false);
+        }
+    };
 
     return <Dialog
         open={ouverte}
@@ -95,27 +122,24 @@ export const FenetreDeSaisie = ({ouverte, fermer, individus}) => {
         </DialogContent>
         <DialogActions className="FenetreDeSaisieBoutonsActions">
             <Button
-                onClick={fermer}
+                onClick={() => {
+                    viderLesChamps();
+                    fermer();
+                }}
                 color="primary"
                 variant="text"
             >
                 Annuler
             </Button>
             <Button
-                onClick={async () => {
-                    await ajouterCorrection({
-                        individu,
-                        raison,
-                        description
-                    });
-                    fermer();
-                }}
+                onClick={ajouterLaCorrection}
                 color="primary"
                 variant="contained"
-                disabled={formulairePasComplet}
+                disabled={formulairePasComplet || enCoursDeValidation}
             >
-                Enregistrer
+                {enCoursDeValidation ? <CircularProgress size={24} /> : 'Enregistrer'}
             </Button>
         </DialogActions>
+        {erreur && <Erreur message={erreur} />}
     </Dialog>;
 };

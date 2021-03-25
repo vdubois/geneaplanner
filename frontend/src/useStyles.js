@@ -6,6 +6,9 @@ export const useStyles = makeStyles((theme) => ({
     accordionColumn: {
         flexBasis: '50%',
     },
+    accordionDetails: {
+        flexBasis: '100% !important'
+    },
     accordionHeading: {
         fontSize: theme.typography.pxToRem(15)
     },
