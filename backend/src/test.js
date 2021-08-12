@@ -40,6 +40,7 @@ const searchedIndividuals = individuals
     .filter(individual => individual.getName().valueAsParts().values[0].includes('DUBOIS'));
 console.log(searchedIndividuals);
 const mappedIndividuals = searchedIndividuals.array().map(individual => ({
+    id: individual._data.tree[0].pointer,
     nom: individual.getName().valueAsParts().values[0].join(' '),
     naissance: evenementPersonnel(individual, 'Birth'),
     bapteme: evenementPersonnel(individual, 'Baptism'),

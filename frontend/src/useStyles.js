@@ -3,6 +3,19 @@ import {fade, makeStyles} from "@material-ui/core";
 const drawerWidth = 240;
 
 export const useStyles = makeStyles((theme) => ({
+    accordionColumn: {
+        flexBasis: '50%',
+    },
+    accordionDetails: {
+        flexBasis: '100% !important'
+    },
+    accordionHeading: {
+        fontSize: theme.typography.pxToRem(15)
+    },
+    accordionSecondaryHeading: {
+        fontSize: theme.typography.pxToRem(15),
+        color: theme.palette.text.secondary,
+    },
     root: {
         display: 'flex',
     },
@@ -18,14 +31,18 @@ export const useStyles = makeStyles((theme) => ({
         marginRight: theme.spacing(2) + ' !important',
     },
     // necessary for content to be below app bar
-    toolbar: theme.mixins.toolbar,
+    toolbar: {
+        ...theme.mixins.toolbar,
+        display: 'flex',
+        justifyContent: 'center'
+    },
     drawerPaper: {
         width: drawerWidth,
     },
     content: {
         flexGrow: 1,
         // padding: theme.spacing(3),
-        paddingTop: '100px !important'
+        paddingTop: '84px !important'
     },
     search: {
         position: 'relative',

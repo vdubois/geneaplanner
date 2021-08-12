@@ -1,0 +1,10 @@
+.ListeDesCorrections {
+    display: flex;
+    flex-direction: column;
+}
+
+.ListeDesCorrectionsActions {
+    margin-top: 1vh;
+    display: flex;
+    flex-direction: row-reverse;
+}

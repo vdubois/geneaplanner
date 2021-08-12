@@ -12,6 +12,10 @@ provider:
   tracing:
     apiGateway: true
     lambda: true
+  environment:
+    BUCKET_FICHIERS_GEDCOM: geneaplanner-${opt:stage, self:provider.stage}-fichiers-gedcom
+    TABLE_DONNEES: geneaplanner-${opt:stage, self:provider.stage}-donnees
+    thundra_apiKey: THUNDRAAPIKEY
   httpApi:
     cors:
       allowedHeaders:
@@ -69,10 +73,16 @@ provider:
         - xray:PutTraceSegments
         - xray:PutTelemetryRecords
       Resource: "*"
+    - Effect: "Allow"
+      Action:
+        - "s3:GetObject"
+        - "s3:PutObject"
+      Resource:
+        - "arn:aws:s3:::*/*"
 
 plugins:
+  - serverless-plugin-thundra
   - serverless-plugin-umzug
-#  - serverless-plugin-thundra
 
 custom:
   umzug:
@@ -81,76 +91,51 @@ custom:
 package:
   include:
     - "node_modules/aws-lambda-utils/**"
+    - "node_modules/aws-sdk-fluent-builder/**"
     - "node_modules/read-gedcom/**"
+    - "node_modules/uuid/**"
+    - "node_modules/@thundra/core/**"
   exclude:
     - "node_modules/**"
-#    - "node_modules/aws-sdk/**"
-#    - "node_modules/aws-sdk-fluent-builder/node_modules/**"
-#    - "node_modules/umzug/**"
-#    - "node_modules/umzug-cli/**"
-#    - "node_modules/umzug-dynamodb-storage/**"
-#    - "node_modules/serverless-plugin-umzug/**"
-#    - "node_modules/node-notifier/**"
-#    - "node_modules/@babel/**"
-#    - "node_modules/jsdom/**"
-#    - "node_modules/caniuse-lite/**"
-#    - "node_modules/lodash/**"
-#    - "node_modules/acorn/**"
-#    - "node_modules/@types/**"
-#    - "node_modules/ajv/**"
-#    - "node_modules/snapdragon/**"
-#    - "node_modules/source-map/**"
-#    - "node_modules/rsvp/**"
-#    - "node_modules/decimal.js/**"
-#    - "node_modules/uri-js/**"
-#    - "node_modules/sane/**"
-#    - "node_modules/psl/**"
-#    - "node_modules/@jest/**"
-#    - "node_modules/v8-to-istanbul/**"
-#    - "node_modules/iconv-lite/**"
-#    - "node_modules/parse5/**"
-#    - "node_modules/esprima/**"
-#    - "node_modules/js-yaml/**"
-#    - "node_modules/yargs/**"
-#    - "node_modules/ts-jest/**"
-#    - "node_modules/istanbul-reports/**"
-#    - "node_modules/@bcoe/**"
-#    - "node_modules/buffer/**"
-#    - "node_modules/request/**"
-#    - "node_modules/json5/**"
-#    - "node_modules/node-releases/**"
-#    - "node_modules/sshpk/**"
-#    - "node_modules/cssstyle/**"
-#    - "node_modules/jmespath/**"
-#    - "node_modules/tr46/**"
-#    - "node_modules/mime-db/**"
-#    - "node_modules/@sinonjs/**"
-#    - "node_modules/prompts/**"
-#    - "node_modules/tweetnacl/**"
-#    - "node_modules/jest-snapshot/**"
-#    - "node_modules/saxes/**"
-#    - "node_modules/expect/**"
-#    - "node_modules/json-schema/**"
-#    - "node_modules/nanomatch/**"
-#    - "node_modules/jest-jasmine2/**"
-#    - "node_modules/jest-config/**"
-#    - "node_modules/cjs-module-lexer/**"
-#    - "node_modules/yargs-parser/**"
-#    - "node_modules/escodegen/**"
-#    - "node_modules/form-data/**"
-#    - "node_modules/jest-haste-map/**"
-#    - "node_modules/argparse/**"
-#    - "node_modules/resolve/**"
-#    - "node_modules/qs/**"
-#    - "node_modules/ws/**"
-#    - "node_modules/xmlbuilder/**"
 
 functions:
   chargement-gedcom:
     handler: src/utilisateurs/arbre.charger
     events:
       - httpApi:
-          path: /utilisateurs/{identifiant}/arbre
+          path: /arbres/{identifiant}
           method: put
+          authorizer:
+            name: accessTokenAuth0
+  recherche-gedcom:
+    handler: src/utilisateurs/arbre.rechercher
+    events:
+      - httpApi:
+          path: /arbres/{identifiant}
+          method: get
+          authorizer:
+            name: accessTokenAuth0
+  recuperation-corrections:
+    handler: src/corrections/corrections.recupererLesCorrections
+    events:
+      - httpApi:
+          path: /utilisateurs/{identifiant}/corrections
+          method: get
+          authorizer:
+            name: accessTokenAuth0
+  ajout-correction:
+    handler: src/corrections/corrections.ajouterUneCorrection
+    events:
+      - httpApi:
+          path: /utilisateurs/{identifiant}/corrections
+          method: post
+          authorizer:
+            name: accessTokenAuth0
+  validation-correction:
+    handler: src/corrections/corrections.validerUneCorrection
+    events:
+      - httpApi:
+          path: /utilisateurs/{identifiant}/corrections/{identifiantCorrection}
+          method: delete
           authorizer:
             name: accessTokenAuth0

@@ -15,6 +15,12 @@
     height: 36px;
 }
 
+@media screen and (max-width: 380px){
+    .AppTitre {
+        width: 200px;
+        height: 31px;
+    }
+}
 .AppBarTitre {
     display: flex;
     flex-direction: row;

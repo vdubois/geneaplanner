@@ -1,7 +1,7 @@
 const S3Builder = require('aws-sdk-fluent-builder').S3Builder;
 const espaceDeStockageDesFichiersGEDCOM = new S3Builder()
     .createIfNotExists()
-    .withBucketName("geneaplanner-fichiers-gedcom")
+    .withBucketName(`geneaplanner-${process.env.STAGE}-fichiers-gedcom`)
     .asStorageService()
     .build();
 

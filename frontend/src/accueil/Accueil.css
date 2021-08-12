@@ -1,4 +1,25 @@
 .Accueil {
-    display: flex;
-    justify-content: space-evenly;
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    justify-content: center;
+}
+
+.Accueil div {
+    max-width: 345px;
+}
+
+@media screen and (max-width: 380px) {
+    .Accueil {
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        max-width: 3290px;
+    }
+    .Accueil div {
+        max-width: 300px !important;
+    }
 }
