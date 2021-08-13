@@ -77,6 +77,8 @@ provider:
       Action:
         - "s3:GetObject"
         - "s3:PutObject"
+        - "s3:ListBuckets"
+        - "s3:CreateBucket"
       Resource:
         - "arn:aws:s3:::*/*"
 
