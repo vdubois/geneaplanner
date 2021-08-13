@@ -139,3 +139,59 @@ functions:
           method: delete
           authorizer:
             name: accessTokenAuth0
+  recuperation-recherches:
+    handler: src/recherches/recherches.recupererLesRecherches
+    events:
+      - httpApi:
+          path: /utilisateurs/{identifiant}/recherches
+          method: get
+          authorizer:
+            name: accessTokenAuth0
+  ajout-recherches-individu:
+    handler: src/recherches/recherches.ajouterDesRecherchesDIndividu
+    events:
+      - httpApi:
+          path: /utilisateurs/{identifiant}/recherches
+          method: post
+          authorizer:
+            name: accessTokenAuth0
+  suppression-recherches-individu:
+    handler: src/recherches/recherches.supprimerDesRecherchesDIndividu
+    events:
+      - httpApi:
+          path: /utilisateurs/{identifiant}/recherches/{individu}
+          method: delete
+          authorizer:
+            name: accessTokenAuth0
+  ajout-note-a-recherches-individu:
+    handler: src/recherches/recherches.ajouterUneNoteAUnIndividu
+    events:
+      - httpApi:
+          path: /utilisateurs/{identifiant}/recherches/{individu}/notes
+          method: post
+          authorizer:
+            name: accessTokenAuth0
+  suppression-note-a-recherches-individu:
+    handler: src/recherches/recherches.supprimerUneNoteDUnIndividu
+    events:
+      - httpApi:
+          path: /utilisateurs/{identifiant}/recherches/{individu}/notes/{note}
+          method: delete
+          authorizer:
+            name: accessTokenAuth0
+  ajout-recherche-a-recherches-individu:
+    handler: src/recherches/recherches.ajouterUneRechercheAUnIndividu
+    events:
+      - httpApi:
+          path: /utilisateurs/{identifiant}/recherches/{individu}/recherches
+          method: post
+          authorizer:
+            name: accessTokenAuth0
+  suppression-recherche-a-recherches-individu:
+    handler: src/recherches/recherches.supprimerUneRechercheDUnIndividu
+    events:
+      - httpApi:
+          path: /utilisateurs/{identifiant}/recherches/{individu}/recherches/{recherche}
+          method: delete
+          authorizer:
+            name: accessTokenAuth0
