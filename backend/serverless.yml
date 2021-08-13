@@ -187,7 +187,7 @@ functions:
           method: post
           authorizer:
             name: accessTokenAuth0
-  suppression-recherche-recherches-individu:
+  suppr-recherche-recherches-individu:
     handler: src/recherches/recherches.supprimerUneRechercheDUnIndividu
     events:
       - httpApi:
