@@ -16,6 +16,7 @@ export const Accueil = () => {
                 titre="Organisation de vos recherches"
                 description="Priorisez et organisez vos activités de recherche dans cette rubrique"
                 image={RubriqueOrganisationDesRecherches}
+                onClick={() => history.push('/organiser-les-recherches')}
             />
             <Rubrique
                 titre="Apporter des corrections"

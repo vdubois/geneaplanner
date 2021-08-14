@@ -1,0 +1,11 @@
+.OrganisationDesRecherchesTitre {
+    display: flex;
+    justify-content: center !important;
+    margin-bottom: 3vh !important;
+}
+
+@media screen and (max-width: 440px) {
+    .OrganisationDesRecherchesTitre {
+        font-size: 1.5rem !important;
+    }
+}
