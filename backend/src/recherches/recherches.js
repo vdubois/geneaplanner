@@ -26,7 +26,7 @@ module.exports.ajouterDesRecherchesDIndividu = async event => {
     return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
   }
   if (event.body) {
-    const individu = JSON.parse(event.body);
+    const recherche = JSON.parse(event.body);
     const partitionKey = `${utilisateur.email}#recherches`;
     let recherchesDeLUtilisateur = await dynamoDBRepository.findOneByPartitionKey(partitionKey);
     if (!recherchesDeLUtilisateur) {
@@ -35,20 +35,20 @@ module.exports.ajouterDesRecherchesDIndividu = async event => {
         recherches: {
         }
       };
-      if (!recherchesDeLUtilisateur.recherches[individu]) {
-        recherchesDeLUtilisateur.recherches[individu] = {
-          individu: individu.identifiant,
+      if (!recherchesDeLUtilisateur.recherches[recherche.individu.id]) {
+        recherchesDeLUtilisateur.recherches[recherche.individu.id] = {
+          individu: recherche.individu.id,
           priorite: 'moyenne'
         };
       }
     } else {
-      recherchesDeLUtilisateur.recherches[individu] = {
-        individu: individu.identifiant,
+      recherchesDeLUtilisateur.recherches[recherche.individu.id] = {
+        individu: recherche.individu.id,
         priorite: 'moyenne'
       };
     }
     await dynamoDBRepository.save(recherchesDeLUtilisateur);
-    return created(individu);
+    return created(recherche);
   }
   return badRequest('Les informations de l\'individu sont obligatoires');
 }
