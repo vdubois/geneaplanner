@@ -1,4 +1,4 @@
-import {useQueryWithAuth} from './react-query.hooks';
+import {usePostMutationWithAuth, useQueryWithAuth} from './react-query.hooks';
 
 export const useRecherches = () => {
   const { isLoading, error, data } = useQueryWithAuth(
@@ -11,3 +11,6 @@ export const useRecherches = () => {
     recherches: data
   };
 }
+
+export const useAjouterRechercheDIndividu = () =>
+  usePostMutationWithAuth(`/utilisateurs/[email]/recherches`, ['recherches']);
