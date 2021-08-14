@@ -26,15 +26,18 @@ module.exports.rechercher = async event => {
     if (event.pathParameters.identifiant !== utilisateur.email) {
         return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
     }
-    const fichierArbre = await espaceDeStockageDesFichiersGEDCOM.readFile(`${utilisateur.email}.ged`);
-    if (fichierArbre) {
-        const arbre = gedcom.readGedcom(fichierArbre);
-        const individus = arbre.getIndividualRecord();
-        const detailIndividus = individus.array().map(individu => ({
-            id: individu._data.tree[0].pointer,
-            nom: individu.getName().valueAsParts().values[0].join(' ')
-        }))
-        return ok(detailIndividus);
+    try {
+        const fichierArbre = await espaceDeStockageDesFichiersGEDCOM.readFile(`${utilisateur.email}.ged`);
+        if (fichierArbre) {
+            const arbre = gedcom.readGedcom(fichierArbre);
+            const individus = arbre.getIndividualRecord();
+            const detailIndividus = individus.array().map(individu => ({
+                id: individu._data.tree[0].pointer,
+                nom: individu.getName().valueAsParts().values[0].join(' ')
+            }))
+            return ok(detailIndividus);
+        }
+    } catch (error) {
+        return ok([]);
     }
-    return ok([]);
 }
