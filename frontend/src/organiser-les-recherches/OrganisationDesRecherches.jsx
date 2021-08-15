@@ -20,18 +20,18 @@ export const OrganisationDesRecherches = () => {
     if (recherchesEnCoursDeChargement || individusEnCoursDeChargement) {
       return <RecherchesEnCoursDeChargement />
     }
-    if (recherches) {
-      const individus = Object.keys(recherches);
+    if (recherches && recherches.recherches) {
+      const individus = Object.keys(recherches.recherches);
       if (individus.length === 0) {
         return <AucuneRecherche
           setFenetreDeSaisieOuverte={setFenetreDeSaisieOuverte} />
       }
       return individus.map(individu => <Recherche
-        key={recherches[individu].nomDeLIndividu}
-        nomDeLIndividu={recherches[individu].nomDeLIndividu}
-        priorite={recherches[individu].priorite}
-        nombreDeRecherches={recherches[individu].recherches?.length}
-        nombreDeNotes={recherches[individu].notes?.length}
+        key={individu}
+        nomDeLIndividu={recherches.recherches[individu].nomDeLIndividu}
+        priorite={recherches.recherches[individu].priorite}
+        nombreDeRecherches={recherches.recherches[individu].recherches?.length}
+        nombreDeNotes={recherches.recherches[individu].notes?.length}
       />)
     }
     return <AucuneRecherche
