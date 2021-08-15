@@ -57,6 +57,7 @@ module.exports.rechercherParIdentifiant = async event => {
 }
 
 module.exports.rechercherIndividuParIdentifiant = async (emailUtilisateur, identifiantIndividu) => {
+    console.log('Recherche de ' + identifiantIndividu);
     const fichierArbre = await espaceDeStockageDesFichiersGEDCOM.readFile(`${emailUtilisateur}.ged`);
     if (fichierArbre) {
         const arbre = gedcom.readGedcom(fichierArbre);
