@@ -1,6 +1,7 @@
 const utilisateurConnecte = require('../authentification/utilisateurConnecte');
 const {ok, unauthorized, created, badRequest, noContent} = require("aws-lambda-utils");
 const uuid = require('uuid');
+const {rechercherIndividuParIdentifiant} = require('../utilisateurs/arbre');
 const DynamoDBBuilder = require('aws-sdk-fluent-builder').DynamoDbBuilder;
 const dynamoDBRepository = new DynamoDBBuilder()
   .withTableName(process.env.TABLE_DONNEES)
@@ -14,8 +15,12 @@ module.exports.recupererLesRecherches = async event => {
   }
   const partitionKey = `${utilisateur.email}#recherches`;
   const recherchesDeLUtilisateur = await dynamoDBRepository.findOneByPartitionKey(partitionKey);
-  delete recherchesDeLUtilisateur.partitionKey;
   if (recherchesDeLUtilisateur) {
+    delete recherchesDeLUtilisateur.partitionKey;
+    for (let rechercheIndex = 0; rechercheIndex < recherchesDeLUtilisateur.recherches.length; rechercheIndex++) {
+      const individu = await rechercherIndividuParIdentifiant(recherche.individu);
+      recherchesDeLUtilisateur.recherches[rechercheIndex].nomDeLIndividu = individu.nom;
+    }
     return ok(recherchesDeLUtilisateur);
   }
   return ok({});
