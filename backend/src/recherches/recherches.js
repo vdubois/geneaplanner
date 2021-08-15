@@ -14,6 +14,7 @@ module.exports.recupererLesRecherches = async event => {
   }
   const partitionKey = `${utilisateur.email}#recherches`;
   const recherchesDeLUtilisateur = await dynamoDBRepository.findOneByPartitionKey(partitionKey);
+  delete recherchesDeLUtilisateur.partitionKey;
   if (recherchesDeLUtilisateur) {
     return ok(recherchesDeLUtilisateur);
   }
