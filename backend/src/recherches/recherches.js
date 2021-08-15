@@ -18,7 +18,7 @@ module.exports.recupererLesRecherches = async event => {
   if (recherchesDeLUtilisateur) {
     delete recherchesDeLUtilisateur.partitionKey;
     for (let rechercheIndex = 0; rechercheIndex < recherchesDeLUtilisateur.recherches.length; rechercheIndex++) {
-      const individu = await rechercherIndividuParIdentifiant(recherche.individu);
+      const individu = await rechercherIndividuParIdentifiant(recherchesDeLUtilisateur.recherches[rechercheIndex].individu);
       recherchesDeLUtilisateur.recherches[rechercheIndex].nomDeLIndividu = individu.nom;
     }
     return ok(recherchesDeLUtilisateur);
