@@ -20,6 +20,7 @@ module.exports.recupererLesRecherches = async event => {
     const individus = Object.keys(recherchesDeLUtilisateur.recherches)
     for (let rechercheIndex = 0; rechercheIndex < individus.length; rechercheIndex++) {
       const individu = await rechercherIndividuParIdentifiant(
+        utilisateur.email,
         recherchesDeLUtilisateur.recherches[individus[rechercheIndex]].individu);
       recherchesDeLUtilisateur.recherches[individus[rechercheIndex]].nomDeLIndividu = individu.nom;
     }

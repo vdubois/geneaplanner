@@ -49,15 +49,15 @@ module.exports.rechercherParIdentifiant = async event => {
         return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
     }
     try {
-        const detailIndividus = await rechercherIndividuParIdentifiant(event.pathParameters.identifiantIndividu);
+        const detailIndividus = await rechercherIndividuParIdentifiant(utilisateur.email, event.pathParameters.identifiantIndividu);
         return ok(detailIndividus);
     } catch (error) {
         return notFound(error.message);
     }
 }
 
-module.exports.rechercherIndividuParIdentifiant = async (identifiantIndividu) => {
-    const fichierArbre = await espaceDeStockageDesFichiersGEDCOM.readFile(`${utilisateur.email}.ged`);
+module.exports.rechercherIndividuParIdentifiant = async (emailUtilisateur, identifiantIndividu) => {
+    const fichierArbre = await espaceDeStockageDesFichiersGEDCOM.readFile(`${emailUtilisateur}.ged`);
     if (fichierArbre) {
         const arbre = gedcom.readGedcom(fichierArbre);
         const individus = arbre.getIndividualRecord();
