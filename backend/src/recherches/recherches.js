@@ -17,9 +17,11 @@ module.exports.recupererLesRecherches = async event => {
   const recherchesDeLUtilisateur = await dynamoDBRepository.findOneByPartitionKey(partitionKey);
   if (recherchesDeLUtilisateur) {
     delete recherchesDeLUtilisateur.partitionKey;
-    for (let rechercheIndex = 0; rechercheIndex < recherchesDeLUtilisateur.recherches.length; rechercheIndex++) {
-      const individu = await rechercherIndividuParIdentifiant(recherchesDeLUtilisateur.recherches[rechercheIndex].individu);
-      recherchesDeLUtilisateur.recherches[rechercheIndex].nomDeLIndividu = individu.nom;
+    const individus = Object.keys(recherchesDeLUtilisateur.recherches)
+    for (let rechercheIndex = 0; rechercheIndex < individus.length; rechercheIndex++) {
+      const individu = await rechercherIndividuParIdentifiant(
+        recherchesDeLUtilisateur.recherches[individus[rechercheIndex]].individu);
+      recherchesDeLUtilisateur.recherches[individus[rechercheIndex]].nomDeLIndividu = individu.nom;
     }
     return ok(recherchesDeLUtilisateur);
   }
