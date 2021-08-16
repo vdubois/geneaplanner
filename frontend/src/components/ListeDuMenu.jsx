@@ -16,7 +16,10 @@ export const ListeDuMenu = ({close}) => {
             <div className={classes.toolbar} />
             <Divider />
             <List>
-                <ListItem button>
+                <ListItem button onClick={() => {
+                    history.push('/organiser-les-recherches');
+                    close();
+                }}>
                     <ListItemIcon><Assignment /></ListItemIcon>
                     <ListItemText primary="Organisation de vos recherches" />
                 </ListItem>

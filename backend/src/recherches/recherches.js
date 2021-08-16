@@ -47,13 +47,13 @@ module.exports.ajouterDesRecherchesDIndividu = async event => {
       if (!recherchesDeLUtilisateur.recherches[recherche.individu.id]) {
         recherchesDeLUtilisateur.recherches[recherche.individu.id] = {
           individu: recherche.individu.id,
-          priorite: 'moyenne'
+          ...recherche
         };
       }
     } else {
       recherchesDeLUtilisateur.recherches[recherche.individu.id] = {
         individu: recherche.individu.id,
-        priorite: 'moyenne'
+        ...recherche
       };
     }
     await dynamoDBRepository.save(recherchesDeLUtilisateur);
