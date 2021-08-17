@@ -1,9 +1,10 @@
 import {usePutMutationWithAuth, useQueryWithAuth} from "./react-query.hooks";
 
-export const useIndividus = () => {
+export const useIndividus = (enabled) => {
     const { isLoading, error, data } = useQueryWithAuth(
         "individus",
-        `/arbres/[email]`
+        `/arbres/[email]`,
+        enabled
     );
     return {
         individusEnCoursDeChargement: isLoading,

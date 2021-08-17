@@ -11,6 +11,7 @@ import { RechercheDIndividus } from "./recherche-d-individus/RechercheDIndividus
 import { Accueil } from "./accueil/Accueil";
 import { ImportationDeFichierGedcom } from "./importer-un-fichier-gedcom/ImportationDeFichierGedcom";
 import { ApportDeCorrections } from "./apporter-des-corrections/ApportDeCorrections";
+import { FicheDeRecherche } from "./organiser-les-recherches/FicheDeRecherche";
 
 export const App = () => {
     const classes = useStyles();
@@ -35,22 +36,25 @@ export const App = () => {
                         <Route exact path="/">
                             <Accueil />
                         </Route>
-                        <Route path="/accueil">
+                        <Route exact path="/accueil">
                             <Accueil />
                         </Route>
-                        <Route path="/organiser-les-recherches">
+                        <Route exact path="/organiser-les-recherches">
                             <OrganisationDesRecherches />
                         </Route>
-                        <Route path="/apporter-des-corrections">
+                        <Route exact path="/organiser-les-recherches/:individu">
+                            <FicheDeRecherche />
+                        </Route>
+                        <Route exact path="/apporter-des-corrections">
                             <ApportDeCorrections/>
                         </Route>
-                        <Route path="/preparer-passage-aux-archives">
+                        <Route exact path="/preparer-passage-aux-archives">
                             <PreparationPassageAuxArchives />
                         </Route>
-                        <Route path="/recherche-d-individus">
+                        <Route exact path="/recherche-d-individus">
                             <RechercheDIndividus />
                         </Route>
-                        <Route path="/importer-un-fichier-gedcom">
+                        <Route exact path="/importer-un-fichier-gedcom">
                             <ImportationDeFichierGedcom />
                         </Route>
                     </Switch>

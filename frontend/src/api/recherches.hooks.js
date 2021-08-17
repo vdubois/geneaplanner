@@ -1,9 +1,10 @@
 import {usePostMutationWithAuth, useQueryWithAuth} from './react-query.hooks';
 
-export const useRecherches = () => {
+export const useRecherches = (enabled) => {
   const { isLoading, error, data } = useQueryWithAuth(
     "recherches",
-    `/utilisateurs/[email]/recherches`
+    `/utilisateurs/[email]/recherches`,
+    enabled
   );
   return {
     recherchesEnCoursDeChargement: isLoading,

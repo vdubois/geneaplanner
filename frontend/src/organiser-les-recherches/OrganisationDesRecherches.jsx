@@ -9,10 +9,12 @@ import {useIndividus} from '../api/arbres.hooks';
 import {ListeDesRecherches} from './ListeDesRecherches';
 import {Add} from '@material-ui/icons';
 import {useStyles} from '../useStyles';
+import {useAuth0} from '@auth0/auth0-react';
 
 export const OrganisationDesRecherches = () => {
-  const {recherchesEnCoursDeChargement, recherchesEnErreur, recherches} = useRecherches();
-  const {individusEnCoursDeChargement, individusEnErreur, individus} = useIndividus();
+  const {isAuthenticated} = useAuth0();
+  const {recherchesEnCoursDeChargement, recherchesEnErreur, recherches} = useRecherches(isAuthenticated);
+  const {individusEnCoursDeChargement, individusEnErreur, individus} = useIndividus(isAuthenticated);
 
   const [fenetreDeSaisieOuverte, setFenetreDeSaisieOuverte] = useState(false);
   const classes = useStyles();

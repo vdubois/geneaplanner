@@ -63,9 +63,43 @@ module.exports.rechercherIndividuParIdentifiant = async (emailUtilisateur, ident
     const individu = arbre.getIndividualRecord(identifiantIndividu);
     return {
       id: identifiantIndividu,
-      nom: individu.getName().valueAsParts().values.join().replace(/,/g, '')
+      nom: individu.getName().valueAsParts().values.join().replace(/,/g, ''),
+      naissance: evenementPersonnel(individual, 'Birth'),
+      bapteme: evenementPersonnel(individual, 'Baptism'),
+      deces: evenementPersonnel(individual, 'Death'),
+      fiancailles: evenementFamilial(individual, 'ENGA'),
+      mariage: evenementFamilial(individual, 'MARR')
     };
   } else {
     throw new Error(`L'individu d'identifiant ${identifiantIndividu} n'existe pas`);
+  }
+};
+
+const evenementPersonnel = (individu, typeDeLEvenement) => {
+  const evenementDeLIndividu = individu[`getEvent${typeDeLEvenement}`].apply(individu);
+  const evenementPresent = evenementDeLIndividu._data.tree.length > 0;
+  if (evenementPresent) {
+    const detailsDeLEvenement = evenementDeLIndividu._data.tree[0].children;
+    const lieuDeLEvenement = detailsDeLEvenement.find(element => element.tag === 'PLAC');
+    const dateDeLEvenement = detailsDeLEvenement.find(element => element.tag === 'DATE');
+    return {
+      date: dateDeLEvenement.value,
+      lieu: lieuDeLEvenement ? lieuDeLEvenement.value : undefined
+    }
+  }
+};
+
+const evenementFamilial = (individu, typeDeLEvenement) => {
+  const evenementDeLIndividu = individu.getFamilyAsSpouse();
+  const evenementPresent = evenementDeLIndividu._data.tree.length > 0
+    && evenementDeLIndividu._data.tree[0].children.find(element => element.tag === typeDeLEvenement) !== undefined;
+  if (evenementPresent) {
+    const detailsDeLEvenement = evenementDeLIndividu._data.tree[0].children.find(element => element.tag === typeDeLEvenement).children;
+    const lieuDeLEvenement = detailsDeLEvenement.find(element => element.tag === 'PLAC');
+    const dateDeLEvenement = detailsDeLEvenement.find(element => element.tag === 'DATE');
+    return {
+      date: dateDeLEvenement ? dateDeLEvenement.value : undefined,
+      lieu: lieuDeLEvenement ? lieuDeLEvenement.value : undefined
+    }
   }
 };

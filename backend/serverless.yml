@@ -114,6 +114,14 @@ functions:
           method: get
           authorizer:
             name: accessTokenAuth0
+  details-individu:
+    handler: src/utilisateurs/arbre.rechercherParIdentifiant
+    events:
+      - httpApi:
+          path: /arbres/{identifiant}/individus/{identifiantIndividu}
+          method: get
+          authorizer:
+            name: accessTokenAuth0
   recuperation-corrections:
     handler: src/corrections/corrections.recupererLesCorrections
     events:
