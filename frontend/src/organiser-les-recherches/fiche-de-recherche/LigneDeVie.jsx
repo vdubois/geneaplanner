@@ -1,5 +1,5 @@
-import {Timeline} from '@material-ui/icons';
 import {
+  Timeline,
   TimelineConnector,
   TimelineContent,
   TimelineDot,
@@ -11,7 +11,7 @@ import Typography from '@material-ui/core/Typography';
 
 export const LigneDeVie = ({individu}) => {
   return <Timeline align="alternate">
-    <TimelineItem>
+    {individu?.naissance && <TimelineItem>
       <TimelineOppositeContent>
         <Typography>Naissance</Typography>
       </TimelineOppositeContent>
@@ -22,8 +22,8 @@ export const LigneDeVie = ({individu}) => {
       <TimelineContent>
         <Typography>Le {individu.naissance.date} &agrave; {individu.naissance.lieu}</Typography>
       </TimelineContent>
-    </TimelineItem>
-    <TimelineItem>
+    </TimelineItem>}
+    {individu?.mariage && <TimelineItem>
       <TimelineOppositeContent>
         <Typography>Mariage</Typography>
       </TimelineOppositeContent>
@@ -34,8 +34,8 @@ export const LigneDeVie = ({individu}) => {
       <TimelineContent>
         <Typography><Typography>Le {individu.mariage.date} &agrave; {individu.mariage.lieu}</Typography></Typography>
       </TimelineContent>
-    </TimelineItem>
-    <TimelineItem>
+    </TimelineItem>}
+    {individu?.deces && <TimelineItem>
       <TimelineOppositeContent>
         <Typography>D&eacute;c&egrave;s</Typography>
       </TimelineOppositeContent>
@@ -46,6 +46,6 @@ export const LigneDeVie = ({individu}) => {
       <TimelineContent>
         <Typography><Typography>Le {individu.deces.date} &agrave; {individu.deces.lieu}</Typography></Typography>
       </TimelineContent>
-    </TimelineItem>
+    </TimelineItem>}
   </Timeline>;
 }

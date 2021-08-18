@@ -18,7 +18,7 @@ export const usePublierArbre = () =>
 
 export const useIndividu = (identifiantIndividu) => {
     const { isLoading, error, data } = useQueryWithAuth(
-      "individus",
+      ["individu", identifiantIndividu],
       `/arbres/[email]/individus/${identifiantIndividu}`
     );
     return {

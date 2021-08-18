@@ -44,12 +44,13 @@ module.exports.rechercher = async event => {
 }
 
 module.exports.rechercherParIdentifiant = async event => {
+  console.log("Coucou");
   const utilisateur = utilisateurConnecte(event);
   if (event.pathParameters.identifiant !== utilisateur.email) {
     return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
   }
   try {
-    const detailIndividus = await rechercherIndividuParIdentifiant(utilisateur.email, event.pathParameters.identifiantIndividu);
+    const detailIndividus = await rechercherIndividuParIdentifiant(utilisateur.email, event.pathParameters.individu);
     return ok(detailIndividus);
   } catch (error) {
     return notFound(error.message);
