@@ -15,3 +15,15 @@ export const useIndividus = (enabled) => {
 
 export const usePublierArbre = () =>
     usePutMutationWithAuth(`/arbres/[email]`, ['individus'])
+
+export const useIndividu = (identifiantIndividu) => {
+    const { isLoading, error, data } = useQueryWithAuth(
+      "individus",
+      `/arbres/[email]/individus/${identifiantIndividu}`
+    );
+    return {
+        individuEnCoursDeChargement: isLoading,
+        individuEnErreur: error,
+        individu: data
+    };
+}

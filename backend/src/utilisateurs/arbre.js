@@ -64,11 +64,11 @@ module.exports.rechercherIndividuParIdentifiant = async (emailUtilisateur, ident
     return {
       id: identifiantIndividu,
       nom: individu.getName().valueAsParts().values.join().replace(/,/g, ''),
-      naissance: evenementPersonnel(individual, 'Birth'),
-      bapteme: evenementPersonnel(individual, 'Baptism'),
-      deces: evenementPersonnel(individual, 'Death'),
-      fiancailles: evenementFamilial(individual, 'ENGA'),
-      mariage: evenementFamilial(individual, 'MARR')
+      naissance: evenementPersonnel(individu, 'Birth'),
+      bapteme: evenementPersonnel(individu, 'Baptism'),
+      deces: evenementPersonnel(individu, 'Death'),
+      fiancailles: evenementFamilial(individu, 'ENGA'),
+      mariage: evenementFamilial(individu, 'MARR')
     };
   } else {
     throw new Error(`L'individu d'identifiant ${identifiantIndividu} n'existe pas`);

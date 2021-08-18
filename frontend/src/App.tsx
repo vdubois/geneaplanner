@@ -11,7 +11,7 @@ import { RechercheDIndividus } from "./recherche-d-individus/RechercheDIndividus
 import { Accueil } from "./accueil/Accueil";
 import { ImportationDeFichierGedcom } from "./importer-un-fichier-gedcom/ImportationDeFichierGedcom";
 import { ApportDeCorrections } from "./apporter-des-corrections/ApportDeCorrections";
-import { FicheDeRecherche } from "./organiser-les-recherches/FicheDeRecherche";
+import { FicheDeRecherche } from "./organiser-les-recherches/fiche-de-recherche/FicheDeRecherche";
 
 export const App = () => {
     const classes = useStyles();
