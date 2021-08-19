@@ -10,21 +10,20 @@
     "@material-ui/core": "4.12.3",
     "@material-ui/icons": "4.11.2",
     "@material-ui/lab": "4.0.0-alpha.60",
-    "@material-ui/data-grid": "4.0.0-alpha.37",
     "@vitejs/plugin-react-refresh": "1.3.6",
     "jwt-decode": "3.1.2",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-query": "3.19.6",
     "react-router-dom": "5.2.0",
-    "vite": "2.4.4"
+    "vite": "2.5.0"
   },
   "scripts": {
     "start": "vite --mode development",
     "build": "vite build --mode production",
     "test": "jest",
-    "deploy-dev": "sed -i 's/cVoGtUWf2frEb37nk32xcABCycMSlgoE/'\"$OAUTH0_DEV_CLIENT_ID\"'/g' src/auth0.js && sed -i 's/http:\\/\\/localhost:3000/https:\\/\\/geneaplanner-dev\\.surge\\.sh/g' src/index.jsx && npm run build && surge build/ geneaplanner-dev.surge.sh",
-    "deploy-prod": "sed -i 's/6fag2ujwlh/phxvjdlowb/g' src/api/api.js && sed -i 's/cVoGtUWf2frEb37nk32xcABCycMSlgoE/'\"$OAUTH0_PROD_CLIENT_ID\"'/g' src/auth0.js && sed -i 's/http:\\/\\/localhost:3000/https:\\/\\/geneaplanner\\.surge\\.sh/g' src/index.jsx && npm run build && surge build/ geneaplanner.surge.sh"
+    "deploy-dev": "sed -i 's/cVoGtUWf2frEb37nk32xcABCycMSlgoE/'\"$OAUTH0_DEV_CLIENT_ID\"'/g' src/auth0.js && sed -i 's/http:\\/\\/localhost:3000/https:\\/\\/geneaplanner-dev\\.surge\\.sh/g' src/index.jsx && npm run build && surge dist/ geneaplanner-dev.surge.sh",
+    "deploy-prod": "sed -i 's/6fag2ujwlh/phxvjdlowb/g' src/api/api.js && sed -i 's/cVoGtUWf2frEb37nk32xcABCycMSlgoE/'\"$OAUTH0_PROD_CLIENT_ID\"'/g' src/auth0.js && sed -i 's/http:\\/\\/localhost:3000/https:\\/\\/geneaplanner\\.surge\\.sh/g' src/index.jsx && npm run build && surge dist/ geneaplanner.surge.sh"
   },
   "eslintConfig": {
     "extends": "react-app"
