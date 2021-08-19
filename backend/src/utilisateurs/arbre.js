@@ -1,7 +1,6 @@
 const {ok, unauthorized, badRequest, notFound} = require("aws-lambda-utils");
 const utilisateurConnecte = require('../authentification/utilisateurConnecte');
 const gedcom = require('read-gedcom');
-const {rechercherIndividuParIdentifiant} = require('./arbre');
 const S3Builder = require('aws-sdk-fluent-builder').S3Builder;
 const espaceDeStockageDesFichiersGEDCOM = new S3Builder()
   .withBucketName(process.env.BUCKET_FICHIERS_GEDCOM)
@@ -43,39 +42,6 @@ module.exports.rechercher = async event => {
   }
 }
 
-module.exports.rechercherParIdentifiant = async event => {
-  console.log("Coucou");
-  const utilisateur = utilisateurConnecte(event);
-  if (event.pathParameters.identifiant !== utilisateur.email) {
-    return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
-  }
-  try {
-    const detailIndividus = await rechercherIndividuParIdentifiant(utilisateur.email, event.pathParameters.individu);
-    return ok(detailIndividus);
-  } catch (error) {
-    return notFound(error.message);
-  }
-}
-
-module.exports.rechercherIndividuParIdentifiant = async (emailUtilisateur, identifiantIndividu) => {
-  const fichierArbre = await espaceDeStockageDesFichiersGEDCOM.readFile(`${emailUtilisateur}.ged`);
-  if (fichierArbre) {
-    const arbre = gedcom.readGedcom(fichierArbre);
-    const individu = arbre.getIndividualRecord(identifiantIndividu);
-    return {
-      id: identifiantIndividu,
-      nom: individu.getName().valueAsParts().values.join().replace(/,/g, ''),
-      naissance: evenementPersonnel(individu, 'Birth'),
-      bapteme: evenementPersonnel(individu, 'Baptism'),
-      deces: evenementPersonnel(individu, 'Death'),
-      fiancailles: evenementFamilial(individu, 'ENGA'),
-      mariage: evenementFamilial(individu, 'MARR')
-    };
-  } else {
-    throw new Error(`L'individu d'identifiant ${identifiantIndividu} n'existe pas`);
-  }
-};
-
 const evenementPersonnel = (individu, typeDeLEvenement) => {
   const evenementDeLIndividu = individu[`getEvent${typeDeLEvenement}`].apply(individu);
   const evenementPresent = evenementDeLIndividu._data.tree.length > 0;
@@ -104,3 +70,38 @@ const evenementFamilial = (individu, typeDeLEvenement) => {
     }
   }
 };
+
+const rechercherIndividuParIdentifiant = async (emailUtilisateur, identifiantIndividu) => {
+  const fichierArbre = await espaceDeStockageDesFichiersGEDCOM.readFile(`${emailUtilisateur}.ged`);
+  if (fichierArbre) {
+    const arbre = gedcom.readGedcom(fichierArbre);
+    const individu = arbre.getIndividualRecord(identifiantIndividu);
+    return {
+      id: identifiantIndividu,
+      nom: individu.getName().valueAsParts().values.join().replace(/,/g, ''),
+      naissance: evenementPersonnel(individu, 'Birth'),
+      bapteme: evenementPersonnel(individu, 'Baptism'),
+      deces: evenementPersonnel(individu, 'Death'),
+      fiancailles: evenementFamilial(individu, 'ENGA'),
+      mariage: evenementFamilial(individu, 'MARR')
+    };
+  } else {
+    throw new Error(`L'individu d'identifiant ${identifiantIndividu} n'existe pas`);
+  }
+};
+
+module.exports.rechercherParIdentifiant = async event => {
+  console.log("Coucou");
+  const utilisateur = utilisateurConnecte(event);
+  if (event.pathParameters.identifiant !== utilisateur.email) {
+    return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
+  }
+  try {
+    const detailIndividus = await rechercherIndividuParIdentifiant(utilisateur.email, `@${event.pathParameters.individu}@`);
+    return ok(detailIndividus);
+  } catch (error) {
+    return notFound(error.message);
+  }
+}
+
+module.exports.rechercherIndividuParIdentifiant = rechercherIndividuParIdentifiant;

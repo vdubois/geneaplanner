@@ -8,6 +8,7 @@ import {
   TimelineSeparator
 } from '@material-ui/lab';
 import Typography from '@material-ui/core/Typography';
+import React from "react";
 
 export const LigneDeVie = ({individu}) => {
   return <Timeline align="alternate">
@@ -32,7 +33,7 @@ export const LigneDeVie = ({individu}) => {
         <TimelineConnector />
       </TimelineSeparator>
       <TimelineContent>
-        <Typography><Typography>Le {individu.mariage.date} &agrave; {individu.mariage.lieu}</Typography></Typography>
+        <Typography>Le {individu.mariage.date} &agrave; {individu.mariage.lieu}</Typography>
       </TimelineContent>
     </TimelineItem>}
     {individu?.deces && <TimelineItem>
@@ -44,7 +45,7 @@ export const LigneDeVie = ({individu}) => {
         <TimelineConnector />
       </TimelineSeparator>
       <TimelineContent>
-        <Typography><Typography>Le {individu.deces.date} &agrave; {individu.deces.lieu}</Typography></Typography>
+        <Typography>Le {individu.deces.date} &agrave; {individu.deces.lieu}</Typography>
       </TimelineContent>
     </TimelineItem>}
   </Timeline>;

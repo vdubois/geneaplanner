@@ -5,17 +5,19 @@ import {Box, Container} from '@material-ui/core';
 import {useIndividu} from '../../api/arbres.hooks';
 import {Skeleton} from '@material-ui/lab';
 import {LigneDeVie} from './LigneDeVie';
+import {RetourALaListeDesRecherches} from './RetourALaListeDesRecherches';
 
 export const FicheDeRecherche = () => {
   let {individu: identifiantIndividu} = useParams();
-  let {individuEnCoursDeChargement, individuEnErreur, individu} = useIndividu(identifiantIndividu);
+  let {individuEnCoursDeChargement, individuEnErreur, individu} = useIndividu(identifiantIndividu.replace(/@/g, ''));
 
   return <Container maxWidth="lg">
     <Typography variant="h4" className="OrganisationDesRecherchesTitre">
-      {individuEnCoursDeChargement ? <Skeleton variant="text" /> : "Recherches - " + individu?.nom}
+      {individuEnCoursDeChargement ? <Skeleton variant="rect" width="50%" /> : "Recherches - " + individu?.nom}
     </Typography>
-    <Box display="flex">
-      {individuEnCoursDeChargement? <Skeleton variant="rect" /> : <LigneDeVie individu={individu} />}
+    <RetourALaListeDesRecherches/>
+    <Box display="flex" justifyContent="center">
+      {individuEnCoursDeChargement? <Skeleton variant="rect" width="90%" height="300px"/> : <LigneDeVie individu={individu} />}
     </Box>
   </Container>;
 }

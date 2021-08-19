@@ -118,7 +118,7 @@ functions:
     handler: src/utilisateurs/arbre.rechercherParIdentifiant
     events:
       - httpApi:
-          path: /individus/{individu}
+          path: /arbres/{identifiant}/individus/{individu}
           method: get
           authorizer:
             name: accessTokenAuth0

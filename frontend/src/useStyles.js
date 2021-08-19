@@ -26,6 +26,8 @@ export const useStyles = makeStyles((theme) => ({
         flexShrink: 0,
     },
     appBar: {
+        backgroundColor: '#F46912 !important',
+        color: '#fff !important'
     },
     menuButton: {
         marginRight: theme.spacing(2) + ' !important',
