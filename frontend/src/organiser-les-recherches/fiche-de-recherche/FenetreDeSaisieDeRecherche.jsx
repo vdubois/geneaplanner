@@ -13,31 +13,36 @@ import {
   Select,
   TextField
 } from '@material-ui/core';
-import {Autocomplete} from '@material-ui/lab';
-import {Erreur} from '../components/Erreur';
-import {priorites} from './priorites';
-import {useAjouterRecherche} from '../api/recherches.hooks';
+import {Erreur} from '../../components/Erreur';
+import {priorites} from '../priorites';
+import {useAjouterRechercheDIndividu} from '../../api/recherches.hooks';
 
-export const FenetreDeSaisieDeRecherche = ({ouverte, fermer, individus}) => {
-  const [individu, setIndividu] = useState('');
+export const FenetreDeSaisieDeRecherche = ({ouverte, fermer, identifiantIndividu}) => {
+  const [nom, setNom] = useState('');
+  const [lien, setLien] = useState('');
+  const [commentaire, setCommentaire] = useState('');
   const [priorite, setPriorite] = useState('');
   const [enCoursDeValidation, setEnCoursDeValidation] = useState(false);
   const [erreur, setErreur] = useState();
 
-  const formulairePasComplet = !individu || !priorite;
+  const formulairePasComplet = !nom || !lien || !commentaire;
 
-  const ajouterRechercheDIndividu = useAjouterRecherche();
+  const ajouterRecherche = useAjouterRechercheDIndividu(identifiantIndividu);
 
   const viderLesChamps = () => {
-    setIndividu('');
+    setNom('');
+    setLien('');
+    setCommentaire('');
     setPriorite('');
   };
 
-  const ajouterLaRechercheDIndividu = async () => {
+  const ajouterLaRecherche = async () => {
     try {
       setEnCoursDeValidation(true);
-      await ajouterRechercheDIndividu({
-        individu,
+      await ajouterRecherche({
+        nom,
+        lien,
+        commentaire,
         priorite,
       });
       viderLesChamps();
@@ -56,24 +61,35 @@ export const FenetreDeSaisieDeRecherche = ({ouverte, fermer, individus}) => {
     <DialogTitle id="form-dialog-title">Ajout d'une recherche</DialogTitle>
     <DialogContent>
       <DialogContentText>
-        Veuillez remplir les champs obligatoires ci-dessous afin de créer la recherche portant sur un individu
+        Veuillez remplir les champs obligatoires ci-dessous afin de créer la recherche
       </DialogContentText>
-      <Autocomplete
-        margin="dense"
-        options={individus}
-        getOptionLabel={individu => individu ? individu.nom : ''}
-        getOptionSelected={(option, value) => option.id === value.id}
-        noOptionsText="Aucun individu ne correspond"
-        fullWidth
-        clearText="Effacer"
-        onChange={(event, value) => setIndividu(value)}
-        renderInput={(params) => <TextField
-          {...params}
-          autoFocus
-          label="Individu concerné *"
+      <FormControl className="ChampFenetreDeSaisie" fullWidth>
+        <TextField
+          placeholder="Nom *"
           variant="outlined"
-        />}
-      />
+          value={nom}
+          onChange={event => setNom(event.target.value)}
+        />
+      </FormControl>
+      <FormControl className="ChampFenetreDeSaisie" fullWidth>
+        <TextField
+          placeholder="Lien *"
+          variant="outlined"
+          value={lien}
+          onChange={event => setLien(event.target.value)}
+        />
+      </FormControl>
+      <FormControl className="ChampFenetreDeSaisie" fullWidth>
+        <TextField
+          placeholder="Commentaire *"
+          multiline
+          rows={4}
+          rowsMax={4}
+          variant="outlined"
+          value={commentaire}
+          onChange={event => setCommentaire(event.target.value)}
+        />
+      </FormControl>
       <FormControl variant="outlined" className="ChampFenetreDeSaisie" fullWidth>
         <InputLabel
           id="priorite-label">Priorit&eacute; *</InputLabel>
@@ -114,7 +130,7 @@ export const FenetreDeSaisieDeRecherche = ({ouverte, fermer, individus}) => {
         Annuler
       </Button>
       <Button
-        onClick={ajouterLaRechercheDIndividu}
+        onClick={ajouterLaRecherche}
         color="primary"
         variant="contained"
         disabled={formulairePasComplet || enCoursDeValidation}

@@ -21,7 +21,7 @@ module.exports.recupererLesRecherches = async event => {
     for (let rechercheIndex = 0; rechercheIndex < individus.length; rechercheIndex++) {
       const individu = await rechercherIndividuParIdentifiant(
         utilisateur.email,
-        recherchesDeLUtilisateur.recherches[individus[rechercheIndex]].individu);
+        `@${recherchesDeLUtilisateur.recherches[individus[rechercheIndex]].individu}@`);
       recherchesDeLUtilisateur.recherches[individus[rechercheIndex]].nomDeLIndividu = individu.nom;
     }
     return ok(recherchesDeLUtilisateur);
@@ -41,8 +41,7 @@ module.exports.ajouterDesRecherchesDIndividu = async event => {
     if (!recherchesDeLUtilisateur) {
       recherchesDeLUtilisateur = {
         partitionKey,
-        recherches: {
-        }
+        recherches: {}
       };
       if (!recherchesDeLUtilisateur.recherches[recherche.individu.id]) {
         recherchesDeLUtilisateur.recherches[recherche.individu.id] = {
@@ -90,16 +89,19 @@ module.exports.ajouterUneNoteAUnIndividu = async event => {
     if (!recherchesDeLUtilisateur) {
       recherchesDeLUtilisateur = {
         partitionKey,
-        recherches: {
-        }
+        recherches: {}
       };
-      if (!recherchesDeLUtilisateur.recherches[event.pathParameters.individu]) {
+    } else {
+      if (recherchesDeLUtilisateur.recherches[event.pathParameters.individu]
+        && !recherchesDeLUtilisateur.recherches[event.pathParameters.individu].notes
+      ) {
         recherchesDeLUtilisateur.recherches[event.pathParameters.individu] = {
+          ...recherchesDeLUtilisateur.recherches[event.pathParameters.individu],
           notes: [note]
         };
+      } else if (recherchesDeLUtilisateur.recherches[event.pathParameters.individu].notes) {
+        recherchesDeLUtilisateur.recherches[event.pathParameters.individu].notes.push(note);
       }
-    } else {
-      recherchesDeLUtilisateur.recherches[event.pathParameters.individu].notes.push(note);
     }
     await dynamoDBRepository.save(recherchesDeLUtilisateur);
     return created(note);
@@ -120,21 +122,23 @@ module.exports.ajouterUneRechercheAUnIndividu = async event => {
     if (!recherchesDeLIndividu) {
       recherchesDeLIndividu = {
         partitionKey,
-        recherches: {
-        }
+        recherches: {}
       };
-      if (!recherchesDeLIndividu.recherches[event.pathParameters.individu]) {
+    } else {
+      if (recherchesDeLIndividu.recherches[event.pathParameters.individu]
+        && !recherchesDeLIndividu.recherches[event.pathParameters.individu].recherches) {
         recherchesDeLIndividu.recherches[event.pathParameters.individu] = {
+          ...recherchesDeLIndividu.recherches[event.pathParameters.individu],
           recherches: [recherche]
         };
+      } else if (recherchesDeLIndividu.recherches[event.pathParameters.individu].recherches) {
+        recherchesDeLIndividu.recherches[event.pathParameters.individu].recherches.push(recherche);
       }
-    } else {
-      recherchesDeLIndividu.recherches[event.pathParameters.individu].recherches.push(recherche);
     }
     await dynamoDBRepository.save(recherchesDeLIndividu);
     return created(recherche);
   }
-  return badRequest('Les informations de la note sont obligatoires');
+  return badRequest('Les informations de la recherche sont obligatoires');
 }
 
 module.exports.supprimerUneNoteDUnIndividu = async event => {

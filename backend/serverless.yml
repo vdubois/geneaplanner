@@ -15,7 +15,7 @@ provider:
   environment:
     BUCKET_FICHIERS_GEDCOM: geneaplanner-${opt:stage, self:provider.stage}-fichiers-gedcom
     TABLE_DONNEES: geneaplanner-${opt:stage, self:provider.stage}-donnees
-    thundra_apiKey: THUNDRAAPIKEY
+    thundra_apiKey: b82e96d9-0c95-4b6c-b6d0-41e8d623d888
   httpApi:
     cors:
       allowedHeaders:

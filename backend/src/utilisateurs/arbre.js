@@ -77,7 +77,7 @@ const rechercherIndividuParIdentifiant = async (emailUtilisateur, identifiantInd
     const arbre = gedcom.readGedcom(fichierArbre);
     const individu = arbre.getIndividualRecord(identifiantIndividu);
     return {
-      id: identifiantIndividu,
+      id: identifiantIndividu.replace(/@/g, ''),
       nom: individu.getName().valueAsParts().values.join().replace(/,/g, ''),
       naissance: evenementPersonnel(individu, 'Birth'),
       bapteme: evenementPersonnel(individu, 'Baptism'),
@@ -91,7 +91,6 @@ const rechercherIndividuParIdentifiant = async (emailUtilisateur, identifiantInd
 };
 
 module.exports.rechercherParIdentifiant = async event => {
-  console.log("Coucou");
   const utilisateur = utilisateurConnecte(event);
   if (event.pathParameters.identifiant !== utilisateur.email) {
     return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);

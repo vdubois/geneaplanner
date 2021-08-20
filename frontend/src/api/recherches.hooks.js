@@ -13,5 +13,11 @@ export const useRecherches = (enabled) => {
   };
 }
 
-export const useAjouterRechercheDIndividu = () =>
+export const useAjouterRecherche = () =>
   usePostMutationWithAuth(`/utilisateurs/[email]/recherches`, ['recherches']);
+
+export const useAjouterRechercheDIndividu = (identifiantIndividu) =>
+  usePostMutationWithAuth(`/utilisateurs/[email]/recherches/${identifiantIndividu}/recherches`, ['recherches']);
+
+export const useAjouterNoteDIndividu = (identifiantIndividu) =>
+  usePostMutationWithAuth(`/utilisateurs/[email]/recherches/${identifiantIndividu}/notes`, ['recherches']);

@@ -7,7 +7,7 @@ import Divider from '@material-ui/core/Divider';
 import React, {useEffect, useState} from "react";
 import {Skeleton} from '@material-ui/lab';
 import {ChevronRight} from '@material-ui/icons';
-import {priorites} from './priorites';
+import {libellePriorite} from './priorites';
 import {useHistory} from 'react-router-dom';
 
 const SQUELETTES = Array.from(
@@ -15,12 +15,14 @@ const SQUELETTES = Array.from(
   () => ({})
 );
 
-const useStyles = makeStyles((theme) => ({
+export const useStyles = makeStyles((theme) => ({
   listeIndividus: {
     marginTop: theme.spacing(2),
   },
   elementDeListe: {
     minHeight: theme.spacing(7),
+    display: 'flex',
+    alignItems: 'center'
   },
 }))
 
@@ -39,8 +41,6 @@ export const ListeDesRecherches = ({enCoursDeChargement, recherches}) => {
       setIndividus(Object.keys(recherches));
     }
   }, [recherches, enCoursDeChargement]);
-
-  const priorite = (valeurPriorite) => priorites.find(priorite => priorite.valeur === valeurPriorite)?.libelle;
 
   return <List disablePadding className={classes.listeIndividus}>
     <Hidden smDown>
@@ -82,22 +82,22 @@ export const ListeDesRecherches = ({enCoursDeChargement, recherches}) => {
             key={index}
             nomDeLIndividu={
               <Typography variant="body1" noWrap>
-                <Skeleton width="80%" />
+                <Skeleton width="200px" />
               </Typography>
             }
             priorite={
               <Typography variant="body2" color="secondary">
-                <Skeleton width="80%" />
+                <Skeleton width="100px" />
               </Typography>
             }
             nombreDeRecherches={
               <Typography variant="body2" color="secondary">
-                <Skeleton width="10%" />
+                <Skeleton width="30px" />
               </Typography>
             }
             nombreDeNotes={
               <Typography variant="body2" color="secondary" data-testid="cutter-maintenance-status">
-                <Skeleton width="10%" />
+                <Skeleton width="30px" />
               </Typography>
             }
           />
@@ -122,7 +122,7 @@ export const ListeDesRecherches = ({enCoursDeChargement, recherches}) => {
             }
             priorite={
               <Typography variant="body2" color="secondary" data-testid="cutter-maintenance-status">
-                {priorite(recherches[individu]?.priorite)}
+                {libellePriorite(recherches[individu]?.priorite)}
               </Typography>
             }
             nombreDeRecherches={

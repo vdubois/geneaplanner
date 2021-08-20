@@ -12,3 +12,6 @@ export const priorites = [
     libelle: 'Haute'
   }
 ];
+
+export const libellePriorite =
+  (valeurPriorite) => priorites.find(priorite => priorite.valeur === valeurPriorite)?.libelle;
