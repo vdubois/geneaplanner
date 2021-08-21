@@ -1,4 +1,4 @@
-import {usePostMutationWithAuth, useQueryWithAuth} from './react-query.hooks';
+import {useDeleteMutationWithAuth, usePostMutationWithAuth, useQueryWithAuth} from './react-query.hooks';
 
 export const useRecherches = (enabled) => {
   const { isLoading, error, data } = useQueryWithAuth(
@@ -19,5 +19,11 @@ export const useAjouterRecherche = () =>
 export const useAjouterRechercheDIndividu = (identifiantIndividu) =>
   usePostMutationWithAuth(`/utilisateurs/[email]/recherches/${identifiantIndividu}/recherches`, ['recherches']);
 
+export const useSupprimerRechercheDIndividu = (identifiantIndividu, identifiantRecherche) =>
+  useDeleteMutationWithAuth(`/utilisateurs/[email]/recherches/${identifiantIndividu}/recherches/${identifiantRecherche}`, ['recherches']);
+
 export const useAjouterNoteDIndividu = (identifiantIndividu) =>
   usePostMutationWithAuth(`/utilisateurs/[email]/recherches/${identifiantIndividu}/notes`, ['recherches']);
+
+export const useSupprimerNoteDIndividu = (identifiantIndividu, identifiantNote) =>
+  useDeleteMutationWithAuth(`/utilisateurs/[email]/recherches/${identifiantIndividu}/notes/${identifiantNote}`, ['recherches']);

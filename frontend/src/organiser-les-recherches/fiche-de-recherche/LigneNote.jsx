@@ -1,12 +1,24 @@
-import {Grid} from '@material-ui/core';
+import {Grid, IconButton} from '@material-ui/core';
 import React from 'react';
+import {Delete} from '@material-ui/icons';
+import {useSupprimerNoteDIndividu} from '../../api/recherches.hooks';
 
 export const LigneNote = ({
+  entete = false,
+  identifiantIndividu,
+  identifiantNote,
   contenu,
-}) => (
-  <Grid container direction="row" alignItems="center">
-    <Grid item xs={12} sm={12} lg={12}>
-      {contenu}
+}) => {
+  const supprimerNote = useSupprimerNoteDIndividu(identifiantIndividu, identifiantNote);
+
+  return (
+    <Grid container direction="row" alignItems="center">
+      <Grid item xs={11} sm={11} lg={11}>
+        {contenu}
+      </Grid>
+      <Grid item xs={1} sm={1} lg={1} align="right">
+        {!entete && <IconButton onClick={() => supprimerNote()}><Delete color='primary'/></IconButton>}
+      </Grid>
     </Grid>
-  </Grid>
-)
+  )
+}

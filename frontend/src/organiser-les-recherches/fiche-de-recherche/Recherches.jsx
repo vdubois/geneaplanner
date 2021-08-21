@@ -11,7 +11,8 @@ import {libellePriorite} from '../priorites';
 export const Recherches = ({
   setFenetreDeSaisieDeRechercheOuverte,
   enCoursDeChargement,
-  recherchesDeLIndividu
+  recherchesDeLIndividu,
+  identifiantIndividu
 }) => {
   const classes = useStyles();
 
@@ -35,6 +36,7 @@ export const Recherches = ({
       <Hidden smDown>
         <ListItem disabled className={classes.elementDeListe}>
           <LigneRecherche
+            entete
             nom={
               <Typography variant="body2">
                 Nom
@@ -65,6 +67,8 @@ export const Recherches = ({
             className={classes.elementDeListe}
           >
             <LigneRecherche
+              identifiantIndividu={identifiantIndividu}
+              identifiantNote={recherche.id}
               key={index}
               nom={
                 <Typography variant="body1" noWrap>

@@ -7,7 +7,7 @@ import {LigneNote} from './LigneNote';
 import Divider from '@material-ui/core/Divider';
 import React from 'react';
 
-export const Notes = ({setFenetreDeSaisieDeNoteOuverte, enCoursDeChargement, notesDeLIndividu}) => {
+export const Notes = ({setFenetreDeSaisieDeNoteOuverte, enCoursDeChargement, notesDeLIndividu, identifiantIndividu}) => {
   const classes = useStyles();
 
   return <>
@@ -30,6 +30,7 @@ export const Notes = ({setFenetreDeSaisieDeNoteOuverte, enCoursDeChargement, not
       <Hidden smDown>
         <ListItem disabled className={classes.elementDeListe}>
           <LigneNote
+            entete
             contenu={
               <Typography variant="body2">
                 Contenu
@@ -46,6 +47,8 @@ export const Notes = ({setFenetreDeSaisieDeNoteOuverte, enCoursDeChargement, not
           >
             <LigneNote
               key={index}
+              identifiantIndividu={identifiantIndividu}
+              identifiantNote={note.id}
               contenu={
                 <Typography variant="body1">
                   {note.contenu}

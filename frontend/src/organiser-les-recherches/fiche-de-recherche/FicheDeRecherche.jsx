@@ -48,12 +48,14 @@ export const FicheDeRecherche = () => {
         <LigneDeVie individu={individu}/>}
       <Box display="flex" flexDirection="column" width="60%">
         <Recherches
+          identifiantIndividu={identifiantIndividu}
           enCoursDeChargement={recherchesEnCoursDeChargement}
           setFenetreDeSaisieDeRechercheOuverte={setFenetreDeSaisieDeRechercheOuverte}
           recherchesDeLIndividu={recherchesDeLIndividu}
         />
         <Box height="50px"/>
         <Notes
+          identifiantIndividu={identifiantIndividu}
           notesDeLIndividu={notesDeLIndividu}
           enCoursDeChargement={recherchesEnCoursDeChargement}
           setFenetreDeSaisieDeNoteOuverte={setFenetreDeSaisieDeNoteOuverte}/>
