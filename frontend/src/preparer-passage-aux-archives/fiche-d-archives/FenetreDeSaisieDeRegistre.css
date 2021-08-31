@@ -1,0 +1,11 @@
+.ChampFenetreDeSaisie {
+    margin-top: 2vh !important;
+}
+
+.MuiAutocomplete-popper {
+    left: 0 !important;
+}
+
+.FenetreDeSaisieBoutonsActions {
+    padding: 16px 24px !important;
+}

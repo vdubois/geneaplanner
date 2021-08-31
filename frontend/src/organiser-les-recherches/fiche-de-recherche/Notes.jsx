@@ -1,4 +1,3 @@
-import {useStyles} from '../ListeDesRecherches';
 import {Box, Button, Hidden, ListItem} from '@material-ui/core';
 import {Skeleton} from '@material-ui/lab';
 import Typography from '@material-ui/core/Typography';
@@ -6,6 +5,7 @@ import {FlexGrow} from '../../components/FlexGrow';
 import {LigneNote} from './LigneNote';
 import Divider from '@material-ui/core/Divider';
 import React from 'react';
+import {useStyles} from '../../useStyles';
 
 export const Notes = ({setFenetreDeSaisieDeNoteOuverte, enCoursDeChargement, notesDeLIndividu, identifiantIndividu}) => {
   const classes = useStyles();

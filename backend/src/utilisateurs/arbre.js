@@ -32,7 +32,7 @@ module.exports.rechercher = async event => {
       const arbre = gedcom.readGedcom(fichierArbre);
       const individus = arbre.getIndividualRecord();
       const detailIndividus = individus.array().map(individu => ({
-        id: individu._data.tree[0].pointer,
+        id: individu._data.tree[0].pointer.replace(/@/g, ''),
         nom: individu.getName().valueAsParts().values[0].join(' ')
       }));
       return ok(detailIndividus);

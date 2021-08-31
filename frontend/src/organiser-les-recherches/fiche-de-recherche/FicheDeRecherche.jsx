@@ -1,22 +1,27 @@
-import {useParams} from 'react-router-dom';
+import {useHistory, useParams} from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import React, {useEffect, useState} from 'react';
-import {Box, Container} from '@material-ui/core';
+import {Box, Container, Fab} from '@material-ui/core';
 import {useIndividu} from '../../api/arbres.hooks';
 import {Skeleton} from '@material-ui/lab';
 import {LigneDeVie} from './LigneDeVie';
 import {RetourALaListeDesRecherches} from './RetourALaListeDesRecherches';
 import {FenetreDeSaisieDeRecherche} from './FenetreDeSaisieDeRecherche';
 import {FenetreDeSaisieDeNote} from './FenetreDeSaisieDeNote';
-import {useRecherches} from '../../api/recherches.hooks';
+import {useRecherches, useSupprimerRecherche} from '../../api/recherches.hooks';
 import {Recherches} from './Recherches';
 import {Notes} from './Notes';
+import {Done} from '@material-ui/icons';
+import {useStyles} from '../../useStyles';
 
 export const FicheDeRecherche = () => {
+  const classes = useStyles();
+  const history = useHistory();
   let {individu: identifiantIndividu} = useParams();
 
   let {individuEnCoursDeChargement, individuEnErreur, individu} = useIndividu(identifiantIndividu);
   const {recherchesEnCoursDeChargement, recherchesEnErreur, recherches} = useRecherches();
+  const supprimerFicheDeRecherche = useSupprimerRecherche(identifiantIndividu);
 
   const [fenetreDeSaisieDeRechercheOuverte, setFenetreDeSaisieDeRechercheOuverte] = useState(false);
   const [fenetreDeSaisieDeNoteOuverte, setFenetreDeSaisieDeNoteOuverte] = useState(false);
@@ -38,38 +43,54 @@ export const FicheDeRecherche = () => {
     }
   }, [recherches, recherchesEnCoursDeChargement])
 
-  return <Container maxWidth="xl">
-    <Typography variant="h4" className="OrganisationDesRecherchesTitre" align="center">
-      {individuEnCoursDeChargement ? <Skeleton variant="rect" width="50%"/> : "Recherches - " + individu?.nom}
-    </Typography>
-    <RetourALaListeDesRecherches/>
-    <Box display="flex" justifyContent="center" gridGap={20} flexWrap="wrap">
-      {individuEnCoursDeChargement ? <Skeleton variant="rect" width="35%" height="300px"/> :
-        <LigneDeVie individu={individu}/>}
-      <Box display="flex" flexDirection="column" width="60%">
-        <Recherches
-          identifiantIndividu={identifiantIndividu}
-          enCoursDeChargement={recherchesEnCoursDeChargement}
-          setFenetreDeSaisieDeRechercheOuverte={setFenetreDeSaisieDeRechercheOuverte}
-          recherchesDeLIndividu={recherchesDeLIndividu}
-        />
-        <Box height="50px"/>
-        <Notes
-          identifiantIndividu={identifiantIndividu}
-          notesDeLIndividu={notesDeLIndividu}
-          enCoursDeChargement={recherchesEnCoursDeChargement}
-          setFenetreDeSaisieDeNoteOuverte={setFenetreDeSaisieDeNoteOuverte}/>
+  return <>
+    <Container maxWidth="xl">
+      <Typography variant="h4" className="OrganisationDesRecherchesTitre" align="center">
+        {individuEnCoursDeChargement ? <Skeleton variant="rect" width="50%"/> : "Recherches - " + individu?.nom}
+      </Typography>
+      <RetourALaListeDesRecherches/>
+      <Box display="flex" justifyContent="center" gridGap={20} flexWrap="wrap">
+        {individuEnCoursDeChargement ? <Skeleton variant="rect" width="35%" height="300px"/> :
+          <LigneDeVie individu={individu}/>}
+        <Box display="flex" flexDirection="column" width="60%">
+          <Recherches
+            identifiantIndividu={identifiantIndividu}
+            enCoursDeChargement={recherchesEnCoursDeChargement}
+            setFenetreDeSaisieDeRechercheOuverte={setFenetreDeSaisieDeRechercheOuverte}
+            recherchesDeLIndividu={recherchesDeLIndividu}
+          />
+          <Box height="50px"/>
+          <Notes
+            identifiantIndividu={identifiantIndividu}
+            notesDeLIndividu={notesDeLIndividu}
+            enCoursDeChargement={recherchesEnCoursDeChargement}
+            setFenetreDeSaisieDeNoteOuverte={setFenetreDeSaisieDeNoteOuverte}/>
+        </Box>
       </Box>
-    </Box>
-    <FenetreDeSaisieDeRecherche
-      identifiantIndividu={identifiantIndividu}
-      ouverte={fenetreDeSaisieDeRechercheOuverte}
-      fermer={() => setFenetreDeSaisieDeRechercheOuverte(false)}
-    />
-    <FenetreDeSaisieDeNote
-      identifiantIndividu={identifiantIndividu}
-      ouverte={fenetreDeSaisieDeNoteOuverte}
-      fermer={() => setFenetreDeSaisieDeNoteOuverte(false)}
-    />
-  </Container>;
+      <FenetreDeSaisieDeRecherche
+        identifiantIndividu={identifiantIndividu}
+        ouverte={fenetreDeSaisieDeRechercheOuverte}
+        fermer={() => setFenetreDeSaisieDeRechercheOuverte(false)}
+      />
+      <FenetreDeSaisieDeNote
+        identifiantIndividu={identifiantIndividu}
+        ouverte={fenetreDeSaisieDeNoteOuverte}
+        fermer={() => setFenetreDeSaisieDeNoteOuverte(false)}
+      />
+    </Container>
+    <Fab
+      variant="extended"
+      size="medium"
+      color="secondary"
+      className={classes.fab}
+      style={{backgroundColor: '#4caf50', color: 'white'}}
+      onClick={async () => {
+        await supprimerFicheDeRecherche();
+        history.push('/organiser-les-recherches');
+      }}
+    >
+      <Done style={{marginRight: '4px'}} />
+      Clôturer la recherche
+    </Fab>
+  </>;
 }

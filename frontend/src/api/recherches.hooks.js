@@ -16,6 +16,9 @@ export const useRecherches = (enabled) => {
 export const useAjouterRecherche = () =>
   usePostMutationWithAuth(`/utilisateurs/[email]/recherches`, ['recherches']);
 
+export const useSupprimerRecherche = (identifiantIndividu) =>
+  useDeleteMutationWithAuth(`/utilisateurs/[email]/recherches/${identifiantIndividu}`, ['recherches']);
+
 export const useAjouterRechercheDIndividu = (identifiantIndividu) =>
   usePostMutationWithAuth(`/utilisateurs/[email]/recherches/${identifiantIndividu}/recherches`, ['recherches']);
 

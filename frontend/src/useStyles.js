@@ -87,5 +87,13 @@ export const useStyles = makeStyles((theme) => ({
         bottom: theme.spacing(2),
         right: theme.spacing(2),
     },
+    liste: {
+        marginTop: theme.spacing(2),
+    },
+    elementDeListe: {
+        minHeight: theme.spacing(7),
+        display: 'flex',
+        alignItems: 'center'
+    },
 }));
 

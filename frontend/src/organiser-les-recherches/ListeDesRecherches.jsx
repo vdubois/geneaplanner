@@ -1,35 +1,20 @@
 import List from '@material-ui/core/List';
-import {Hidden, ListItem, makeStyles, styled} from '@material-ui/core';
+import {Hidden, ListItem} from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import {Recherche} from './Recherche';
-import ListItemIcon from '@material-ui/core/ListItemIcon/ListItemIcon';
 import Divider from '@material-ui/core/Divider';
 import React, {useEffect, useState} from "react";
 import {Skeleton} from '@material-ui/lab';
 import {ChevronRight} from '@material-ui/icons';
 import {libellePriorite} from './priorites';
 import {useHistory} from 'react-router-dom';
+import {MarqueurDeSelection} from '../components/MarqueurDeSelection';
+import {useStyles} from '../useStyles';
 
 const SQUELETTES = Array.from(
   {length: 5},
   () => ({})
 );
-
-export const useStyles = makeStyles((theme) => ({
-  listeIndividus: {
-    marginTop: theme.spacing(2),
-  },
-  elementDeListe: {
-    minHeight: theme.spacing(7),
-    display: 'flex',
-    alignItems: 'center'
-  },
-}))
-
-const MarqueurDeSelection = styled(ListItemIcon)({
-  justifyContent: "flex-end",
-  minWidth: 20,
-});
 
 export const ListeDesRecherches = ({enCoursDeChargement, recherches}) => {
   const classes = useStyles();
@@ -42,7 +27,7 @@ export const ListeDesRecherches = ({enCoursDeChargement, recherches}) => {
     }
   }, [recherches, enCoursDeChargement]);
 
-  return <List disablePadding className={classes.listeIndividus}>
+  return <List disablePadding className={classes.liste}>
     <Hidden smDown>
       <ListItem disabled className={classes.elementDeListe}>
         <Recherche
@@ -146,7 +131,7 @@ export const ListeDesRecherches = ({enCoursDeChargement, recherches}) => {
         <Divider component="li" />
       </React.Fragment>
     ))}
-    {!individus && !enCoursDeChargement && <ListItem
+    {individus?.length === 0 && !enCoursDeChargement && <ListItem
       className={classes.elementDeListe}
       ><Typography variant="body1" className={classes.elementDeListe}>Aucune recherche en cours</Typography>
     </ListItem>}

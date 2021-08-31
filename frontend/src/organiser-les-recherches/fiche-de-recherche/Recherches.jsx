@@ -1,4 +1,3 @@
-import {useStyles} from '../ListeDesRecherches';
 import {Box, Button, Hidden, ListItem} from '@material-ui/core';
 import {Skeleton} from '@material-ui/lab';
 import Typography from '@material-ui/core/Typography';
@@ -7,6 +6,7 @@ import {LigneRecherche} from './LigneRecherche';
 import Divider from '@material-ui/core/Divider';
 import React from 'react';
 import {libellePriorite} from '../priorites';
+import {useStyles} from '../../useStyles';
 
 export const Recherches = ({
   setFenetreDeSaisieDeRechercheOuverte,
