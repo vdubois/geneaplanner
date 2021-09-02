@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@thundra/core@2.12.12":
-  version "2.12.12"
-  resolved "https://registry.yarnpkg.com/@thundra/core/-/core-2.12.12.tgz#22e91efe5439dbd652d3ad4e9804639e4c9a5e58"
-  integrity sha512-T9jqKlddaaGLIc1D3THMzj1PHN0AKbmvz/ryyhxAzLmonUBRrfw0bv4stA6XM4tx4mJ2KR6n6TACdwqqxJ1PWA==
+"@thundra/core@2.12.17":
+  version "2.12.17"
+  resolved "https://registry.yarnpkg.com/@thundra/core/-/core-2.12.17.tgz#0b89fdec3a2ae02050f039435f6998647e882205"
+  integrity sha512-gtrJ0MU+CF5DGb66Og4+Iltgh5r/dsjpt7L92XibOHiaaSj/rWQQJgsidm87nixlydhM5neJhAv3Qjp7rW6mJw==
   dependencies:
     "@thundra/instrumenter" "^1.3.1"
     "@thundra/warmup" "1.0.0"
@@ -77,10 +77,10 @@ aws-sdk@^2.408.0, aws-sdk@^2.468.0:
     uuid "3.3.2"
     xml2js "0.4.19"
 
-axios@^0.20.0:
-  version "0.20.0"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.20.0.tgz#057ba30f04884694993a8cd07fa394cff11c50bd"
-  integrity sha512-ANA4rr2BDcmmAQLOKft2fufrtuvlqR+cXNNinUmvfeSNCOF98PZL+7M/v1zIdGo7OLjEA9J2gXJL+j4zGsl0bA==
+axios@^0.21.1:
+  version "0.21.1"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.1.tgz#22563481962f4d6bde9a76d516ef0e5d3c09b2b8"
+  integrity sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==
   dependencies:
     follow-redirects "^1.10.0"
 
@@ -496,12 +496,12 @@ semver@^5.5.0:
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.7.1.tgz#a954f931aeba508d307bbf069eff0c01c96116f7"
   integrity sha512-sauaDf/PZdVgrLTNYHRtpXa1iRiKcaebiKQ1BJdpQlWH2lCvexQdX55snPFyK7QzpudqbCI0qXFfOasHdyNDGQ==
 
-serverless-plugin-thundra@2.5.6:
-  version "2.5.6"
-  resolved "https://registry.yarnpkg.com/serverless-plugin-thundra/-/serverless-plugin-thundra-2.5.6.tgz#b37a5c25f3de1887f955ba4ac22d89d61f20f41d"
-  integrity sha512-MZ9h2WaJfqfy6upZAufqKk7dd9acUnT/lybmVdawliXhvZIjttqnGXj8LMqZ+3VLXajU8F2FqoK12diflzRDkw==
+serverless-plugin-thundra@2.5.9:
+  version "2.5.9"
+  resolved "https://registry.yarnpkg.com/serverless-plugin-thundra/-/serverless-plugin-thundra-2.5.9.tgz#189e084f8e6b942cf85ea4786d60e386acc51975"
+  integrity sha512-c4RizW9Wpz3qt9Wg1H9vM2czNSrsadCOrxhHQDji2iq+/dVzjfWdQ/ZdppvzWVL2TjP3lWieG93n1w8Z963C6w==
   dependencies:
-    axios "^0.20.0"
+    axios "^0.21.1"
     bluebird "^3.7.2"
     lodash.get "^4.4.2"
     lodash.isempty "^4.4.0"

@@ -1,6 +1,7 @@
 const utilisateurConnecte = require('../authentification/utilisateurConnecte');
 const {ok, unauthorized, created, badRequest, noContent} = require("aws-lambda-utils");
 const uuid = require('uuid');
+const {rechercherIndividuParIdentifiant} = require('../utilisateurs/arbre');
 const DynamoDBBuilder = require('aws-sdk-fluent-builder').DynamoDbBuilder;
 const dynamoDBRepository = new DynamoDBBuilder()
   .withTableName(process.env.TABLE_DONNEES)
@@ -15,6 +16,14 @@ module.exports.recupererLesRecherches = async event => {
   const partitionKey = `${utilisateur.email}#recherches`;
   const recherchesDeLUtilisateur = await dynamoDBRepository.findOneByPartitionKey(partitionKey);
   if (recherchesDeLUtilisateur) {
+    delete recherchesDeLUtilisateur.partitionKey;
+    const individus = Object.keys(recherchesDeLUtilisateur.recherches)
+    for (let rechercheIndex = 0; rechercheIndex < individus.length; rechercheIndex++) {
+      const individu = await rechercherIndividuParIdentifiant(
+        utilisateur.email,
+        `@${recherchesDeLUtilisateur.recherches[individus[rechercheIndex]].individu}@`);
+      recherchesDeLUtilisateur.recherches[individus[rechercheIndex]].nomDeLIndividu = individu.nom;
+    }
     return ok(recherchesDeLUtilisateur);
   }
   return ok({});
@@ -26,29 +35,28 @@ module.exports.ajouterDesRecherchesDIndividu = async event => {
     return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
   }
   if (event.body) {
-    const individu = JSON.parse(event.body);
+    const recherche = JSON.parse(event.body);
     const partitionKey = `${utilisateur.email}#recherches`;
     let recherchesDeLUtilisateur = await dynamoDBRepository.findOneByPartitionKey(partitionKey);
     if (!recherchesDeLUtilisateur) {
       recherchesDeLUtilisateur = {
         partitionKey,
-        recherches: {
-        }
+        recherches: {}
       };
-      if (!recherchesDeLUtilisateur.recherches[individu]) {
-        recherchesDeLUtilisateur.recherches[individu] = {
-          individu: individu.identifiant,
-          priorite: 'moyenne'
+      if (!recherchesDeLUtilisateur.recherches[recherche.individu.id]) {
+        recherchesDeLUtilisateur.recherches[recherche.individu.id] = {
+          ...recherche,
+          individu: recherche.individu.id,
         };
       }
     } else {
-      recherchesDeLUtilisateur.recherches[individu] = {
-        individu: individu.identifiant,
-        priorite: 'moyenne'
+      recherchesDeLUtilisateur.recherches[recherche.individu.id] = {
+        ...recherche,
+        individu: recherche.individu.id,
       };
     }
     await dynamoDBRepository.save(recherchesDeLUtilisateur);
-    return created(individu);
+    return created(recherche);
   }
   return badRequest('Les informations de l\'individu sont obligatoires');
 }
@@ -81,16 +89,19 @@ module.exports.ajouterUneNoteAUnIndividu = async event => {
     if (!recherchesDeLUtilisateur) {
       recherchesDeLUtilisateur = {
         partitionKey,
-        recherches: {
-        }
+        recherches: {}
       };
-      if (!recherchesDeLUtilisateur.recherches[event.pathParameters.individu]) {
+    } else {
+      if (recherchesDeLUtilisateur.recherches[event.pathParameters.individu]
+        && !recherchesDeLUtilisateur.recherches[event.pathParameters.individu].notes
+      ) {
         recherchesDeLUtilisateur.recherches[event.pathParameters.individu] = {
+          ...recherchesDeLUtilisateur.recherches[event.pathParameters.individu],
           notes: [note]
         };
+      } else if (recherchesDeLUtilisateur.recherches[event.pathParameters.individu].notes) {
+        recherchesDeLUtilisateur.recherches[event.pathParameters.individu].notes.push(note);
       }
-    } else {
-      recherchesDeLUtilisateur.recherches[event.pathParameters.individu].notes.push(note);
     }
     await dynamoDBRepository.save(recherchesDeLUtilisateur);
     return created(note);
@@ -111,21 +122,23 @@ module.exports.ajouterUneRechercheAUnIndividu = async event => {
     if (!recherchesDeLIndividu) {
       recherchesDeLIndividu = {
         partitionKey,
-        recherches: {
-        }
+        recherches: {}
       };
-      if (!recherchesDeLIndividu.recherches[event.pathParameters.individu]) {
+    } else {
+      if (recherchesDeLIndividu.recherches[event.pathParameters.individu]
+        && !recherchesDeLIndividu.recherches[event.pathParameters.individu].recherches) {
         recherchesDeLIndividu.recherches[event.pathParameters.individu] = {
+          ...recherchesDeLIndividu.recherches[event.pathParameters.individu],
           recherches: [recherche]
         };
+      } else if (recherchesDeLIndividu.recherches[event.pathParameters.individu].recherches) {
+        recherchesDeLIndividu.recherches[event.pathParameters.individu].recherches.push(recherche);
       }
-    } else {
-      recherchesDeLIndividu.recherches[event.pathParameters.individu].recherches.push(recherche);
     }
     await dynamoDBRepository.save(recherchesDeLIndividu);
     return created(recherche);
   }
-  return badRequest('Les informations de la note sont obligatoires');
+  return badRequest('Les informations de la recherche sont obligatoires');
 }
 
 module.exports.supprimerUneNoteDUnIndividu = async event => {

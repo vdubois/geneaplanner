@@ -14,35 +14,38 @@ import {
 } from "@material-ui/core";
 import {Autocomplete} from "@material-ui/lab";
 import React, {useState} from "react";
-import './FenetreDeSaisie.css';
-import {useAjouterCorrection} from "../api/corrections.hooks";
-import {raisons} from "./raisons";
-import {Erreur} from "../components/Erreur";
+import './FenetreDeSaisieDeRegistre.css';
+import {Erreur} from "../../components/Erreur";
+import {useAjouterRegistreAuxArchives} from '../../api/archives.hooks';
+import {evenements} from '../evenements';
 
-export const FenetreDeSaisie = ({ouverte, fermer, individus}) => {
+export const FenetreDeSaisieDeRegistre = ({ouverte, fermer, individus, archives}) => {
     const [individu, setIndividu] = useState('');
-    const [raison, setRaison] = useState('');
-    const [description, setDescription] = useState('');
+    const [evenement, setEvenement] = useState('');
+    const [reference, setReference] = useState('');
+    const [commentaire, setCommentaire] = useState('');
     const [enCoursDeValidation, setEnCoursDeValidation] = useState(false);
     const [erreur, setErreur] = useState();
 
-    const formulairePasComplet = !individu || !raison || !description;
+    const formulairePasComplet = !individu || !evenement || !reference || !commentaire;
 
-    const ajouterCorrection = useAjouterCorrection();
+    const ajouterRegistre = useAjouterRegistreAuxArchives(archives);
 
     const viderLesChamps = () => {
         setIndividu('');
-        setRaison('');
-        setDescription('');
+        setEvenement('');
+        setReference('');
+        setCommentaire('');
     };
 
-    const ajouterLaCorrection = async () => {
+    const ajouterLeRegistre = async () => {
         try {
             setEnCoursDeValidation(true);
-            await ajouterCorrection({
+            await ajouterRegistre({
                 individu,
-                raison,
-                description
+                evenement,
+                reference,
+                commentaire
             });
             viderLesChamps();
             fermer();
@@ -58,11 +61,10 @@ export const FenetreDeSaisie = ({ouverte, fermer, individus}) => {
         onClose={fermer}
         maxWidth="sm"
         aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Ajout d'une correction</DialogTitle>
+        <DialogTitle id="form-dialog-title">Ajout d'un registre</DialogTitle>
         <DialogContent>
             <DialogContentText>
-                Veuillez remplir les champs obligatoires ci-dessous afin de renseigner la correction à apporter à
-                l'arbre généalogique.
+                Veuillez remplir les champs obligatoires ci-dessous afin de renseigner le registre à consulter aux archives.
             </DialogContentText>
             <Autocomplete
                 margin="dense"
@@ -83,14 +85,14 @@ export const FenetreDeSaisie = ({ouverte, fermer, individus}) => {
             />
             <FormControl variant="outlined" className="ChampFenetreDeSaisie" fullWidth>
                 <InputLabel
-                    id="demo-simple-select-label">Raison *</InputLabel>
+                    id="demo-simple-select-label">Ev&eacute;nement *</InputLabel>
                 <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    onChange={event => setRaison(event.target.value)}
+                    onChange={event => setEvenement(event.target.value)}
                     variant="outlined"
-                    value={raison}
-                    label="Raison *"
+                    value={evenement}
+                    label="Ev&eacute;nement *"
                     MenuProps={
                         {
                             getContentAnchorEl: null,
@@ -101,22 +103,22 @@ export const FenetreDeSaisie = ({ouverte, fermer, individus}) => {
                         }
                     }
                 >
-                    {raisons.map(raison => (
+                    {evenements.map(evenement => (
                         <MenuItem
-                            key={raison.identifiant}
-                            value={raison.identifiant}>{raison.texte}</MenuItem>
+                            key={evenement.identifiant}
+                            value={evenement.identifiant}>{evenement.texte}</MenuItem>
                     ))}
                 </Select>
             </FormControl>
             <FormControl className="ChampFenetreDeSaisie" fullWidth>
                 <TextField
-                    placeholder="Description *"
+                    placeholder="Commentaire *"
                     multiline
                     rows={4}
                     maxRows={4}
                     variant="outlined"
-                    value={description}
-                    onChange={event => setDescription(event.target.value)}
+                    value={commentaire}
+                    onChange={event => setCommentaire(event.target.value)}
                 />
             </FormControl>
         </DialogContent>
@@ -132,7 +134,7 @@ export const FenetreDeSaisie = ({ouverte, fermer, individus}) => {
                 Annuler
             </Button>
             <Button
-                onClick={ajouterLaCorrection}
+                onClick={ajouterLeRegistre}
                 color="primary"
                 variant="contained"
                 disabled={formulairePasComplet || enCoursDeValidation}

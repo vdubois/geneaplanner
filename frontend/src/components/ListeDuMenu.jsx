@@ -16,7 +16,10 @@ export const ListeDuMenu = ({close}) => {
             <div className={classes.toolbar} />
             <Divider />
             <List>
-                <ListItem button>
+                <ListItem button onClick={() => {
+                    history.push('/organiser-les-recherches');
+                    close();
+                }}>
                     <ListItemIcon><Assignment /></ListItemIcon>
                     <ListItemText primary="Organisation de vos recherches" />
                 </ListItem>
@@ -27,9 +30,12 @@ export const ListeDuMenu = ({close}) => {
                     <ListItemIcon><AssignmentTurnedIn /></ListItemIcon>
                     <ListItemText primary="Apporter des corrections" />
                 </ListItem>
-                <ListItem button>
+                <ListItem button onClick={() => {
+                    history.push("/preparer-passage-aux-archives");
+                    close();
+                }}>
                     <ListItemIcon><MenuBook /></ListItemIcon>
-                    <ListItemText primary="Préparer votre passage aux archives" />
+                    <ListItemText primary="Recherches aux archives" />
                 </ListItem>
                 <ListItem button>
                     <ListItemIcon><PersonPin /></ListItemIcon>

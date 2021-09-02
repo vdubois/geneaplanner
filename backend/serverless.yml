@@ -15,7 +15,7 @@ provider:
   environment:
     BUCKET_FICHIERS_GEDCOM: geneaplanner-${opt:stage, self:provider.stage}-fichiers-gedcom
     TABLE_DONNEES: geneaplanner-${opt:stage, self:provider.stage}-donnees
-    thundra_apiKey: THUNDRAAPIKEY
+    thundra_apiKey: b82e96d9-0c95-4b6c-b6d0-41e8d623d888
   httpApi:
     cors:
       allowedHeaders:
@@ -114,6 +114,14 @@ functions:
           method: get
           authorizer:
             name: accessTokenAuth0
+  details-individu:
+    handler: src/utilisateurs/arbre.rechercherParIdentifiant
+    events:
+      - httpApi:
+          path: /arbres/{identifiant}/individus/{individu}
+          method: get
+          authorizer:
+            name: accessTokenAuth0
   recuperation-corrections:
     handler: src/corrections/corrections.recupererLesCorrections
     events:
@@ -192,5 +200,53 @@ functions:
       - httpApi:
           path: /utilisateurs/{identifiant}/recherches/{individu}/recherches/{recherche}
           method: delete
+          authorizer:
+            name: accessTokenAuth0
+  recuperation-archives:
+    handler: src/archives/archives.recupererLesArchives
+    events:
+      - httpApi:
+          path: /utilisateurs/{identifiant}/archives
+          method: get
+          authorizer:
+            name: accessTokenAuth0
+  ajout-archive:
+    handler: src/archives/archives.ajouterUneArchive
+    events:
+      - httpApi:
+          path: /utilisateurs/{identifiant}/archives
+          method: post
+          authorizer:
+            name: accessTokenAuth0
+  modification-archive:
+    handler: src/archives/archives.modifierLeLibelleDUneArchive
+    events:
+      - httpApi:
+          path: /utilisateurs/{identifiant}/archives/{identifiantArchive}
+          method: put
+          authorizer:
+            name: accessTokenAuth0
+  suppression-archive:
+    handler: src/archives/archives.supprimerUneArchive
+    events:
+      - httpApi:
+          path: /utilisateurs/{identifiant}/archives/{identifiantArchive}
+          method: delete
+          authorizer:
+            name: accessTokenAuth0
+  recuperation-archive:
+    handler: src/archives/archives.recupererUneArchive
+    events:
+      - httpApi:
+          path: /utilisateurs/{identifiant}/archives/{identifiantArchive}
+          method: get
+          authorizer:
+            name: accessTokenAuth0
+  ajout-registre:
+    handler: src/archives/archives.ajouterRegistreAuxArchives
+    events:
+      - httpApi:
+          path: /utilisateurs/{identifiant}/archives/{identifiantArchive}/registres
+          method: post
           authorizer:
             name: accessTokenAuth0

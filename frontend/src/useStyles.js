@@ -1,4 +1,4 @@
-import {fade, makeStyles} from "@material-ui/core";
+import {alpha, makeStyles} from "@material-ui/core";
 
 const drawerWidth = 240;
 
@@ -26,6 +26,8 @@ export const useStyles = makeStyles((theme) => ({
         flexShrink: 0,
     },
     appBar: {
+        backgroundColor: '#F46912 !important',
+        color: '#fff !important'
     },
     menuButton: {
         marginRight: theme.spacing(2) + ' !important',
@@ -47,9 +49,9 @@ export const useStyles = makeStyles((theme) => ({
     search: {
         position: 'relative',
         borderRadius: theme.shape.borderRadius,
-        backgroundColor: fade(theme.palette.common.white, 0.15),
+        backgroundColor: alpha(theme.palette.common.white, 0.15),
         '&:hover': {
-            backgroundColor: fade(theme.palette.common.white, 0.25),
+            backgroundColor: alpha(theme.palette.common.white, 0.25),
         },
         marginRight: theme.spacing(2),
         marginLeft: 10,
@@ -79,6 +81,24 @@ export const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.up('md')]: {
             width: '20ch',
         },
-    }
+    },
+    fab: {
+        position: 'absolute',
+        bottom: theme.spacing(2),
+        right: theme.spacing(2),
+    },
+    liste: {
+        marginTop: theme.spacing(2),
+    },
+    elementDeListe: {
+        minHeight: theme.spacing(7),
+        display: 'flex',
+        alignItems: 'center'
+    },
+    speedDial: {
+        position: 'absolute',
+        bottom: theme.spacing(2),
+        right: theme.spacing(2),
+    },
 }));
 

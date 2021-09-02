@@ -5,7 +5,7 @@ import React from "react";
 
 export const AucuneCorrection = ({setFenetreDeSaisieOuverte}) => {
     return <div className="AucuneCorrection">
-        <Typography variant="body1" className="AucuneCorrectionTexte">Vous n'avez aucune correction en cours</Typography>
+        <Typography variant="h6" className="AucuneCorrectionTexte">Vous n'avez aucune correction en cours</Typography>
         <Button
             variant="contained"
             color="primary"
