@@ -84,7 +84,7 @@ export const FenetreDeSaisieDeRecherche = ({ouverte, fermer, identifiantIndividu
           placeholder="Commentaire *"
           multiline
           rows={4}
-          rowsMax={4}
+          maxRows={4}
           variant="outlined"
           value={commentaire}
           onChange={event => setCommentaire(event.target.value)}

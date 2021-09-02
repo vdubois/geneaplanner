@@ -55,7 +55,7 @@ export const FenetreDeSaisieDeNote = ({ouverte, fermer, identifiantIndividu}) =>
           placeholder="Contenu *"
           multiline
           rows={4}
-          rowsMax={4}
+          maxRows={4}
           variant="outlined"
           value={contenu}
           onChange={event => setContenu(event.target.value)}

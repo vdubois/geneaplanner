@@ -113,7 +113,7 @@ export const FenetreDeSaisie = ({ouverte, fermer, individus}) => {
                     placeholder="Description *"
                     multiline
                     rows={4}
-                    rowsMax={4}
+                    maxRows={4}
                     variant="outlined"
                     value={description}
                     onChange={event => setDescription(event.target.value)}

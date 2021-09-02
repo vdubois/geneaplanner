@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Container, Fab} from '@material-ui/core';
+import {Box, Button, Container} from '@material-ui/core';
 import './PreparationPassageAuxArchives.css';
 import Typography from '@material-ui/core/Typography';
 import {useArchives} from '../api/archives.hooks';
@@ -20,6 +20,13 @@ export const PreparationPassageAuxArchives = () => {
     return <>
         <Container maxWidth="lg" className="PreparationPassageAuxArchives">
             <Typography variant="h4" className="OrganisationDesRecherchesTitre">Recherches aux archives</Typography>
+            <Box display="flex" justifyContent="flex-end">
+                <Button
+                  startIcon={<Add/>}
+                  variant="contained"
+                  color="primary"
+                  onClick={() => setFenetreDeSaisieOuverte(true)}>Ajouter</Button>
+            </Box>
             <ListeDesArchives
                 enCoursDeChargement={archivesEnCoursDeChargement}
                 archives={archives}
@@ -30,15 +37,5 @@ export const PreparationPassageAuxArchives = () => {
           fermer={() => setFenetreDeSaisieOuverte(false)}
         />
         {archivesEnErreur && <Erreur message={archivesEnErreur.message}/>}
-        <Fab
-          variant="extended"
-          size="medium"
-          color="primary"
-          className={classes.fab}
-          onClick={() => setFenetreDeSaisieOuverte(true)}
-        >
-            <Add />
-            Ajouter
-        </Fab>
     </>;
 }

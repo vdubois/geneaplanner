@@ -115,7 +115,7 @@ export const FenetreDeSaisieDeRegistre = ({ouverte, fermer, individus, archives}
                     placeholder="Commentaire *"
                     multiline
                     rows={4}
-                    rowsMax={4}
+                    maxRows={4}
                     variant="outlined"
                     value={commentaire}
                     onChange={event => setCommentaire(event.target.value)}

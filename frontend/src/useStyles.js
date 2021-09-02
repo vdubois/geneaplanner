@@ -95,5 +95,10 @@ export const useStyles = makeStyles((theme) => ({
         display: 'flex',
         alignItems: 'center'
     },
+    speedDial: {
+        position: 'absolute',
+        bottom: theme.spacing(2),
+        right: theme.spacing(2),
+    },
 }));
 
