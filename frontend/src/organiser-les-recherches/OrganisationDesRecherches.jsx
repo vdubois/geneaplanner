@@ -8,7 +8,6 @@ import {FenetreDeSaisieDeRecherche} from './FenetreDeSaisieDeRecherche';
 import {useIndividus} from '../api/arbres.hooks';
 import {ListeDesRecherches} from './ListeDesRecherches';
 import {Add} from '@material-ui/icons';
-import {useStyles} from '../useStyles';
 import {useAuth0} from '@auth0/auth0-react';
 
 export const OrganisationDesRecherches = () => {
@@ -17,7 +16,6 @@ export const OrganisationDesRecherches = () => {
   const {individusEnCoursDeChargement, individusEnErreur, individus} = useIndividus(isAuthenticated);
 
   const [fenetreDeSaisieOuverte, setFenetreDeSaisieOuverte] = useState(false);
-  const classes = useStyles();
 
   return <>
     <Container maxWidth="lg" className="OrganisationDesRecherches">
