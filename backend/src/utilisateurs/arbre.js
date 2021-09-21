@@ -17,7 +17,7 @@ module.exports.charger = async event => {
   const individus = arbre.getIndividualRecord();
   await espaceDeStockageDesFichiersGEDCOM.writeFile(`${utilisateur.email}.ged`, fichierGEDCOM);
   return ok({
-    individus: individus.count()
+    individus: individus.length
   });
 };
 
@@ -31,9 +31,9 @@ module.exports.rechercher = async event => {
     if (fichierArbre) {
       const arbre = gedcom.readGedcom(fichierArbre);
       const individus = arbre.getIndividualRecord();
-      const detailIndividus = individus.array().map(individu => ({
-        id: individu._data.tree[0].pointer.replace(/@/g, ''),
-        nom: individu.getName().valueAsParts().values[0].join(' ')
+      const detailIndividus = individus.arraySelect().map(individu => ({
+        id: individu.pointer().map(s => s !== null ? s.replace(/@/g, '') : undefined)[0],
+        nom: individu.getName().valueAsParts().map(s => s !== null ? s.filter(s => !!s).join(' ') : undefined)[0]
       }));
       return ok(detailIndividus);
     }
@@ -43,30 +43,28 @@ module.exports.rechercher = async event => {
 }
 
 const evenementPersonnel = (individu, typeDeLEvenement) => {
-  const evenementDeLIndividu = individu[`getEvent${typeDeLEvenement}`].apply(individu);
-  const evenementPresent = evenementDeLIndividu._data.tree.length > 0;
+  const evenementDeLIndividu = individu.get(typeDeLEvenement).as(gedcom.SelectionIndividualEvent);
+  const evenementPresent = evenementDeLIndividu.length > 0;
   if (evenementPresent) {
-    const detailsDeLEvenement = evenementDeLIndividu._data.tree[0].children;
-    const lieuDeLEvenement = detailsDeLEvenement.find(element => element.tag === 'PLAC');
-    const dateDeLEvenement = detailsDeLEvenement.find(element => element.tag === 'DATE');
+    const lieuDeLEvenement = evenementDeLIndividu.getPlace().value()[0];
+    const dateDeLEvenement = evenementDeLIndividu.getDate().value()[0];
     return {
-      date: dateDeLEvenement.value,
-      lieu: lieuDeLEvenement ? lieuDeLEvenement.value : undefined
+      date: dateDeLEvenement,
+      lieu: lieuDeLEvenement
     }
   }
 };
 
 const evenementFamilial = (individu, typeDeLEvenement) => {
-  const evenementDeLIndividu = individu.getFamilyAsSpouse();
-  const evenementPresent = evenementDeLIndividu._data.tree.length > 0
-    && evenementDeLIndividu._data.tree[0].children.find(element => element.tag === typeDeLEvenement) !== undefined;
+  const familleDeLIndividu = individu.getFamilyAsSpouse();
+  const evenementDeLIndividu = familleDeLIndividu.get(typeDeLEvenement).as(gedcom.SelectionFamilyEvent);
+  const evenementPresent = evenementDeLIndividu.length > 0;
   if (evenementPresent) {
-    const detailsDeLEvenement = evenementDeLIndividu._data.tree[0].children.find(element => element.tag === typeDeLEvenement).children;
-    const lieuDeLEvenement = detailsDeLEvenement.find(element => element.tag === 'PLAC');
-    const dateDeLEvenement = detailsDeLEvenement.find(element => element.tag === 'DATE');
+    const lieuDeLEvenement = evenementDeLIndividu.getPlace().value()[0];
+    const dateDeLEvenement = evenementDeLIndividu.getDate().value()[0];
     return {
-      date: dateDeLEvenement ? dateDeLEvenement.value : undefined,
-      lieu: lieuDeLEvenement ? lieuDeLEvenement.value : undefined
+      date: dateDeLEvenement,
+      lieu: lieuDeLEvenement
     }
   }
 };
@@ -78,12 +76,12 @@ const rechercherIndividuParIdentifiant = async (emailUtilisateur, identifiantInd
     const individu = arbre.getIndividualRecord(identifiantIndividu);
     return {
       id: identifiantIndividu.replace(/@/g, ''),
-      nom: individu.getName().valueAsParts().values.join().replace(/,/g, ''),
-      naissance: evenementPersonnel(individu, 'Birth'),
-      bapteme: evenementPersonnel(individu, 'Baptism'),
-      deces: evenementPersonnel(individu, 'Death'),
-      fiancailles: evenementFamilial(individu, 'ENGA'),
-      mariage: evenementFamilial(individu, 'MARR')
+      nom: individu.getName().valueAsParts().map(s => s !== null ? s.filter(s => !!s).join(' ') : undefined)[0],
+      naissance: evenementPersonnel(individu, gedcom.Tag.Birth),
+      bapteme: evenementPersonnel(individu, gedcom.Tag.Baptism),
+      deces: evenementPersonnel(individu, gedcom.Tag.Death),
+      fiancailles: evenementFamilial(individu, gedcom.Tag.Engagement),
+      mariage: evenementFamilial(individu, gedcom.Tag.Marriage)
     };
   } else {
     throw new Error(`L'individu d'identifiant ${identifiantIndividu} n'existe pas`);

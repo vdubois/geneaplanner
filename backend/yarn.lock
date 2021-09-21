@@ -453,10 +453,10 @@ querystring@0.2.0:
   resolved "https://registry.yarnpkg.com/querystring/-/querystring-0.2.0.tgz#b209849203bb25df820da756e747005878521620"
   integrity sha1-sgmEkgO7Jd+CDadW50cAWHhSFiA=
 
-read-gedcom@0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/read-gedcom/-/read-gedcom-0.1.2.tgz#c1e7a1ced8b600bc5e02af7db2e72a731c0dab2c"
-  integrity sha512-vzYdmrnwFtnulu09HEINqxy0ujMbxQQtluGN4ZsB/PoVM1eNDy6I6r9KE8KZ0zK0R2JzD2NVJ56n0YsP8xElPg==
+read-gedcom@0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/read-gedcom/-/read-gedcom-0.3.1.tgz#982aa85e771a41b4efd5166087a69eb4a1cf7314"
+  integrity sha512-qLKR3XzMC67+6bFhzNGQDZqsMv8nKoguS76WjnBn9CDD12hLnYcBssLiQs5A+5MfANbkCrUeU23baY+aT1Uo0A==
 
 require-in-the-middle@^3.1.0:
   version "3.1.0"
