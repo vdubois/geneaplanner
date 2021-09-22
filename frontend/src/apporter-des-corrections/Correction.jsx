@@ -1,15 +1,15 @@
 import {
-    Accordion,
-    AccordionActions,
-    AccordionDetails,
-    AccordionSummary,
-    Button,
-    Chip,
-    CircularProgress,
-    Divider
-} from "@material-ui/core";
-import {ExpandMore} from "@material-ui/icons";
-import Typography from "@material-ui/core/Typography";
+  Accordion,
+  AccordionActions,
+  AccordionDetails,
+  AccordionSummary,
+  Button,
+  Chip,
+  CircularProgress,
+  Divider
+} from "@mui/material";
+import {ExpandMore} from "@mui/icons-material";
+import Typography from "@mui/material/Typography";
 import {couleurRaison, texteRaison} from "./raisons";
 import React, {useState} from "react";
 import {useStyles} from "../useStyles";

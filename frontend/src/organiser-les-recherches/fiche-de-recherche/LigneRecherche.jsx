@@ -1,6 +1,6 @@
-import {Box, Grid, IconButton} from '@material-ui/core';
+import {Box, Grid, IconButton} from '@mui/material';
 import React from 'react';
-import {Delete} from '@material-ui/icons';
+import {Delete} from '@mui/icons-material';
 import {useSupprimerRechercheDIndividu} from '../../api/recherches.hooks';
 
 export const LigneRecherche = ({

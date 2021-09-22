@@ -1,11 +1,11 @@
 import React from 'react';
-import Divider from "@material-ui/core/Divider";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText/ListItemText";
+import Divider from "@mui/material/Divider";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemIcon from "@mui/material/ListItemIcon/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText/ListItemText";
 import {useStyles} from "../useStyles";
-import {Assignment, AssignmentTurnedIn, MenuBook, PersonPin, Publish} from "@material-ui/icons";
+import {Assignment, AssignmentTurnedIn, MenuBook, PersonPin, Publish} from "@mui/icons-material";
 import {useHistory} from "react-router-dom";
 
 export const ListeDuMenu = ({close}) => {

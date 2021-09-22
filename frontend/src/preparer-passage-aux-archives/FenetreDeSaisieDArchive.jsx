@@ -9,7 +9,7 @@ import {
   DialogTitle,
   FormControl,
   TextField
-} from '@material-ui/core';
+} from '@mui/material';
 import {Erreur} from '../components/Erreur';
 import {useAjouterArchive} from '../api/archives.hooks';
 

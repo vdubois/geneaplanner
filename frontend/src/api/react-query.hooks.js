@@ -56,7 +56,7 @@ const useMutationWithAuth = (method, serviceUrl, queriesToInvalidate = []) => {
       const json = await response.json();
       throw new Error(json.message);
     }
-    if (!response.status === 204) {
+    if (response.status !== 204) {
       return response.json();
     }
   }, {

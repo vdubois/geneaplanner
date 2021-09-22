@@ -1,9 +1,8 @@
 import {useHistory, useParams} from 'react-router-dom';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 import React, {useEffect, useState} from 'react';
-import {Box, Container, Fab} from '@material-ui/core';
+import {Box, Container, Fab, Skeleton} from '@mui/material';
 import {useIndividu} from '../../api/arbres.hooks';
-import {Skeleton} from '@material-ui/lab';
 import {LigneDeVie} from './LigneDeVie';
 import {RetourALaListeDesRecherches} from './RetourALaListeDesRecherches';
 import {FenetreDeSaisieDeRecherche} from './FenetreDeSaisieDeRecherche';
@@ -11,7 +10,7 @@ import {FenetreDeSaisieDeNote} from './FenetreDeSaisieDeNote';
 import {useRecherches, useSupprimerRecherche} from '../../api/recherches.hooks';
 import {Recherches} from './Recherches';
 import {Notes} from './Notes';
-import {Done} from '@material-ui/icons';
+import {Done} from '@mui/icons-material';
 import {useStyles} from '../../useStyles';
 
 export const FicheDeRecherche = () => {

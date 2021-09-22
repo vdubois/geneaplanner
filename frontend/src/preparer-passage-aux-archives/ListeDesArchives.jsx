@@ -1,14 +1,13 @@
 import {useStyles} from '../useStyles';
 import {useHistory} from 'react-router-dom';
-import {Hidden, ListItem} from '@material-ui/core';
-import Typography from '@material-ui/core/Typography';
+import {Hidden, ListItem, Skeleton} from '@mui/material';
+import Typography from '@mui/material/Typography';
 import {MarqueurDeSelection} from '../components/MarqueurDeSelection';
-import Divider from '@material-ui/core/Divider';
+import Divider from '@mui/material/Divider';
 import React from 'react';
-import List from '@material-ui/core/List';
+import List from '@mui/material/List';
 import {Archive} from './Archive';
-import {Skeleton} from '@material-ui/lab';
-import {ChevronRight} from '@material-ui/icons';
+import {ChevronRight} from '@mui/icons-material';
 
 const SQUELETTES = Array.from(
   {length: 5},

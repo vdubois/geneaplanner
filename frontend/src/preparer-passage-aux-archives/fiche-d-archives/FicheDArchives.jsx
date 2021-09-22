@@ -1,11 +1,10 @@
 import {useHistory, useParams} from 'react-router-dom';
-import Typography from '@material-ui/core/Typography';
-import {Skeleton} from '@material-ui/lab';
+import Typography from '@mui/material/Typography';
+import {Box, Button, CircularProgress, Container, Skeleton} from '@mui/material';
 import React, {useState} from 'react';
-import {Box, Button, CircularProgress, Container} from '@material-ui/core';
 import {RetourALaListeDesArchives} from './RetourALaListeDesArchives';
 import {useDetailArchives, useSupprimerArchive} from '../../api/archives.hooks';
-import {Add, Done} from '@material-ui/icons';
+import {Add, Done} from '@mui/icons-material';
 import {useStyles} from '../../useStyles';
 import {useAuth0} from '@auth0/auth0-react';
 import {useIndividus} from '../../api/arbres.hooks';

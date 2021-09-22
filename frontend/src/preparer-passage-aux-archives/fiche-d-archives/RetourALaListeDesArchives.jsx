@@ -1,7 +1,7 @@
 import React from 'react';
-import {ChevronLeft} from '@material-ui/icons';
+import {ChevronLeft} from '@mui/icons-material';
 import {useHistory} from 'react-router-dom';
-import {Button} from '@material-ui/core';
+import {Button} from '@mui/material';
 
 export const RetourALaListeDesArchives = () => {
   const history = useHistory()

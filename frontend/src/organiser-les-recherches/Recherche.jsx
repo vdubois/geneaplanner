@@ -1,4 +1,4 @@
-import {Badge, Box, Grid, Hidden} from '@material-ui/core';
+import {Badge, Box, Grid, Hidden} from '@mui/material';
 import React from 'react';
 
 export const Recherche = ({

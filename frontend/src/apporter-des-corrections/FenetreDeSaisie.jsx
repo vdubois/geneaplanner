@@ -1,4 +1,5 @@
 import {
+    Autocomplete,
     Button,
     CircularProgress,
     Dialog,
@@ -11,8 +12,7 @@ import {
     MenuItem,
     Select,
     TextField
-} from "@material-ui/core";
-import {Autocomplete} from "@material-ui/lab";
+} from "@mui/material";
 import React, {useState} from "react";
 import './FenetreDeSaisie.css';
 import {useAjouterCorrection} from "../api/corrections.hooks";
@@ -65,11 +65,11 @@ export const FenetreDeSaisie = ({ouverte, fermer, individus}) => {
                 l'arbre généalogique.
             </DialogContentText>
             <Autocomplete
+              disablePortal
                 margin="dense"
                 id="combo-box-demo"
                 options={individus}
-                getOptionLabel={individu => individu ? individu.nom : ''}
-                getOptionSelected={(option, value) => option.id === value.id}
+                getOptionLabel={individu => individu ? `${individu.nom}(${individu.id})` : ''}
                 noOptionsText="Aucun individu ne correspond"
                 fullWidth
                 clearText="Effacer"
@@ -91,15 +91,6 @@ export const FenetreDeSaisie = ({ouverte, fermer, individus}) => {
                     variant="outlined"
                     value={raison}
                     label="Raison *"
-                    MenuProps={
-                        {
-                            getContentAnchorEl: null,
-                            anchorOrigin: {
-                                vertical: 'bottom',
-                                horizontal: 'left',
-                            }
-                        }
-                    }
                 >
                     {raisons.map(raison => (
                         <MenuItem
@@ -113,7 +104,6 @@ export const FenetreDeSaisie = ({ouverte, fermer, individus}) => {
                     placeholder="Description *"
                     multiline
                     rows={4}
-                    maxRows={4}
                     variant="outlined"
                     value={description}
                     onChange={event => setDescription(event.target.value)}

@@ -1,6 +1,6 @@
 import React from 'react';
-import Toolbar from "@material-ui/core/Toolbar";
-import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import AppBar from "@mui/material/AppBar";
 import {useStyles} from "../useStyles";
 import './BarreDeNavigation.css';
 import {BoutonMenu} from "./BoutonMenu";

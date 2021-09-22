@@ -1,8 +1,8 @@
-import Drawer from "@material-ui/core/Drawer";
+import Drawer from "@mui/material/Drawer";
 import {ListeDuMenu} from "./ListeDuMenu";
 import React from "react";
 import {useStyles} from "../useStyles";
-import {useTheme} from "@material-ui/core/styles";
+import {useTheme} from "@mui/material/styles";
 
 export const AppMenu = (props) => {
     const classes = useStyles();

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import CssBaseline from '@mui/material/CssBaseline';
 import './App.css';
 import {useStyles} from "./useStyles";
 import {AppMenu} from "./components/AppMenu";
