@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import Typography from '@material-ui/core/Typography';
-import {Container} from "@material-ui/core";
+import Typography from '@mui/material/Typography';
+import {Container} from "@mui/material";
 import './ApportDeCorrections.css';
 import {CorrectionsEnCoursDeChargement} from "./CorrectionsEnCoursDeChargement";
 import {AucuneCorrection} from "./AucuneCorrection";

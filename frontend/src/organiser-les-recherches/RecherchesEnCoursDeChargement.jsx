@@ -1,5 +1,5 @@
-import {CircularProgress} from '@material-ui/core';
-import Typography from '@material-ui/core/Typography';
+import {CircularProgress} from '@mui/material';
+import Typography from '@mui/material/Typography';
 import React from 'react';
 
 export const RecherchesEnCoursDeChargement = () => {

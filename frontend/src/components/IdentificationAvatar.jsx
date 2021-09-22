@@ -1,7 +1,7 @@
-import {Avatar, CircularProgress, Tooltip} from "@material-ui/core";
-import IconButton from "@material-ui/core/IconButton";
-import Menu from "@material-ui/core/Menu/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
+import {Avatar, CircularProgress, Tooltip} from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import Menu from "@mui/material/Menu/Menu";
+import MenuItem from "@mui/material/MenuItem";
 import React, {useEffect, useState} from "react";
 import {useAuth0} from "@auth0/auth0-react";
 
@@ -57,7 +57,6 @@ export const IdentificationAvatar = () => {
                             vertical: 'bottom',
                             horizontal: 'right',
                         }}
-                        getContentAnchorEl={null}
                         keepMounted
                         open={menuAvatarEstOuvert}
                         onClose={fermerMenuAvatar}

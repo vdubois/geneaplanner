@@ -1,5 +1,5 @@
-import {Button} from "@material-ui/core";
-import {Add} from "@material-ui/icons";
+import {Button} from "@mui/material";
+import {Add} from "@mui/icons-material";
 import React from "react";
 import './ListeDesCorrections.css';
 import {Correction} from "./Correction";

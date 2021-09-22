@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {
+  Autocomplete,
   Button,
   CircularProgress,
   Dialog,
@@ -12,8 +13,7 @@ import {
   MenuItem,
   Select,
   TextField
-} from '@material-ui/core';
-import {Autocomplete} from '@material-ui/lab';
+} from '@mui/material';
 import {Erreur} from '../components/Erreur';
 import {priorites} from './priorites';
 import {useAjouterRecherche} from '../api/recherches.hooks';
@@ -61,8 +61,7 @@ export const FenetreDeSaisieDeRecherche = ({ouverte, fermer, individus}) => {
       <Autocomplete
         margin="dense"
         options={individus}
-        getOptionLabel={individu => individu ? individu.nom : ''}
-        getOptionSelected={(option, value) => option.id === value.id}
+        getOptionLabel={individu => individu ? `${individu.nom}(${individu.id})` : ''}
         noOptionsText="Aucun individu ne correspond"
         fullWidth
         clearText="Effacer"
@@ -84,15 +83,6 @@ export const FenetreDeSaisieDeRecherche = ({ouverte, fermer, individus}) => {
           variant="outlined"
           value={priorite}
           label="Priorit&eacute; *"
-          MenuProps={
-            {
-              getContentAnchorEl: null,
-              anchorOrigin: {
-                vertical: 'bottom',
-                horizontal: 'left',
-              }
-            }
-          }
         >
           {priorites.map(priorite => (
             <MenuItem

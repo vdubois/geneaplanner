@@ -1,4 +1,5 @@
 import {
+    Autocomplete,
     Button,
     CircularProgress,
     Dialog,
@@ -11,8 +12,7 @@ import {
     MenuItem,
     Select,
     TextField
-} from "@material-ui/core";
-import {Autocomplete} from "@material-ui/lab";
+} from "@mui/material";
 import React, {useState} from "react";
 import './FenetreDeSaisieDeRegistre.css';
 import {Erreur} from "../../components/Erreur";
@@ -67,11 +67,9 @@ export const FenetreDeSaisieDeRegistre = ({ouverte, fermer, individus, archives}
                 Veuillez remplir les champs obligatoires ci-dessous afin de renseigner le registre à consulter aux archives.
             </DialogContentText>
             <Autocomplete
-                margin="dense"
                 id="combo-box-demo"
                 options={individus}
-                getOptionLabel={individu => individu ? individu.nom : ''}
-                getOptionSelected={(option, value) => option.id === value.id}
+                getOptionLabel={individu => individu ? `${individu.nom}(${individu.id})` : ''}
                 noOptionsText="Aucun individu ne correspond"
                 fullWidth
                 clearText="Effacer"
@@ -93,15 +91,6 @@ export const FenetreDeSaisieDeRegistre = ({ouverte, fermer, individus, archives}
                     variant="outlined"
                     value={evenement}
                     label="Ev&eacute;nement *"
-                    MenuProps={
-                        {
-                            getContentAnchorEl: null,
-                            anchorOrigin: {
-                                vertical: 'bottom',
-                                horizontal: 'left',
-                            }
-                        }
-                    }
                 >
                     {evenements.map(evenement => (
                         <MenuItem
@@ -115,7 +104,6 @@ export const FenetreDeSaisieDeRegistre = ({ouverte, fermer, individus, archives}
                     placeholder="Commentaire *"
                     multiline
                     rows={4}
-                    maxRows={4}
                     variant="outlined"
                     value={commentaire}
                     onChange={event => setCommentaire(event.target.value)}

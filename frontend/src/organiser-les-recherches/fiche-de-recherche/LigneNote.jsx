@@ -1,6 +1,6 @@
-import {Grid, IconButton} from '@material-ui/core';
+import {Grid, IconButton} from '@mui/material';
 import React from 'react';
-import {Delete} from '@material-ui/icons';
+import {Delete} from '@mui/icons-material';
 import {useSupprimerNoteDIndividu} from '../../api/recherches.hooks';
 
 export const LigneNote = ({

@@ -1,13 +1,13 @@
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 import React, {useState} from 'react';
 import './OrganisationDesRecherches.css';
-import {Box, Button, Container} from '@material-ui/core';
+import {Box, Button, Container} from '@mui/material';
 import {useRecherches} from '../api/recherches.hooks';
 import {Erreur} from '../components/Erreur';
 import {FenetreDeSaisieDeRecherche} from './FenetreDeSaisieDeRecherche';
 import {useIndividus} from '../api/arbres.hooks';
 import {ListeDesRecherches} from './ListeDesRecherches';
-import {Add} from '@material-ui/icons';
+import {Add} from '@mui/icons-material';
 import {useAuth0} from '@auth0/auth0-react';
 
 export const OrganisationDesRecherches = () => {

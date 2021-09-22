@@ -6,8 +6,8 @@ import {
   TimelineItem,
   TimelineOppositeContent,
   TimelineSeparator
-} from '@material-ui/lab';
-import Typography from '@material-ui/core/Typography';
+} from '@mui/lab';
+import Typography from '@mui/material/Typography';
 import React from "react";
 
 export const LigneDeVie = ({individu}) => {

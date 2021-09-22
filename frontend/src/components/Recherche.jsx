@@ -1,10 +1,10 @@
 import {useStyles} from "../useStyles";
-import SearchIcon from '@material-ui/icons/Search';
+import SearchIcon from '@mui/icons-material/Search';
 import React, {useState} from "react";
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import Autocomplete from '@mui/material/Autocomplete';
+import CircularProgress from '@mui/material/CircularProgress';
 import {callApi} from "../api/api";
-import TextField from '@material-ui/core/TextField';
+import TextField from '@mui/material/TextField';
 
 
 export const Recherche = () => {

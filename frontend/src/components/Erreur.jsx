@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Alert} from "@material-ui/lab";
-import {Snackbar} from "@material-ui/core";
+import {Alert, Snackbar} from "@mui/material";
 
 export const Erreur = ({message}) => {
     const [affichee, setAffichee] = useState(true);

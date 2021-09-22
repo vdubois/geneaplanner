@@ -9,7 +9,7 @@ import {
   DialogTitle,
   FormControl,
   TextField
-} from '@material-ui/core';
+} from '@mui/material';
 import {Erreur} from '../../components/Erreur';
 import {useAjouterNoteDIndividu} from '../../api/recherches.hooks';
 
@@ -55,7 +55,6 @@ export const FenetreDeSaisieDeNote = ({ouverte, fermer, identifiantIndividu}) =>
           placeholder="Contenu *"
           multiline
           rows={4}
-          maxRows={4}
           variant="outlined"
           value={contenu}
           onChange={event => setContenu(event.target.value)}

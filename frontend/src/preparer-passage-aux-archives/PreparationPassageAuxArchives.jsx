@@ -1,12 +1,12 @@
 import React, {useState} from "react";
-import {Box, Button, Container} from '@material-ui/core';
+import {Box, Button, Container} from '@mui/material';
 import './PreparationPassageAuxArchives.css';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 import {useArchives} from '../api/archives.hooks';
 import {useAuth0} from '@auth0/auth0-react';
 import {Erreur} from '../components/Erreur';
 import {useStyles} from '../useStyles';
-import {Add} from '@material-ui/icons';
+import {Add} from '@mui/icons-material';
 import {FenetreDeSaisieDArchive} from './FenetreDeSaisieDArchive';
 import {ListeDesArchives} from './ListeDesArchives';
 
