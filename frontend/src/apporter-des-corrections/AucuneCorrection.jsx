@@ -1,6 +1,6 @@
-import Typography from "@material-ui/core/Typography";
-import {Button} from "@material-ui/core";
-import {Add} from "@material-ui/icons";
+import Typography from "@mui/material/Typography";
+import {Button} from "@mui/material";
+import {Add} from "@mui/icons-material";
 import React from "react";
 
 export const AucuneCorrection = ({setFenetreDeSaisieOuverte}) => {

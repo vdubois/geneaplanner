@@ -12,7 +12,7 @@ import {
   MenuItem,
   Select,
   TextField
-} from '@material-ui/core';
+} from '@mui/material';
 import {Erreur} from '../../components/Erreur';
 import {priorites} from '../priorites';
 import {useAjouterRechercheDIndividu} from '../../api/recherches.hooks';
@@ -84,7 +84,6 @@ export const FenetreDeSaisieDeRecherche = ({ouverte, fermer, identifiantIndividu
           placeholder="Commentaire *"
           multiline
           rows={4}
-          maxRows={4}
           variant="outlined"
           value={commentaire}
           onChange={event => setCommentaire(event.target.value)}
@@ -100,15 +99,6 @@ export const FenetreDeSaisieDeRecherche = ({ouverte, fermer, identifiantIndividu
           variant="outlined"
           value={priorite}
           label="Priorit&eacute; *"
-          MenuProps={
-            {
-              getContentAnchorEl: null,
-              anchorOrigin: {
-                vertical: 'bottom',
-                horizontal: 'left',
-              }
-            }
-          }
         >
           {priorites.map(priorite => (
             <MenuItem

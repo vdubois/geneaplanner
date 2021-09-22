@@ -1,16 +1,7 @@
 import React, {useState} from 'react';
-import {
-    Button,
-    CircularProgress,
-    Container,
-    Step,
-    StepContent,
-    StepLabel,
-    Stepper,
-    Typography
-} from "@material-ui/core";
+import {Button, CircularProgress, Container, Step, StepContent, StepLabel, Stepper, Typography} from "@mui/material";
 import './ImportationDeFichierGedcom.css';
-import CheckIcon from '@material-ui/icons/Check';
+import CheckIcon from '@mui/icons-material/Check';
 import {usePublierArbre} from "../api/arbres.hooks";
 import {Erreur} from "../components/Erreur";
 
@@ -36,7 +27,9 @@ export const ImportationDeFichierGedcom = () => {
                     try {
                         const contenuDuFichierGEDCOM =
                             contenuDuFichier.split('data:application/x-gedcom;base64,')[1];
-                        const arbre = await publierArbre(contenuDuFichierGEDCOM)
+                        console.log(contenuDuFichierGEDCOM);
+                        const arbre = await publierArbre(contenuDuFichierGEDCOM);
+                        console.log(arbre);
                         setIndividus(arbre.individus);
                         etapeSuivante();
                     } catch (erreur) {

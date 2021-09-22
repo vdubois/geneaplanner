@@ -1,9 +1,8 @@
-import {Box, Button, Hidden, ListItem} from '@material-ui/core';
-import {Skeleton} from '@material-ui/lab';
-import Typography from '@material-ui/core/Typography';
+import {Box, Button, Hidden, ListItem, Skeleton} from '@mui/material';
+import Typography from '@mui/material/Typography';
 import {FlexGrow} from '../../components/FlexGrow';
 import {LigneRecherche} from './LigneRecherche';
-import Divider from '@material-ui/core/Divider';
+import Divider from '@mui/material/Divider';
 import React from 'react';
 import {libellePriorite} from '../priorites';
 import {useStyles} from '../../useStyles';

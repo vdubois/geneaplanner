@@ -1,11 +1,10 @@
-import List from '@material-ui/core/List';
-import {Hidden, ListItem} from '@material-ui/core';
-import Typography from '@material-ui/core/Typography';
+import List from '@mui/material/List';
+import {Hidden, ListItem, Skeleton} from '@mui/material';
+import Typography from '@mui/material/Typography';
 import {Recherche} from './Recherche';
-import Divider from '@material-ui/core/Divider';
+import Divider from '@mui/material/Divider';
 import React, {useEffect, useState} from "react";
-import {Skeleton} from '@material-ui/lab';
-import {ChevronRight} from '@material-ui/icons';
+import {ChevronRight} from '@mui/icons-material';
 import {libellePriorite} from './priorites';
 import {useHistory} from 'react-router-dom';
 import {MarqueurDeSelection} from '../components/MarqueurDeSelection';

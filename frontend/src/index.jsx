@@ -6,7 +6,7 @@ import {BrowserRouter as Router} from "react-router-dom";
 import {App} from "./App";
 import {Auth0Provider} from "@auth0/auth0-react";
 import {audience, clientId, domain} from './auth0';
-import {createTheme, ThemeProvider} from "@material-ui/core/styles";
+import {createTheme, ThemeProvider} from "@mui/material/styles";
 import {QueryClient, QueryClientProvider,} from 'react-query';
 import {ReactQueryDevtools} from 'react-query/devtools';
 import {FetchProvider} from "./api/FetchProvider";
