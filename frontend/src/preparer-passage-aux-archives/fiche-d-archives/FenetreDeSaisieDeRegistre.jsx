@@ -69,7 +69,7 @@ export const FenetreDeSaisieDeRegistre = ({ouverte, fermer, individus, archives}
             <Autocomplete
                 id="combo-box-demo"
                 options={individus}
-                getOptionLabel={individu => individu ? `${individu.nom}(${individu.id})` : ''}
+                getOptionLabel={individu => individu ? `${individu.nom} (${individu.id})` : ''}
                 noOptionsText="Aucun individu ne correspond"
                 fullWidth
                 clearText="Effacer"
