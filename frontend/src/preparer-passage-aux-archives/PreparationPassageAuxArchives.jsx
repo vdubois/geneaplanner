@@ -5,7 +5,6 @@ import Typography from '@mui/material/Typography';
 import {useArchives} from '../api/archives.hooks';
 import {useAuth0} from '@auth0/auth0-react';
 import {Erreur} from '../components/Erreur';
-import {useStyles} from '../useStyles';
 import {Add} from '@mui/icons-material';
 import {FenetreDeSaisieDArchive} from './FenetreDeSaisieDArchive';
 import {ListeDesArchives} from './ListeDesArchives';
@@ -15,7 +14,6 @@ export const PreparationPassageAuxArchives = () => {
     const {archivesEnCoursDeChargement, archivesEnErreur, archives} = useArchives(isAuthenticated);
 
     const [fenetreDeSaisieOuverte, setFenetreDeSaisieOuverte] = useState(false);
-    const classes = useStyles();
 
     return <>
         <Container maxWidth="lg" className="PreparationPassageAuxArchives">

@@ -11,10 +11,9 @@ import {useRecherches, useSupprimerRecherche} from '../../api/recherches.hooks';
 import {Recherches} from './Recherches';
 import {Notes} from './Notes';
 import {Done} from '@mui/icons-material';
-import {useStyles} from '../../useStyles';
+import {styled} from "@mui/material/styles";
 
 export const FicheDeRecherche = () => {
-  const classes = useStyles();
   const navigateTo = useNavigate();
   let {individu: identifiantIndividu} = useParams();
 
@@ -41,6 +40,12 @@ export const FicheDeRecherche = () => {
       setNotesDeLIndividu(extraireNotes(recherches))
     }
   }, [recherches, recherchesEnCoursDeChargement])
+
+  const StyledFab = styled(Fab)(({theme}) => ({
+    position: 'absolute',
+    bottom: theme.spacing(2),
+    right: theme.spacing(2),
+  }));
 
   return <>
     <Container maxWidth="xl">
@@ -77,11 +82,10 @@ export const FicheDeRecherche = () => {
         fermer={() => setFenetreDeSaisieDeNoteOuverte(false)}
       />
     </Container>
-    <Fab
+    <StyledFab
       variant="extended"
       size="medium"
       color="secondary"
-      className={classes.fab}
       style={{backgroundColor: '#4caf50', color: 'white'}}
       onClick={async () => {
         await supprimerFicheDeRecherche();
@@ -90,6 +94,6 @@ export const FicheDeRecherche = () => {
     >
       <Done style={{marginRight: '4px'}} />
       Clôturer la recherche
-    </Fab>
+    </StyledFab>
   </>;
 }

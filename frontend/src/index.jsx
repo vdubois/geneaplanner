@@ -10,6 +10,7 @@ import {createTheme, ThemeProvider} from "@mui/material/styles";
 import {QueryClient, QueryClientProvider,} from 'react-query';
 import {ReactQueryDevtools} from 'react-query/devtools';
 import {FetchProvider} from "./api/FetchProvider";
+import {StyledEngineProvider} from "@mui/material/styles";
 
 const theme = createTheme({
     palette: {
@@ -37,23 +38,25 @@ const queryClient = new QueryClient({
 const container = document.getElementById('root');
 const root = createRoot(container);
 root.render(
-    <ThemeProvider theme={theme}>
-        <Auth0Provider
-            domain={domain}
-            clientId={clientId}
-            redirectUri="http://localhost:3000"
-            audience={audience}
-        >
-            <FetchProvider>
-                <QueryClientProvider client={queryClient}>
-                    <Router>
-                        <App/>
-                    </Router>
-                    <ReactQueryDevtools initialIsOpen={false} />
-                </QueryClientProvider>
-            </FetchProvider>
-        </Auth0Provider>
-    </ThemeProvider>
+    <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+            <Auth0Provider
+                domain={domain}
+                clientId={clientId}
+                redirectUri="http://localhost:3000"
+                audience={audience}
+            >
+                <FetchProvider>
+                    <QueryClientProvider client={queryClient}>
+                        <Router>
+                            <App/>
+                        </Router>
+                        <ReactQueryDevtools initialIsOpen={false} />
+                    </QueryClientProvider>
+                </FetchProvider>
+            </Auth0Provider>
+        </ThemeProvider>
+    </StyledEngineProvider>
 );
 
 // If you want your app to work offline and load faster, you can change

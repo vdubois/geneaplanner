@@ -5,7 +5,7 @@ import {LigneRecherche} from './LigneRecherche';
 import Divider from '@mui/material/Divider';
 import React from 'react';
 import {libellePriorite} from '../priorites';
-import {useStyles} from '../../useStyles';
+import {styled} from "@mui/material/styles";
 
 export const Recherches = ({
   setFenetreDeSaisieDeRechercheOuverte,
@@ -13,7 +13,17 @@ export const Recherches = ({
   recherchesDeLIndividu,
   identifiantIndividu
 }) => {
-  const classes = useStyles();
+  const ElementDeListe = styled(ListItem)(({theme}) => ({
+    minHeight: theme.spacing(7),
+    display: 'flex',
+    alignItems: 'center'
+  }));
+
+  const AucunResultat = styled(Typography)(({theme}) => ({
+    minHeight: theme.spacing(7),
+    display: 'flex',
+    alignItems: 'center'
+  }));
 
   return <>
     {enCoursDeChargement && <Box
@@ -33,7 +43,7 @@ export const Recherches = ({
         >Ajouter</Button>
       </Box>
       <Hidden smDown>
-        <ListItem disabled className={classes.elementDeListe}>
+        <ElementDeListe disabled>
           <LigneRecherche
             entete
             nom={
@@ -57,14 +67,12 @@ export const Recherches = ({
               </Typography>
             }
           />
-        </ListItem>
+        </ElementDeListe>
         <Divider/>
       </Hidden>
       {recherchesDeLIndividu?.length > 0 && recherchesDeLIndividu.map((recherche, index) => (
         <React.Fragment key={'fragment-recherche-' + index}>
-          <ListItem
-            className={classes.elementDeListe}
-          >
+          <ElementDeListe>
             <LigneRecherche
               identifiantIndividu={identifiantIndividu}
               identifiantNote={recherche.id}
@@ -90,14 +98,13 @@ export const Recherches = ({
                 </Typography>
               }
             />
-          </ListItem>
+          </ElementDeListe>
           <Divider />
         </React.Fragment>
       ))}
-      {recherchesDeLIndividu?.length === 0 && !enCoursDeChargement && <ListItem
-        className={classes.elementDeListe}
-      ><Typography variant="body1" className={classes.elementDeListe}>Aucune recherche en cours</Typography>
-      </ListItem>}
+      {recherchesDeLIndividu?.length === 0 && !enCoursDeChargement && <ElementDeListe
+      ><AucunResultat variant="body1">Aucune recherche en cours</AucunResultat>
+      </ElementDeListe>}
     </>}
   </>;
 }

@@ -8,7 +8,7 @@ import {ChevronRight} from '@mui/icons-material';
 import {libellePriorite} from './priorites';
 import {useNavigate} from 'react-router-dom';
 import {MarqueurDeSelection} from '../components/MarqueurDeSelection';
-import {useStyles} from '../useStyles';
+import {styled} from "@mui/material/styles";
 
 const SQUELETTES = Array.from(
   {length: 5},
@@ -16,7 +16,6 @@ const SQUELETTES = Array.from(
 );
 
 export const ListeDesRecherches = ({enCoursDeChargement, recherches}) => {
-  const classes = useStyles();
   const [individus, setIndividus] = useState(null);
   const navigateTo = useNavigate();
 
@@ -26,9 +25,25 @@ export const ListeDesRecherches = ({enCoursDeChargement, recherches}) => {
     }
   }, [recherches, enCoursDeChargement]);
 
-  return <List disablePadding className={classes.liste}>
+  const Liste = styled(List)(({theme}) => ({
+    marginTop: theme.spacing(2)
+  }));
+
+  const ElementDeListe = styled(ListItem)(({theme}) => ({
+    minHeight: theme.spacing(7),
+    display: 'flex',
+    alignItems: 'center'
+  }));
+
+  const AucunResultat = styled(Typography)(({theme}) => ({
+    minHeight: theme.spacing(7),
+    display: 'flex',
+    alignItems: 'center'
+  }));
+
+  return <Liste disablePadding>
     <Hidden smDown>
-      <ListItem disabled className={classes.elementDeListe}>
+      <ElementDeListe disabled>
         <Recherche
           entete
           nomDeLIndividu={
@@ -53,14 +68,13 @@ export const ListeDesRecherches = ({enCoursDeChargement, recherches}) => {
           }
         />
         <MarqueurDeSelection />
-      </ListItem>
+      </ElementDeListe>
       <Divider component="li" />
     </Hidden>
     {enCoursDeChargement && SQUELETTES.map((individu, index) => (
       <React.Fragment key={'fragment-' + index}>
-        <ListItem
+        <ElementDeListe
           button
-          className={classes.elementDeListe}
         >
           <Recherche
             key={index}
@@ -85,16 +99,15 @@ export const ListeDesRecherches = ({enCoursDeChargement, recherches}) => {
               </Typography>
             }
           />
-        </ListItem>
+        </ElementDeListe>
         <Divider component="li" />
       </React.Fragment>
     ))}
     {individus?.length > 0 && individus.map((individu, index) => (
       <React.Fragment key={'fragment-' + index}>
-        <ListItem
+        <ElementDeListe
           button
           onClick={() => navigateTo('/organiser-les-recherches/' + individu)}
-          className={classes.elementDeListe}
         >
           <Recherche
             key={index}
@@ -126,13 +139,12 @@ export const ListeDesRecherches = ({enCoursDeChargement, recherches}) => {
               <ChevronRight fontSize="small" />
             )}
           </MarqueurDeSelection>
-        </ListItem>
+        </ElementDeListe>
         <Divider component="li" />
       </React.Fragment>
     ))}
-    {individus?.length === 0 && !enCoursDeChargement && <ListItem
-      className={classes.elementDeListe}
-      ><Typography variant="body1" className={classes.elementDeListe}>Aucune recherche en cours</Typography>
-    </ListItem>}
-  </List>
+    {individus?.length === 0 && !enCoursDeChargement && <ElementDeListe
+      ><AucunResultat variant="body1">Aucune recherche en cours</AucunResultat>
+    </ElementDeListe>}
+  </Liste>
 }

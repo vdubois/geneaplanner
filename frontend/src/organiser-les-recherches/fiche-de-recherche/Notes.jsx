@@ -4,10 +4,20 @@ import {FlexGrow} from '../../components/FlexGrow';
 import {LigneNote} from './LigneNote';
 import Divider from '@mui/material/Divider';
 import React from 'react';
-import {useStyles} from '../../useStyles';
+import {styled} from "@mui/material/styles";
 
 export const Notes = ({setFenetreDeSaisieDeNoteOuverte, enCoursDeChargement, notesDeLIndividu, identifiantIndividu}) => {
-  const classes = useStyles();
+  const ElementDeListe = styled(ListItem)(({theme}) => ({
+    minHeight: theme.spacing(7),
+    display: 'flex',
+    alignItems: 'center'
+  }));
+
+  const AucunResultat = styled(Typography)(({theme}) => ({
+    minHeight: theme.spacing(7),
+    display: 'flex',
+    alignItems: 'center'
+  }));
 
   return <>
     {enCoursDeChargement && <Box
@@ -27,7 +37,7 @@ export const Notes = ({setFenetreDeSaisieDeNoteOuverte, enCoursDeChargement, not
         >Ajouter</Button>
       </Box>
       <Hidden smDown>
-        <ListItem disabled className={classes.elementDeListe}>
+        <ElementDeListe disabled>
           <LigneNote
             entete
             contenu={
@@ -36,14 +46,12 @@ export const Notes = ({setFenetreDeSaisieDeNoteOuverte, enCoursDeChargement, not
               </Typography>
             }
           />
-        </ListItem>
+        </ElementDeListe>
         <Divider/>
       </Hidden>
       {notesDeLIndividu?.length > 0 && notesDeLIndividu.map((note, index) => (
         <React.Fragment key={'fragment-note-' + index}>
-          <ListItem
-            className={classes.elementDeListe}
-          >
+          <ElementDeListe>
             <LigneNote
               key={index}
               identifiantIndividu={identifiantIndividu}
@@ -54,14 +62,13 @@ export const Notes = ({setFenetreDeSaisieDeNoteOuverte, enCoursDeChargement, not
                 </Typography>
               }
             />
-          </ListItem>
+          </ElementDeListe>
           <Divider />
         </React.Fragment>
       ))}
-      {notesDeLIndividu?.length === 0 && !enCoursDeChargement && <ListItem
-        className={classes.elementDeListe}
-      ><Typography variant="body1" className={classes.elementDeListe}>Aucune note en cours</Typography>
-      </ListItem>}
+      {notesDeLIndividu?.length === 0 && !enCoursDeChargement && <ElementDeListe
+      ><AucunResultat variant="body1">Aucune note en cours</AucunResultat>
+      </ElementDeListe>}
     </>}
   </>;
 };

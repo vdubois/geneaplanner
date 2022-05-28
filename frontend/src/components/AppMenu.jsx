@@ -1,32 +1,31 @@
 import Drawer from "@mui/material/Drawer";
 import {ListeDuMenu} from "./ListeDuMenu";
 import React from "react";
-import {useStyles} from "../useStyles";
-import {useTheme} from "@mui/material/styles";
+import {styled, useTheme} from "@mui/material/styles";
 
 export const AppMenu = (props) => {
-    const classes = useStyles();
     const { window } = props;
     const container = window !== undefined ? () => window().document.body : undefined;
     const theme = useTheme();
 
+    const DrawerWrapper = styled('nav')({
+        flexShrink: 0
+    });
     return (
-        <nav className={classes.drawer} aria-label="mailbox folders">
+        <DrawerWrapper aria-label="mailbox folders">
             <Drawer
                 container={container}
                 variant="temporary"
                 anchor={theme.direction === 'rtl' ? 'right' : 'left'}
                 open={props.menuOuvertEnModeMobile}
                 onClose={props.basculerMenu}
-                classes={{
-                    paper: classes.drawerPaper,
-                }}
+                sx={{width: '240px'}}
                 ModalProps={{
                     keepMounted: true,
                 }}
             >
                 <ListeDuMenu close={props.basculerMenu}/>
             </Drawer>
-        </nav>
+        </DrawerWrapper>
     );
 };

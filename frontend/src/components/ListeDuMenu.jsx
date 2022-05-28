@@ -4,16 +4,20 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText/ListItemText";
-import {useStyles} from "../useStyles";
 import {Assignment, AssignmentTurnedIn, MenuBook, PersonPin, Publish} from "@mui/icons-material";
 import {useNavigate} from "react-router-dom";
+import {styled} from "@mui/material/styles";
 
 export const ListeDuMenu = ({close}) => {
-    const classes = useStyles();
     const navigateTo = useNavigate();
+    const Toolbar = styled('div')(({theme}) => ({
+        ...theme.mixins.toolbar,
+        display: 'flex',
+        justifyContent: 'center'
+    }));
     return (
         <div>
-            <div className={classes.toolbar} />
+            <Toolbar/>
             <Divider />
             <List>
                 <ListItem button onClick={() => {

@@ -1,6 +1,5 @@
-import {useStyles} from '../useStyles';
 import {useNavigate} from 'react-router-dom';
-import {Hidden, ListItem, Skeleton} from '@mui/material';
+import {Hidden, ListItem, ListItemButton, Skeleton} from '@mui/material';
 import Typography from '@mui/material/Typography';
 import {MarqueurDeSelection} from '../components/MarqueurDeSelection';
 import Divider from '@mui/material/Divider';
@@ -8,6 +7,7 @@ import React from 'react';
 import List from '@mui/material/List';
 import {Archive} from './Archive';
 import {ChevronRight} from '@mui/icons-material';
+import {styled} from "@mui/material/styles";
 
 const SQUELETTES = Array.from(
   {length: 5},
@@ -15,12 +15,33 @@ const SQUELETTES = Array.from(
 );
 
 export const ListeDesArchives = ({enCoursDeChargement, archives}) => {
-  const classes = useStyles();
   const navigateTo = useNavigate();
 
-  return <List disablePadding className={classes.liste}>
+  const Liste = styled(List)(({theme}) => ({
+    marginTop: theme.spacing(2)
+  }));
+
+  const ElementDeListe = styled(ListItem)(({theme}) => ({
+    minHeight: theme.spacing(7),
+    display: 'flex',
+    alignItems: 'center'
+  }));
+
+  const ElementDeListeCliquable = styled(ListItemButton)(({theme}) => ({
+    minHeight: theme.spacing(7),
+    display: 'flex',
+    alignItems: 'center'
+  }));
+
+  const AucunResultat = styled(Typography)(({theme}) => ({
+    minHeight: theme.spacing(7),
+    display: 'flex',
+    alignItems: 'center'
+  }));
+
+  return <Liste disablePadding>
     <Hidden smDown>
-      <ListItem disabled className={classes.elementDeListe}>
+      <ElementDeListe disabled>
         <Archive
           entete
           nom={
@@ -35,15 +56,12 @@ export const ListeDesArchives = ({enCoursDeChargement, archives}) => {
           }
         />
         <MarqueurDeSelection />
-      </ListItem>
+      </ElementDeListe>
       <Divider component="li" />
     </Hidden>
     {enCoursDeChargement && SQUELETTES.map((archive, index) => (
       <React.Fragment key={'fragment-' + index}>
-        <ListItem
-          button
-          className={classes.elementDeListe}
-        >
+        <ElementDeListeCliquable>
           <Archive
             key={index}
             nom={
@@ -57,16 +75,14 @@ export const ListeDesArchives = ({enCoursDeChargement, archives}) => {
               </Typography>
             }
           />
-        </ListItem>
+        </ElementDeListeCliquable>
         <Divider component="li" />
       </React.Fragment>
     ))}
     {archives?.length > 0 && archives.map((archive, index) => (
       <React.Fragment key={'fragment-' + index}>
-        <ListItem
-          button
+        <ElementDeListeCliquable
           onClick={() => navigateTo('/preparer-passage-aux-archives/' + archive.id)}
-          className={classes.elementDeListe}
         >
           <Archive
             key={index}
@@ -86,13 +102,12 @@ export const ListeDesArchives = ({enCoursDeChargement, archives}) => {
               <ChevronRight fontSize="small" />
             )}
           </MarqueurDeSelection>
-        </ListItem>
+        </ElementDeListeCliquable>
         <Divider component="li" />
       </React.Fragment>
     ))}
-    {archives?.length === 0 && !enCoursDeChargement && <ListItem
-      className={classes.elementDeListe}
-    ><Typography variant="body1" className={classes.elementDeListe}>Aucun lieu d'archive en cours</Typography>
-    </ListItem>}
-  </List>;
+    {archives?.length === 0 && !enCoursDeChargement && <ElementDeListe
+    ><AucunResultat variant="body1">Aucun lieu d'archive en cours</AucunResultat>
+    </ElementDeListe>}
+  </Liste>;
 }

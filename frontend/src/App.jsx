@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import './App.css';
-import {useStyles} from "./useStyles";
 import {AppMenu} from "./components/AppMenu";
 import {BarreDeNavigation} from "./components/BarreDeNavigation";
 import {Route, Routes} from "react-router-dom";
@@ -13,9 +12,22 @@ import {ImportationDeFichierGedcom} from "./importer-un-fichier-gedcom/Importati
 import {ApportDeCorrections} from "./apporter-des-corrections/ApportDeCorrections";
 import {FicheDeRecherche} from "./organiser-les-recherches/fiche-de-recherche/FicheDeRecherche";
 import {FicheDArchives} from './preparer-passage-aux-archives/fiche-d-archives/FicheDArchives';
+import {styled} from "@mui/material/styles";
 
 export const App = () => {
-    const classes = useStyles();
+    const Root = styled('div')(({theme}) => ({
+        display: 'flex'
+    }));
+    const Toolbar = styled('div')(({theme}) => ({
+        ...theme.mixins.toolbar,
+        display: 'flex',
+        justifyContent: 'center'
+    }));
+    const Content = styled('div')(({theme}) => ({
+        flexGrow: 1,
+        // padding: theme.spacing(3),
+        paddingTop: '84px !important'
+    }));
     const [menuOuvertEnModeMobile, setMenuOuvertEnModeMobile] = useState(false);
 
     const basculerMenu = () => {
@@ -23,15 +35,15 @@ export const App = () => {
     };
 
     return (
-        <div className={classes.root}>
+        <Root>
             <CssBaseline />
             <BarreDeNavigation
                 basculerMenu={basculerMenu} />
             <AppMenu
                 menuOuvertEnModeMobile={menuOuvertEnModeMobile}
                 basculerMenu={basculerMenu} />
-            <main className={classes.content}>
-                <div className={classes.toolbar}>
+            <Content>
+                <Toolbar>
                     <Routes>
                         <Route exact path="/" element={<Accueil />}/>
                         <Route exact path="/accueil" element={<Accueil />}/>
@@ -43,9 +55,9 @@ export const App = () => {
                         <Route exact path="/recherche-d-individus" element={<RechercheDIndividus />}/>
                         <Route exact path="/importer-un-fichier-gedcom" element={<ImportationDeFichierGedcom />}/>
                     </Routes>
-                </div>
-            </main>
-        </div>
+                </Toolbar>
+            </Content>
+        </Root>
     );
 }
 

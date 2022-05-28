@@ -1,25 +1,49 @@
-import {useStyles} from "../useStyles";
 import SearchIcon from '@mui/icons-material/Search';
 import React, {useState} from "react";
 import Autocomplete from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
 import {callApi} from "../api/api";
 import TextField from '@mui/material/TextField';
+import {styled} from "@mui/material/styles";
 
 
 export const Recherche = () => {
 
-    const classes = useStyles();
     const [open, setOpen] = useState(false);
     const [options, setOptions] = useState([]);
     const [loading, setLoading] = useState(false);
     let declenchementRecherche;
 
+    const Search = styled('div')(({theme}) => ({
+        position: 'relative',
+        borderRadius: theme.shape.borderRadius,
+        backgroundColor: alpha(theme.palette.common.white, 0.15),
+        '&:hover': {
+            backgroundColor: alpha(theme.palette.common.white, 0.25),
+        },
+        marginRight: theme.spacing(2),
+        marginLeft: 10,
+        width: '100%',
+        [theme.breakpoints.up('sm')]: {
+            marginLeft: theme.spacing(3),
+            width: 'auto',
+        },
+    }));
+
+    const SearchIconWrapper = styled('div')(({theme}) => ({
+        padding: theme.spacing(0, 2),
+        height: '100%',
+        position: 'absolute',
+        pointerEvents: 'none',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    }));
     return (
-        <div className={classes.search}>
-            <div className={classes.searchIcon}>
+        <Search>
+            <SearchIconWrapper>
                 <SearchIcon/>
-            </div>
+            </SearchIconWrapper>
             <Autocomplete
                 id="recherche"
                 style={{width: 300}}
@@ -38,9 +62,6 @@ export const Recherche = () => {
                     <TextField
                         {...params}
                         placeholder="Recherche…"
-                        classes={{
-                            root: classes.inputAutoComplete,
-                        }}
                         onChange={(evenement) => {
                             const motCle = evenement.target.value;
                             if (motCle.length >= 3) {
@@ -77,6 +98,6 @@ export const Recherche = () => {
                 )}
             />
 
-        </div>
+        </Search>
     )
 };

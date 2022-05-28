@@ -12,12 +12,11 @@ import {ExpandMore} from "@mui/icons-material";
 import Typography from "@mui/material/Typography";
 import {couleurRaison, texteRaison} from "./raisons";
 import React, {useState} from "react";
-import {useStyles} from "../useStyles";
 import {useValiderCorrection} from "../api/corrections.hooks";
 import {Erreur} from "../components/Erreur";
+import {styled} from "@mui/material/styles";
 
 export const Correction = ({correction}) => {
-    const classes = useStyles();
     const validerCorrection = useValiderCorrection(correction.identifiant);
     const [enCoursDeValidation, setEnCoursDeValidation] = useState(false);
     const [erreur, setErreur] = useState();
@@ -31,6 +30,12 @@ export const Correction = ({correction}) => {
             setEnCoursDeValidation(false);
         }
     }
+    const AccordionColumn = styled('div')({
+        flexBasis: '50%'
+    });
+    const AccordionTitle = styled(Typography)(({theme}) => ({
+        fontSize: theme.typography.pxToRem(15)
+    }));
     return (
         <Accordion>
             <AccordionSummary
@@ -38,18 +43,18 @@ export const Correction = ({correction}) => {
                 aria-controls="panel1c-content"
                 id="panel1c-header"
             >
-                <div className={classes.accordionColumn}>
-                    <Typography className={classes.accordionHeading}>{correction.individu.nom}</Typography>
-                </div>
-                <div className={classes.accordionColumn}>
+                <AccordionColumn>
+                    <AccordionTitle>{correction.individu.nom}</AccordionTitle>
+                </AccordionColumn>
+                <AccordionColumn>
                     <Chip
                         color="primary"
                         label={texteRaison(correction.raison)}
                         style={{ backgroundColor: couleurRaison(correction.raison) }}/>
-                </div>
+                </AccordionColumn>
             </AccordionSummary>
             <AccordionDetails>
-                <div className={classes.accordionDetails}>{correction.description}</div>
+                <div style={{flexBasis: '100% !important'}}>{correction.description}</div>
             </AccordionDetails>
             <Divider/>
             <AccordionActions>
