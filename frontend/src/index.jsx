@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 import {BrowserRouter as Router} from "react-router-dom";
@@ -34,7 +34,9 @@ const queryClient = new QueryClient({
     }
 });
 
-ReactDOM.render(
+const container = document.getElementById('root');
+const root = createRoot(container);
+root.render(
     <ThemeProvider theme={theme}>
         <Auth0Provider
             domain={domain}
@@ -52,8 +54,6 @@ ReactDOM.render(
             </FetchProvider>
         </Auth0Provider>
     </ThemeProvider>
-    ,
-  document.getElementById('root')
 );
 
 // If you want your app to work offline and load faster, you can change
