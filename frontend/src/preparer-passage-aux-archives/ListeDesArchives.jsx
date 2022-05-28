@@ -1,5 +1,5 @@
 import {useStyles} from '../useStyles';
-import {useHistory} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {Hidden, ListItem, Skeleton} from '@mui/material';
 import Typography from '@mui/material/Typography';
 import {MarqueurDeSelection} from '../components/MarqueurDeSelection';
@@ -16,7 +16,7 @@ const SQUELETTES = Array.from(
 
 export const ListeDesArchives = ({enCoursDeChargement, archives}) => {
   const classes = useStyles();
-  const history = useHistory();
+  const navigateTo = useNavigate();
 
   return <List disablePadding className={classes.liste}>
     <Hidden smDown>
@@ -65,7 +65,7 @@ export const ListeDesArchives = ({enCoursDeChargement, archives}) => {
       <React.Fragment key={'fragment-' + index}>
         <ListItem
           button
-          onClick={() => history.push('/preparer-passage-aux-archives/' + archive.id)}
+          onClick={() => navigateTo('/preparer-passage-aux-archives/' + archive.id)}
           className={classes.elementDeListe}
         >
           <Archive

@@ -6,7 +6,7 @@ import Divider from '@mui/material/Divider';
 import React, {useEffect, useState} from "react";
 import {ChevronRight} from '@mui/icons-material';
 import {libellePriorite} from './priorites';
-import {useHistory} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {MarqueurDeSelection} from '../components/MarqueurDeSelection';
 import {useStyles} from '../useStyles';
 
@@ -18,7 +18,7 @@ const SQUELETTES = Array.from(
 export const ListeDesRecherches = ({enCoursDeChargement, recherches}) => {
   const classes = useStyles();
   const [individus, setIndividus] = useState(null);
-  const history = useHistory();
+  const navigateTo = useNavigate();
 
   useEffect(() => {
     if (recherches && !enCoursDeChargement) {
@@ -93,7 +93,7 @@ export const ListeDesRecherches = ({enCoursDeChargement, recherches}) => {
       <React.Fragment key={'fragment-' + index}>
         <ListItem
           button
-          onClick={() => history.push('/organiser-les-recherches/' + individu)}
+          onClick={() => navigateTo('/organiser-les-recherches/' + individu)}
           className={classes.elementDeListe}
         >
           <Recherche

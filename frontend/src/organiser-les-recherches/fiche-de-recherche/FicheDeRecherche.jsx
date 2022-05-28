@@ -1,4 +1,4 @@
-import {useHistory, useParams} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import React, {useEffect, useState} from 'react';
 import {Box, Container, Fab, Skeleton} from '@mui/material';
@@ -15,7 +15,7 @@ import {useStyles} from '../../useStyles';
 
 export const FicheDeRecherche = () => {
   const classes = useStyles();
-  const history = useHistory();
+  const navigateTo = useNavigate();
   let {individu: identifiantIndividu} = useParams();
 
   let {individuEnCoursDeChargement, individuEnErreur, individu} = useIndividu(identifiantIndividu);
@@ -85,7 +85,7 @@ export const FicheDeRecherche = () => {
       style={{backgroundColor: '#4caf50', color: 'white'}}
       onClick={async () => {
         await supprimerFicheDeRecherche();
-        history.push('/organiser-les-recherches');
+        navigateTo('/organiser-les-recherches');
       }}
     >
       <Done style={{marginRight: '4px'}} />

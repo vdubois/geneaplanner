@@ -1,14 +1,14 @@
 import React from "react";
 import './BarreDeNavigation.css';
-import {useHistory} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 export const Titre = () => {
-    let history = useHistory();
+    let navigateTo = useNavigate();
 
     return (
         <div
             className="AppBarTitre"
-            onClick={() => history.push('/')}>
+            onClick={() => navigateTo('/')}>
             <img
                 src="logo.png"
                 alt="GénéaPlanner"

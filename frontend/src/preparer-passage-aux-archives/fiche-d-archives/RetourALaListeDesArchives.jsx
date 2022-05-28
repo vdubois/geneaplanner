@@ -1,12 +1,12 @@
 import React from 'react';
 import {ChevronLeft} from '@mui/icons-material';
-import {useHistory} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {Button} from '@mui/material';
 
 export const RetourALaListeDesArchives = () => {
-  const history = useHistory()
+  const navigateTo = useNavigate()
 
-  const retourVersLaListeDesArchives = () => history.push('/preparer-passage-aux-archives');
+  const retourVersLaListeDesArchives = () => navigateTo('/preparer-passage-aux-archives');
 
   return (
     <Button

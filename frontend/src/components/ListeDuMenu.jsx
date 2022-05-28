@@ -6,32 +6,32 @@ import ListItemIcon from "@mui/material/ListItemIcon/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText/ListItemText";
 import {useStyles} from "../useStyles";
 import {Assignment, AssignmentTurnedIn, MenuBook, PersonPin, Publish} from "@mui/icons-material";
-import {useHistory} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 export const ListeDuMenu = ({close}) => {
     const classes = useStyles();
-    const history = useHistory();
+    const navigateTo = useNavigate();
     return (
         <div>
             <div className={classes.toolbar} />
             <Divider />
             <List>
                 <ListItem button onClick={() => {
-                    history.push('/organiser-les-recherches');
+                    navigateTo('/organiser-les-recherches');
                     close();
                 }}>
                     <ListItemIcon><Assignment /></ListItemIcon>
                     <ListItemText primary="Organisation de vos recherches" />
                 </ListItem>
                 <ListItem button onClick={() => {
-                    history.push('/apporter-des-corrections');
+                    navigateTo('/apporter-des-corrections');
                     close();
                 }}>
                     <ListItemIcon><AssignmentTurnedIn /></ListItemIcon>
                     <ListItemText primary="Apporter des corrections" />
                 </ListItem>
                 <ListItem button onClick={() => {
-                    history.push("/preparer-passage-aux-archives");
+                    navigateTo("/preparer-passage-aux-archives");
                     close();
                 }}>
                     <ListItemIcon><MenuBook /></ListItemIcon>
@@ -42,7 +42,7 @@ export const ListeDuMenu = ({close}) => {
                     <ListItemText primary="Recherche d'individus" />
                 </ListItem>
                 <ListItem button onClick={() => {
-                    history.push('/importer-un-fichier-gedcom');
+                    navigateTo('/importer-un-fichier-gedcom');
                     close();
                 }}>
                     <ListItemIcon><Publish /></ListItemIcon>
