@@ -1,4 +1,4 @@
-import ReactRefresh from "@vitejs/plugin-react-refresh"
+import ReactRefresh from "@vitejs/plugin-react"
 
 const build = {
   chunkSizeWarningLimit: 1500,
