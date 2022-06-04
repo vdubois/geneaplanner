@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "serverless-plugin-umzug": "1.3.0",
+    "umzug-dynamodb-storage": "https://github.com/Floby/node-umzug-dynamodb-storage",
     "serverless-plugin-thundra": "2.6.2"
   }
 }
