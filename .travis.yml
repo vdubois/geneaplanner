@@ -11,7 +11,7 @@ deploy_job: &DEPLOY_JOB
   install:
     - npm install -g serverless surge
     - cd ${SERVICE_PATH}
-    - travis_retry npm install
+    - travis_retry npm install --force
     - cd -
 
   script:
