@@ -16,7 +16,7 @@ export const FicheDArchives = () => {
   let {archive} = useParams();
   const {isAuthenticated} = useAuth0();
 
-  const {individusEnCoursDeChargement, individus} = useIndividus(isAuthenticated);
+  const {individusEnCoursDeChargement, arbre} = useIndividus(isAuthenticated);
   const {archivesEnCoursDeChargement, archives} = useDetailArchives(archive, isAuthenticated);
   const supprimerFicheDArchives = useSupprimerArchive(archive);
   const [enCoursDeCloture, setEnCoursDeCloture] = useState(false);
@@ -55,7 +55,7 @@ export const FicheDArchives = () => {
     </Box>
     <ListeDesRegistres/>
     <FenetreDeSaisieDeRegistre
-      individus={individus}
+      individus={arbre?.individus}
       ouverte={fenetreDeSaisieDeRegistreOuverte}
       fermer={() => setFenetreDeSaisieDeRegistreOuverte(false)}
     />

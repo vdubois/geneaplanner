@@ -9,7 +9,7 @@ export const useIndividus = (enabled) => {
     return {
         individusEnCoursDeChargement: isLoading,
         individusEnErreur: error,
-        individus: data || []
+        arbre: data || {}
     };
 }
 

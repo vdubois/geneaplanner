@@ -1,11 +1,10 @@
 service: geneaplanner-backend
 
-frameworkVersion: '2'
+frameworkVersion: '3'
 
 provider:
   name: aws
-  runtime: nodejs12.x
-  lambdaHashingVersion: 20201221
+  runtime: nodejs16.x
   stage: dev
   region: eu-west-3
   timeout: 10
@@ -39,45 +38,47 @@ provider:
         issuerUrl: https://geneaplanner.eu.auth0.com/
         audience:
           - https://geneaplanner-api-gateway/
-  iamRoleStatements:
-    - Effect: Allow
-      Action:
-        - dynamodb:Query
-        - dynamodb:Scan
-        - dynamodb:GetItem
-        - dynamodb:PutItem
-        - dynamodb:UpdateItem
-        - dynamodb:DeleteItem
-        - dynamodb:BatchWriteItem
-      Resource:
-        - Fn::Join:
-            - ""
-            - - "arn:aws:dynamodb:"
-              - Ref: AWS::Region
-              - ":"
-              - Ref: AWS::AccountId
-              - ":table/geneaplanner*"
-    - Effect: Allow
-      Action:
-        - dynamodb:ListTables
-      Resource:
-        - Fn::Join:
-            - ""
-            - - "arn:aws:dynamodb:"
-              - Ref: AWS::Region
-              - ":"
-              - Ref: AWS::AccountId
-              - ":table/*"
-    - Effect: "Allow"
-      Action:
-        - xray:PutTraceSegments
-        - xray:PutTelemetryRecords
-      Resource: "*"
-    - Effect: "Allow"
-      Action:
-        - "s3:*"
-      Resource:
-        - "arn:aws:s3:::*/*"
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+            - dynamodb:BatchWriteItem
+          Resource:
+            - Fn::Join:
+                - ""
+                - - "arn:aws:dynamodb:"
+                  - Ref: AWS::Region
+                  - ":"
+                  - Ref: AWS::AccountId
+                  - ":table/geneaplanner*"
+        - Effect: Allow
+          Action:
+            - dynamodb:ListTables
+          Resource:
+            - Fn::Join:
+                - ""
+                - - "arn:aws:dynamodb:"
+                  - Ref: AWS::Region
+                  - ":"
+                  - Ref: AWS::AccountId
+                  - ":table/*"
+        - Effect: "Allow"
+          Action:
+            - xray:PutTraceSegments
+            - xray:PutTelemetryRecords
+          Resource: "*"
+        - Effect: "Allow"
+          Action:
+            - "s3:*"
+          Resource:
+            - "arn:aws:s3:::*/*"
 
 plugins:
   - serverless-plugin-thundra
@@ -88,14 +89,13 @@ custom:
     tablename: geneaplanner-${env:STAGE, opt:stage, self:provider.stage}-migrations
 
 package:
-  include:
+  patterns:
+    - "!node_modules/**"
     - "node_modules/aws-lambda-utils/**"
     - "node_modules/aws-sdk-fluent-builder/**"
     - "node_modules/read-gedcom/**"
     - "node_modules/uuid/**"
     - "node_modules/@thundra/core/**"
-  exclude:
-    - "node_modules/**"
 
 functions:
   chargement-gedcom:

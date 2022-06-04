@@ -13,7 +13,7 @@ import {useAuth0} from '@auth0/auth0-react';
 export const OrganisationDesRecherches = () => {
   const {isAuthenticated} = useAuth0();
   const {recherchesEnCoursDeChargement, recherchesEnErreur, recherches} = useRecherches(isAuthenticated);
-  const {individusEnCoursDeChargement, individusEnErreur, individus} = useIndividus(isAuthenticated);
+  const {individusEnCoursDeChargement, individusEnErreur, arbre} = useIndividus(isAuthenticated);
 
   const [fenetreDeSaisieOuverte, setFenetreDeSaisieOuverte] = useState(false);
 
@@ -34,7 +34,7 @@ export const OrganisationDesRecherches = () => {
     <FenetreDeSaisieDeRecherche
       ouverte={fenetreDeSaisieOuverte}
       fermer={() => setFenetreDeSaisieOuverte(false)}
-      individus={individus}
+      individus={arbre?.individus}
     />
     {recherchesEnErreur && <Erreur message={recherchesEnErreur}/>}
     {individusEnErreur && <Erreur message={individusEnErreur}/>}

@@ -14,7 +14,7 @@ export const ApportDeCorrections = () => {
     const [fenetreDeSaisieOuverte, setFenetreDeSaisieOuverte] = useState(false);
 
     const {correctionsEnCoursDeChargement, correctionsEnErreur, corrections} = useCorrections();
-    const {individusEnCoursDeChargement, individusEnErreur, individus} = useIndividus();
+    const {individusEnCoursDeChargement, individusEnErreur, arbre} = useIndividus();
 
     return (
         <>
@@ -27,7 +27,7 @@ export const ApportDeCorrections = () => {
             <FenetreDeSaisie
                 ouverte={fenetreDeSaisieOuverte}
                 fermer={() => setFenetreDeSaisieOuverte(false)}
-                individus={individus}
+                individus={arbre?.individus}
             />
             {correctionsEnErreur && <Erreur message={correctionsEnErreur}/>}
             {individusEnErreur && <Erreur message={individusEnErreur}/>}

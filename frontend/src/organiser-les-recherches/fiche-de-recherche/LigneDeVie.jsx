@@ -9,6 +9,7 @@ import {
 } from '@mui/lab';
 import Typography from '@mui/material/Typography';
 import React from "react";
+import {dateAsString} from "../../dates";
 
 export const LigneDeVie = ({individu}) => {
   return <Timeline align="alternate">
@@ -21,7 +22,7 @@ export const LigneDeVie = ({individu}) => {
         <TimelineConnector />
       </TimelineSeparator>
       <TimelineContent>
-        <Typography>Le {individu.naissance.date} &agrave; {individu.naissance.lieu}</Typography>
+        <Typography>Le {dateAsString(individu.naissance.date)} &agrave; {individu.naissance.lieu}</Typography>
       </TimelineContent>
     </TimelineItem>}
     {individu?.mariage && <TimelineItem>
@@ -33,7 +34,7 @@ export const LigneDeVie = ({individu}) => {
         <TimelineConnector />
       </TimelineSeparator>
       <TimelineContent>
-        <Typography>Le {individu.mariage.date} &agrave; {individu.mariage.lieu}</Typography>
+        <Typography>Le {dateAsString(individu.mariage.date)} &agrave; {individu.mariage.lieu}</Typography>
       </TimelineContent>
     </TimelineItem>}
     {individu?.deces && <TimelineItem>
@@ -45,7 +46,7 @@ export const LigneDeVie = ({individu}) => {
         <TimelineConnector />
       </TimelineSeparator>
       <TimelineContent>
-        <Typography>Le {individu.deces.date} &agrave; {individu.deces.lieu}</Typography>
+        <Typography>Le {dateAsString(individu.deces.date)} &agrave; {individu.deces.lieu}</Typography>
       </TimelineContent>
     </TimelineItem>}
   </Timeline>;
