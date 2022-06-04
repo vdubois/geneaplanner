@@ -8,7 +8,8 @@
     "deploy-dev": "sed -i 's/THUNDRAAPIKEY/'\"$THUNDRA_API_KEY\"'/g' serverless.yml && serverless deploy --stage=dev",
     "postdeploy-dev": "STAGE=dev AWS_REGION=eu-west-3 serverless migrations up",
     "deploy-prod": "sed -i 's/THUNDRAAPIKEY/'\"$THUNDRA_API_KEY\"'/g' serverless.yml && serverless deploy --stage=prod",
-    "postdeploy-prod": "STAGE=prod AWS_REGION=eu-west-3 serverless migrations up"
+    "postdeploy-prod": "STAGE=prod AWS_REGION=eu-west-3 serverless migrations up",
+    "postinstall": "cp -r node_modules/serverless-plugin-umzug/node_modules/umzug-dynamodb-storage node_modules"
   },
   "author": "",
   "license": "ISC",
