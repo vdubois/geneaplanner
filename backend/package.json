@@ -21,5 +21,10 @@
   "devDependencies": {
     "serverless-plugin-umzug": "1.3.0",
     "serverless-plugin-thundra": "2.6.2"
+  },
+  "overrides": {
+    "serverless-plugin-umzug": {
+      "umzug-dynamodb-storage": "https://github.com/christophgysin/node-umzug-dynamodb-storage.git"
+    }
   }
 }
