@@ -25,19 +25,19 @@ export const Accueil = () => {
 
     return (
         <div className="Accueil">
-            <Badge badgeContent={recherchesEnCoursDeChargement ? '...' : (recherches?.recherches && Object.keys(recherches?.recherches).length)} showZero max={9999} color="primary"><Rubrique
+            <Badge badgeContent={recherchesEnCoursDeChargement ? '...' : (recherches?.recherches && Object.keys(recherches?.recherches).length)} max={9999} color="primary"><Rubrique
                 titre="Organisation de vos recherches"
                 description="Priorisez et organisez vos activités de recherche dans cette rubrique"
                 image={RubriqueOrganisationDesRecherches}
                 onClick={() => navigateTo('/organiser-les-recherches')}
             /></Badge>
-            <Badge badgeContent={correctionsEnCoursDeChargement ? '...' : corrections?.length} showZero max={9999} color="primary"><Rubrique
+            <Badge badgeContent={correctionsEnCoursDeChargement ? '...' : corrections?.length} max={9999} color="primary"><Rubrique
                 titre="Apporter des corrections"
                 description="Dans cette rubrique, notez des corrections à apporter à votre généalogie pour les réaliser plus tard"
                 image={RubriqueApportDeCorrections}
                 onClick={() => navigateTo('/apporter-des-corrections')}
             /></Badge>
-            <Badge badgeContent={archivesEnCoursDeChargement ? '...' : archives?.length} showZero max={9999} color="primary"><Rubrique
+            <Badge badgeContent={archivesEnCoursDeChargement ? '...' : archives?.length} max={9999} color="primary"><Rubrique
                 titre="Recherches aux archives"
                 description="Dans cette rubrique, recensez tous les registres que vous souhaitez consulter lors de vos déplacements aux archives départementales"
                 onClick={() => navigateTo('/preparer-passage-aux-archives')}
@@ -48,7 +48,7 @@ export const Accueil = () => {
                 description="Consultez les fiches détaillées des individus de votre arbre généalogique dans cette rubrique"
                 image={RubriqueRechercheDIndividus}
             />
-            {arbre?.individus?.length === 0 && <Rubrique
+            {!arbre || !arbre?.individus || arbre?.individus?.length === 0 && <Rubrique
                 titre="Importer un fichier GEDCOM"
                 description="Importez un fichier GEDCOM afin de renseigner votre arbre généalogique"
                 image={RubriqueImportGedcom}
