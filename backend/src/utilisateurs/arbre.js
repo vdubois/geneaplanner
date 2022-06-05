@@ -37,7 +37,9 @@ module.exports.rechercher = async event => {
       });
     }
   } catch (error) {
-    return ok([]);
+    return ok({
+      individus: []
+    });
   }
 }
 

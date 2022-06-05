@@ -28,3 +28,7 @@
   width: 500px !important;
   left: 80px !important;
 }
+
+:focus-visible {
+  outline: none;
+}

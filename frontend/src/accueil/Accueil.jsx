@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Rubrique} from "./Rubrique";
 import './Accueil.css';
 import RubriqueOrganisationDesRecherches from './RubriqueOrganisationDesRecherches2.jpg';
@@ -14,6 +14,8 @@ import {useRecherches} from "../api/recherches.hooks";
 import {useCorrections} from "../api/corrections.hooks";
 import {useArchives} from "../api/archives.hooks";
 import {dateAsString} from "../dates";
+import {useTour} from "@reactour/tour";
+import {useLocalStorage} from "../hooks/useLocalStorage";
 
 export const Accueil = () => {
     const navigateTo = useNavigate();
@@ -22,43 +24,20 @@ export const Accueil = () => {
     const {recherchesEnCoursDeChargement, recherchesEnErreur, recherches} = useRecherches(isAuthenticated);
     const {correctionsEnCoursDeChargement, correctionsEnErreur, corrections} = useCorrections(isAuthenticated);
     const {archivesEnCoursDeChargement, archivesEnErreur, archives} = useArchives(isAuthenticated);
+    const { setIsOpen } = useTour();
+    const [showTour, setShowTour] = useLocalStorage("showTour", false);
 
-    return (
-        <div className="Accueil">
-            <Badge badgeContent={recherchesEnCoursDeChargement ? '...' : (recherches?.recherches && Object.keys(recherches?.recherches).length)} max={9999} color="primary"><Rubrique
-                titre="Organisation de vos recherches"
-                description="Priorisez et organisez vos activités de recherche dans cette rubrique"
-                image={RubriqueOrganisationDesRecherches}
-                onClick={() => navigateTo('/organiser-les-recherches')}
-            /></Badge>
-            <Badge badgeContent={correctionsEnCoursDeChargement ? '...' : corrections?.length} max={9999} color="primary"><Rubrique
-                titre="Apporter des corrections"
-                description="Dans cette rubrique, notez des corrections à apporter à votre généalogie pour les réaliser plus tard"
-                image={RubriqueApportDeCorrections}
-                onClick={() => navigateTo('/apporter-des-corrections')}
-            /></Badge>
-            <Badge badgeContent={archivesEnCoursDeChargement ? '...' : archives?.length} max={9999} color="primary"><Rubrique
-                titre="Recherches aux archives"
-                description="Dans cette rubrique, recensez tous les registres que vous souhaitez consulter lors de vos déplacements aux archives départementales"
-                onClick={() => navigateTo('/preparer-passage-aux-archives')}
-                image={RubriquePreparationPassageAuxArchives}
-            /></Badge>
-            <Rubrique
-                titre="Recherche d'individus"
-                description="Consultez les fiches détaillées des individus de votre arbre généalogique dans cette rubrique"
-                image={RubriqueRechercheDIndividus}
-            />
-            {!arbre || !arbre?.individus || arbre?.individus?.length === 0 && <Rubrique
-                titre="Importer un fichier GEDCOM"
-                description="Importez un fichier GEDCOM afin de renseigner votre arbre généalogique"
-                image={RubriqueImportGedcom}
-                onClick={() => navigateTo('/importer-un-fichier-gedcom')}
-                actionPrimaire={{
-                    titre: 'Importer un fichier',
-                    onClick: () => navigateTo('/importer-un-fichier-gedcom')
-                }}
-            />}
-            {arbre?.individus?.length > 0 && <Badge badgeContent={arbre.individus.length} max={9999} color="primary"><Rubrique
+    useEffect(() => {
+        if (arbre?.individus?.length === 0 && !showTour) {
+            setShowTour(true);
+            setIsOpen(true);
+        }
+    }, [arbre, showTour]);
+
+    const RubriqueArbre = () => {
+        if (arbre?.individus?.length > 0) {
+            return <Badge badgeContent={arbre.individus.length} max={9999} color="primary"><Rubrique
+                id='rubrique-arbre'
                 titre="Votre arbre g&eacute;n&eacute;alogique"
                 description={`Vous avez actuellement ${arbre.individus.length} individus dans votre arbre. Dernière mise à jour le ${dateAsString(arbre.date)}.`}
                 image={RubriqueImportGedcom}
@@ -67,7 +46,64 @@ export const Accueil = () => {
                     titre: 'Réimporter un fichier',
                     onClick: () => navigateTo('/importer-un-fichier-gedcom')
                 }}
-            /></Badge>}
+            /></Badge>;
+        } else {
+            return <Rubrique
+                id='rubrique-arbre'
+                titre="Importer un fichier GEDCOM"
+                description="Importez un fichier GEDCOM afin de renseigner votre arbre généalogique"
+                image={RubriqueImportGedcom}
+                onClick={() => navigateTo('/importer-un-fichier-gedcom')}
+                actionPrimaire={{
+                    titre: 'Importer un fichier',
+                    onClick: () => {
+                        setIsOpen(false);
+                        navigateTo('/importer-un-fichier-gedcom');
+                    }
+                }}
+            />;
+        }
+    };
+
+    return (
+        <div className="Accueil">
+            <Badge badgeContent={recherchesEnCoursDeChargement ? '' : (recherches?.recherches && Object.keys(recherches?.recherches).length)} max={9999} color="primary"><Rubrique
+                id='rubrique-organisation'
+                titre="Organisation de vos recherches"
+                description="Priorisez et organisez vos activités de recherche dans cette rubrique"
+                image={RubriqueOrganisationDesRecherches}
+                onClick={() => {
+                    setIsOpen(false);
+                    navigateTo('/organiser-les-recherches');
+                }}
+            /></Badge>
+            <Badge badgeContent={correctionsEnCoursDeChargement ? '' : corrections?.length} max={9999} color="primary"><Rubrique
+                id='rubrique-corrections'
+                titre="Apporter des corrections"
+                description="Dans cette rubrique, notez des corrections à apporter à votre généalogie pour les réaliser plus tard"
+                image={RubriqueApportDeCorrections}
+                onClick={() => {
+                    setIsOpen(false);
+                    navigateTo('/apporter-des-corrections');
+                }}
+            /></Badge>
+            <Badge badgeContent={archivesEnCoursDeChargement ? '' : archives?.length} max={9999} color="primary"><Rubrique
+                id='rubrique-archives'
+                titre="Recherches aux archives"
+                description="Dans cette rubrique, recensez tous les registres que vous souhaitez consulter lors de vos déplacements aux archives départementales"
+                onClick={() => {
+                    setIsOpen(false);
+                    navigateTo('/preparer-passage-aux-archives');
+                }}
+                image={RubriquePreparationPassageAuxArchives}
+            /></Badge>
+            <Rubrique
+                id='rubrique-individus'
+                titre="Recherche d'individus"
+                description="Consultez les fiches détaillées des individus de votre arbre généalogique dans cette rubrique"
+                image={RubriqueRechercheDIndividus}
+            />
+            <RubriqueArbre/>
         </div>
     );
 }

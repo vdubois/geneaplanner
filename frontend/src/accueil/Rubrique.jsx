@@ -2,9 +2,9 @@ import {Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Typog
 import React from "react";
 import './Rubrique.css';
 
-export const Rubrique = ({image, titre, description, onClick, actionPrimaire, actionSecondaire}) => {
+export const Rubrique = ({id, image, titre, description, onClick, actionPrimaire, actionSecondaire}) => {
     return (
-        <Card className="Rubrique">
+        <Card id={id} className="Rubrique">
             <CardActionArea onClick={onClick}>
                 <CardMedia
                     component="img"

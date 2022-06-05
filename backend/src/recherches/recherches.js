@@ -13,18 +13,22 @@ module.exports.recupererLesRecherches = async event => {
   if (event.pathParameters.identifiant !== utilisateur.email) {
     return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
   }
-  const partitionKey = `${utilisateur.email}#recherches`;
-  const recherchesDeLUtilisateur = await dynamoDBRepository.findOneByPartitionKey(partitionKey);
-  if (recherchesDeLUtilisateur) {
-    delete recherchesDeLUtilisateur.partitionKey;
-    const individus = Object.keys(recherchesDeLUtilisateur.recherches)
-    for (let rechercheIndex = 0; rechercheIndex < individus.length; rechercheIndex++) {
-      const individu = await rechercherIndividuParIdentifiant(
-        utilisateur.email,
-        `@${recherchesDeLUtilisateur.recherches[individus[rechercheIndex]].individu}@`);
-      recherchesDeLUtilisateur.recherches[individus[rechercheIndex]].nomDeLIndividu = individu.nom;
+  try {
+    const partitionKey = `${utilisateur.email}#recherches`;
+    const recherchesDeLUtilisateur = await dynamoDBRepository.findOneByPartitionKey(partitionKey);
+    if (recherchesDeLUtilisateur) {
+      delete recherchesDeLUtilisateur.partitionKey;
+      const individus = Object.keys(recherchesDeLUtilisateur.recherches)
+      for (let rechercheIndex = 0; rechercheIndex < individus.length; rechercheIndex++) {
+        const individu = await rechercherIndividuParIdentifiant(
+            utilisateur.email,
+            `@${recherchesDeLUtilisateur.recherches[individus[rechercheIndex]].individu}@`);
+        recherchesDeLUtilisateur.recherches[individus[rechercheIndex]].nomDeLIndividu = individu.nom;
+      }
+      return ok(recherchesDeLUtilisateur);
     }
-    return ok(recherchesDeLUtilisateur);
+  } catch (error) {
+    console.error(error);
   }
   return ok({});
 }

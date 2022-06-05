@@ -143,7 +143,7 @@ export const ListeDesRecherches = ({enCoursDeChargement, recherches}) => {
         <Divider component="li" />
       </React.Fragment>
     ))}
-    {individus?.length === 0 && !enCoursDeChargement && <ElementDeListe
+    {(!individus || individus?.length === 0) && !enCoursDeChargement && <ElementDeListe
       ><AucunResultat variant="body1">Aucune recherche en cours</AucunResultat>
     </ElementDeListe>}
   </Liste>
