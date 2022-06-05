@@ -4,13 +4,14 @@ import './ImportationDeFichierGedcom.css';
 import CheckIcon from '@mui/icons-material/Check';
 import {usePublierArbre} from "../api/arbres.hooks";
 import {Erreur} from "../components/Erreur";
+import {SelectionRacine} from "./selection-racine/SelectionRacine";
 
 export const ImportationDeFichierGedcom = () => {
     const [etapeActive, setEtapeActive] = useState(0);
     const [erreur, setErreur] = useState();
     const etapeSuivante = () => setEtapeActive(etapePrecedente => etapePrecedente + 1);
     const etapePrecedente = () => setEtapeActive(etapePrecedente => etapePrecedente - 1);
-    const [individus, setIndividus] = useState();
+    const [individus, setIndividus] = useState([]);
     const publierArbre = usePublierArbre();
 
     const selectionnerUnFichierGEDCOM = ({target}) => {
@@ -27,9 +28,7 @@ export const ImportationDeFichierGedcom = () => {
                     try {
                         const contenuDuFichierGEDCOM =
                             contenuDuFichier.split('data:application/x-gedcom;base64,')[1];
-                        console.log(contenuDuFichierGEDCOM);
                         const arbre = await publierArbre(contenuDuFichierGEDCOM);
-                        console.log(arbre);
                         setIndividus(arbre.individus);
                         etapeSuivante();
                     } catch (erreur) {
@@ -72,13 +71,23 @@ export const ImportationDeFichierGedcom = () => {
                         </div>
                     </StepContent>
                 </Step>
+                <Step key="step-selection-racine">
+                    <StepLabel>Sélection de la racine de l'arbre</StepLabel>
+                    <StepContent>
+                        <div className="ImportationDeFichierGedcomChoixRacine">
+                            <SelectionRacine
+                                individus={individus}
+                                racineSelectionnee={(racine) => console.log(racine)} />
+                        </div>
+                    </StepContent>
+                </Step>
                 <Step key="step-resume-de-l-import">
                     <StepLabel>Import effectué</StepLabel>
                     <StepContent>
                         <div className="ImportationDeFichierGedcomSyntheseConteneur">
                             <div className="ImportationDeFichierGedcomSynthese">
                                 <CheckIcon color="primary" />
-                                <Typography className="ImportationDeFichierGedcomSyntheseTexte">Fichier GEDCOM importé avec succès, {individus} individus ont été importés</Typography>
+                                <Typography className="ImportationDeFichierGedcomSyntheseTexte">Fichier GEDCOM importé avec succès, {individus?.length} individus ont été importés</Typography>
                             </div>
                             <div className="ImportationDeFichierGedcomActions">
                                 <Button variant="contained" color="primary" component="span">

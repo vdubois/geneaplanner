@@ -68,6 +68,7 @@ module.exports = ((arbreGedcom) => {
     return {
         nombreDIndividus: () => arbreGedcom.getIndividualRecord().length,
         date: () => arbreGedcom.getHeader().getFileCreationDate().valueAsExactDate()[0],
+        nomIndividuRacine: () => arbreGedcom.getIndividualRecord().arraySelect()[0].getName().getGivenName().value() + ' ' + arbreGedcom.getIndividualRecord().arraySelect()[0].getName().getSurname().value(),
         individus: () => {
             const individus = arbreGedcom.getIndividualRecord();
             return individus.arraySelect().map(individu => ({

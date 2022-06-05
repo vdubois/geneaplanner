@@ -3,8 +3,9 @@ const fs = require('fs');
 const arbre = require('./utilisateurs/arbre.fonctions');
 
 
-const file = fs.readFileSync('/home/vincent/Téléchargements/vdubois.ged', 'utf-8');
+const file = fs.readFileSync('/home/vincent/Téléchargements/Untitled_1.ged', 'utf-8');
 const arbreGenealogique = arbre(gedcom.readGedcom(Buffer.from(file.toString(), 'utf-8')));
+console.log(arbreGenealogique.nomIndividuRacine());
 console.log(arbreGenealogique.date());
 console.log(arbreGenealogique.nombreDIndividus());
 console.log(arbreGenealogique.nomIndividu('@I0466@'));

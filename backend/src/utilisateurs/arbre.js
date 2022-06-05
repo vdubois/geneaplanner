@@ -14,11 +14,10 @@ module.exports.charger = async event => {
     return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
   }
   const fichierGEDCOM = Buffer.from(event.body, 'base64');
-  const arbre = gedcom.readGedcom(fichierGEDCOM);
-  const individus = arbre.getIndividualRecord();
+  const arbreGenealogique = arbre(gedcom.readGedcom(fichierGEDCOM));
   await espaceDeStockageDesFichiersGEDCOM.writeFile(`${utilisateur.email}.ged`, fichierGEDCOM);
   return ok({
-    individus: individus.count()
+    individus: arbreGenealogique.individus()
   });
 };
 

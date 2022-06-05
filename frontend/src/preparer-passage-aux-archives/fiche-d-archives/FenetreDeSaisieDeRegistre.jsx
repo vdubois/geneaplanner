@@ -69,7 +69,7 @@ export const FenetreDeSaisieDeRegistre = ({ouverte, fermer, individus, archives}
             <Autocomplete
                 id="combo-box-demo"
                 options={individus}
-                getOptionLabel={individu => individu ? `${individu.nom}(${individu.id})` : ''}
+                getOptionLabel={individu => individu ? `${individu.nom} (${individu.id})` : ''}
                 noOptionsText="Aucun individu ne correspond"
                 fullWidth
                 clearText="Effacer"
@@ -98,6 +98,14 @@ export const FenetreDeSaisieDeRegistre = ({ouverte, fermer, individus, archives}
                             value={evenement.identifiant}>{evenement.texte}</MenuItem>
                     ))}
                 </Select>
+            </FormControl>
+            <FormControl className="ChampFenetreDeSaisie" fullWidth>
+                <TextField
+                    placeholder="Référence *"
+                    variant="outlined"
+                    value={reference}
+                    onChange={event => setReference(event.target.value)}
+                />
             </FormControl>
             <FormControl className="ChampFenetreDeSaisie" fullWidth>
                 <TextField
