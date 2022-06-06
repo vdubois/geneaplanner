@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Button, CircularProgress, Container, Step, StepContent, StepLabel, Stepper, Typography} from "@mui/material";
 import './ImportationDeFichierGedcom.css';
 import CheckIcon from '@mui/icons-material/Check';
-import {usePublierArbre} from "../api/arbres.hooks";
+import {usePublierArbre, usePublierRacineDeLArbre} from "../api/arbres.hooks";
 import {Erreur} from "../components/Erreur";
 import {SelectionRacine} from "./selection-racine/SelectionRacine";
 
@@ -13,6 +13,7 @@ export const ImportationDeFichierGedcom = () => {
     const etapePrecedente = () => setEtapeActive(etapePrecedente => etapePrecedente - 1);
     const [individus, setIndividus] = useState([]);
     const publierArbre = usePublierArbre();
+    const publierRacineDeLArbre = usePublierRacineDeLArbre();
 
     const selectionnerUnFichierGEDCOM = ({target}) => {
         const fichier = target.files[0];
@@ -39,6 +40,17 @@ export const ImportationDeFichierGedcom = () => {
             };
         }
     }
+
+    const selectionnerRacineDeLArbre = async (racine) => {
+        try {
+            const resultat = await publierRacineDeLArbre(racine);
+            console.log(resultat);
+            etapeSuivante();
+        } catch (erreur) {
+            setErreur(erreur.message);
+        }
+    };
+
     return (
         <Container maxWidth="md">
             <Typography variant="h4" className="ImportationDeFichierGedcomTitre">Importer un fichier GEDCOM</Typography>
@@ -77,7 +89,9 @@ export const ImportationDeFichierGedcom = () => {
                         <div className="ImportationDeFichierGedcomChoixRacine">
                             <SelectionRacine
                                 individus={individus}
-                                racineSelectionnee={(racine) => console.log(racine)} />
+                                racineSelectionnee={(racine) => selectionnerRacineDeLArbre(racine)}
+                                afficherBouton={true}
+                            />
                         </div>
                     </StepContent>
                 </Step>

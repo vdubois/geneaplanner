@@ -98,6 +98,14 @@ package:
     - "node_modules/@thundra/core/**"
 
 functions:
+  definir-racine-gedcom:
+    handler: src/utilisateurs/arbre.definirRacineDeLArbre
+    events:
+      - httpApi:
+          path: /arbres/{identifiant}
+          method: patch
+          authorizer:
+            name: accessTokenAuth0
   chargement-gedcom:
     handler: src/utilisateurs/arbre.charger
     events:

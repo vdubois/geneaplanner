@@ -1,4 +1,4 @@
-const {ok, unauthorized, badRequest, notFound} = require("aws-lambda-utils");
+const {ok, unauthorized, badRequest, notFound, created} = require("aws-lambda-utils");
 const utilisateurConnecte = require('../authentification/utilisateurConnecte');
 const gedcom = require('read-gedcom');
 const S3Builder = require('aws-sdk-fluent-builder').S3Builder;
@@ -7,6 +7,34 @@ const espaceDeStockageDesFichiersGEDCOM = new S3Builder()
   .asStorageService()
   .build();
 const arbre = require('./arbre.fonctions');
+const DynamoDBBuilder = require('aws-sdk-fluent-builder').DynamoDbBuilder;
+const dynamoDBRepository = new DynamoDBBuilder()
+    .withTableName(process.env.TABLE_DONNEES)
+    .withPartitionKeyName("partitionKey")
+    .build();
+
+module.exports.definirRacineDeLArbre = async event => {
+  const utilisateur = utilisateurConnecte(event);
+  if (event.pathParameters.identifiant !== utilisateur.email) {
+    return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
+  }
+  if (event.body) {
+    const racine = JSON.parse(event.body);
+    const partitionKey = `${utilisateur.email}#racine`;
+    let racineDeLArbre = await dynamoDBRepository.findOneByPartitionKey(partitionKey);
+    if (!racineDeLArbre) {
+      racineDeLArbre = {
+        partitionKey,
+        racine: racine.id
+      };
+    } else {
+      racineDeLArbre.racine = racine.id;
+    }
+    await dynamoDBRepository.save(racineDeLArbre);
+    return created(racine);
+  }
+  return badRequest('Les informations de la racine sont obligatoires');
+}
 
 module.exports.charger = async event => {
   const utilisateur = utilisateurConnecte(event);
@@ -30,13 +58,18 @@ module.exports.rechercher = async event => {
     const fichierArbre = await espaceDeStockageDesFichiersGEDCOM.readFile(`${utilisateur.email}.ged`);
     if (fichierArbre) {
       const arbreGenealogique = arbre(gedcom.readGedcom(fichierArbre));
+      const partitionKey = `${utilisateur.email}#racine`;
+      let racineDeLArbre = await dynamoDBRepository.findOneByPartitionKey(partitionKey);
       return ok({
+        racine: racineDeLArbre?.racine || '',
         date: arbreGenealogique.date(),
         individus: arbreGenealogique.individus()
       });
     }
   } catch (error) {
+    console.error(error);
     return ok({
+      racine: '',
       individus: []
     });
   }

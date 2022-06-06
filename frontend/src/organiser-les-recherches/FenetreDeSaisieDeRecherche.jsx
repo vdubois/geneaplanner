@@ -52,9 +52,10 @@ export const FenetreDeSaisieDeRecherche = ({ouverte, fermer, individus}) => {
   return <Dialog
     open={ouverte}
     onClose={fermer}
-    maxWidth="sm">
+    maxWidth="sm"
+  >
     <DialogTitle id="form-dialog-title">Ajout d'une recherche</DialogTitle>
-    <DialogContent>
+    <DialogContent sx={{width: '550px'}}>
       <DialogContentText>
         Veuillez remplir les champs obligatoires ci-dessous afin de créer la recherche portant sur un individu
       </DialogContentText>
@@ -72,6 +73,7 @@ export const FenetreDeSaisieDeRecherche = ({ouverte, fermer, individus}) => {
           label="Individu concerné *"
           variant="outlined"
         />}
+        sx={{width: '500px'}}
       />
       <FormControl variant="outlined" className="ChampFenetreDeSaisie" fullWidth>
         <InputLabel
@@ -83,6 +85,7 @@ export const FenetreDeSaisieDeRecherche = ({ouverte, fermer, individus}) => {
           variant="outlined"
           value={priorite}
           label="Priorit&eacute; *"
+          sx={{width: '500px'}}
         >
           {priorites.map(priorite => (
             <MenuItem

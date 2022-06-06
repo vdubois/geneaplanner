@@ -1,4 +1,4 @@
-import {usePutMutationWithAuth, useQueryWithAuth} from "./react-query.hooks";
+import {usePatchMutationWithAuth, usePutMutationWithAuth, useQueryWithAuth} from "./react-query.hooks";
 
 export const useIndividus = (enabled) => {
     const { isLoading, error, data } = useQueryWithAuth(
@@ -15,6 +15,9 @@ export const useIndividus = (enabled) => {
 
 export const usePublierArbre = () =>
     usePutMutationWithAuth(`/arbres/[email]`, ['individus'])
+
+export const usePublierRacineDeLArbre = () =>
+    usePatchMutationWithAuth(`/arbres/[email]`, ['individus'])
 
 export const useIndividu = (identifiantIndividu) => {
     const { isLoading, error, data } = useQueryWithAuth(
