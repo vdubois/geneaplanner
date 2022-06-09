@@ -13,6 +13,19 @@ export const useIndividus = (enabled) => {
     };
 }
 
+export const useArbre = (individu, enabled) => {
+    const { isLoading, error, data } = useQueryWithAuth(
+        "arbre",
+        `/arbres/[email]/detail/${individu}`,
+        enabled
+    );
+    return {
+        arbreGenealogiqueEnCoursDeChargement: isLoading,
+        arbreGenealogiqueEnErreur: error,
+        arbreGenealogique: data || []
+    };
+}
+
 export const usePublierArbre = () =>
     usePutMutationWithAuth(`/arbres/[email]`, ['individus'])
 

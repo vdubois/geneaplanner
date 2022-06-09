@@ -52,7 +52,7 @@ export const App = () => {
                         <Route exact path="/apporter-des-corrections" element={<ApportDeCorrections/>}/>
                         <Route exact path="/preparer-passage-aux-archives" element={<PreparationPassageAuxArchives />}/>
                         <Route exact path="/preparer-passage-aux-archives/:archive" element={<FicheDArchives />}/>
-                        <Route exact path="/recherche-d-individus" element={<RechercheDIndividus />}/>
+                        <Route exact path="/recherche-d-individus/:racine" element={<RechercheDIndividus />}/>
                         <Route exact path="/importer-un-fichier-gedcom" element={<ImportationDeFichierGedcom />}/>
                     </Routes>
                 </Toolbar>

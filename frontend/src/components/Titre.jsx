@@ -10,7 +10,7 @@ export const Titre = () => {
             className="AppBarTitre"
             onClick={() => navigateTo('/')}>
             <img
-                src="logo.png"
+                src="/logo.png"
                 alt="GénéaPlanner"
                 className="AppTitre"/>
         </div>

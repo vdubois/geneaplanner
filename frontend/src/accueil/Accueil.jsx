@@ -120,12 +120,16 @@ export const Accueil = () => {
                     }}
                     image={RubriquePreparationPassageAuxArchives}
                 /></Badge>
-                <Rubrique
+                {arbre && arbre.racine && <Rubrique
                     id='rubrique-individus'
                     titre="Recherche d'individus"
                     description="Consultez les fiches détaillées des individus de votre arbre généalogique dans cette rubrique"
+                    onClick={() => {
+                        setIsOpen(false);
+                        navigateTo(`/recherche-d-individus/${arbre.racine}`);
+                    }}
                     image={RubriqueRechercheDIndividus}
-                />
+                />}
                 <RubriqueArbre/>
             </Container>
             {arbre?.individus?.length > 0 && <FenetreDeSaisieDeLaRacine

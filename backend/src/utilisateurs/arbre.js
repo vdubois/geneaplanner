@@ -62,6 +62,7 @@ module.exports.rechercher = async event => {
       let racineDeLArbre = await dynamoDBRepository.findOneByPartitionKey(partitionKey);
       return ok({
         racine: racineDeLArbre?.racine || '',
+        nomRacine: racineDeLArbre?.racine ? arbreGenealogique.nomIndividu(`@${racineDeLArbre?.racine}@`) : '',
         date: arbreGenealogique.date(),
         individus: arbreGenealogique.individus()
       });
@@ -72,6 +73,23 @@ module.exports.rechercher = async event => {
       racine: '',
       individus: []
     });
+  }
+}
+
+module.exports.detail = async event => {
+  const utilisateur = utilisateurConnecte(event);
+  if (event.pathParameters.identifiant !== utilisateur.email) {
+    return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
+  }
+  try {
+    const fichierArbre = await espaceDeStockageDesFichiersGEDCOM.readFile(`${utilisateur.email}.ged`);
+    if (fichierArbre) {
+      const arbreGenealogique = arbre(gedcom.readGedcom(fichierArbre));
+      return ok(arbreGenealogique.arbre(event.pathParameters.individu));
+    }
+  } catch (error) {
+    console.error(error);
+    return ok([]);
   }
 }
 

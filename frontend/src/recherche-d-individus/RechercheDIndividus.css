@@ -1,0 +1,17 @@
+.RechercheDIndividus {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
+
+#tree {
+    height: 100%;
+}
+
+.wrapper {
+    flex: 1;
+}
+
+.tree {
+}

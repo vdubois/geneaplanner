@@ -65,10 +65,142 @@ module.exports = ((arbreGedcom) => {
         }
     };
 
+    const arbre = (identifiantIndividu) => {
+        const aUnPere = (individu) => individu.getFamilyAsChild()
+            && individu.getFamilyAsChild().getHusband()
+            && individu.getFamilyAsChild().getHusband().value()
+            && individu.getFamilyAsChild().getHusband().value()[0];
+        const aUneMere = (individu) => individu.getFamilyAsChild()
+            && individu.getFamilyAsChild().getWife()
+            && individu.getFamilyAsChild().getWife().value()
+            && individu.getFamilyAsChild().getWife().value()[0];
+        const parents = (individu) => {
+            const parentsArray = [];
+            if (aUnPere(individu)) {
+                parentsArray.push({
+                    id: individu.getFamilyAsChild().getHusband().value()[0].replace(/@/g, ''),
+                    type: 'blood'
+                })
+            }
+            if (aUneMere(individu)) {
+                parentsArray.push({
+                    id: individu.getFamilyAsChild().getWife().value()[0].replace(/@/g, ''),
+                    type: 'blood'
+                })
+            }
+            return parentsArray;
+        };
+        const aUnMari = (individu) => individu.getFamilyAsSpouse()
+            && individu.getFamilyAsSpouse().getHusband()
+            && individu.getFamilyAsSpouse().getHusband().value()
+            && individu.getFamilyAsSpouse().getHusband().value()[0];
+        const aUneFemme = (individu) => individu.getFamilyAsSpouse()
+            && individu.getFamilyAsSpouse().getWife()
+            && individu.getFamilyAsSpouse().getWife().value()
+            && individu.getFamilyAsSpouse().getWife().value()[0];
+        const epoux = (individu) => {
+            const epouxArray = [];
+            const identifiantIndividu = individu[0].pointer.replace(/@/g, '');
+            if (aUnMari(individu)) {
+                const identifiantMari = individu.getFamilyAsSpouse().getHusband().value()[0].replace(/@/g, '');
+                if (identifiantMari !== identifiantIndividu) {
+                    epouxArray.push({
+                        id: identifiantMari,
+                        type: 'married'
+                    });
+                }
+            }
+            if (aUneFemme(individu)) {
+                const identifiantFemme = individu.getFamilyAsSpouse().getWife().value()[0].replace(/@/g, '');
+                if (identifiantFemme !== identifiantIndividu) {
+                    epouxArray.push({
+                        id: identifiantFemme,
+                        type: 'married'
+                    });
+                }
+            }
+            return epouxArray;
+        }
+        const enfants = (individu) => {
+            return individu.getSpouseFamilyLink().getFamilyRecord().getChild().getIndividualRecord().arraySelect().map(child => ({
+                id: child[0].pointer.replace(/@/g, ''),
+                type: 'blood'
+            }));
+        }
+        const fratrie = (individu) => {
+            return individu.getChildFamilyLink().getFamilyRecord().getChild().arraySelect()
+                .filter(child => child.getIndividualRecord()[0].pointer !== individu[0].pointer)
+                .map(child => ({
+                    id: child[0].value.replace(/@/g, ''),
+                    type: 'blood'
+                }));
+        }
+        const individuDeLArbre = arbreGedcom.getIndividualRecord(identifiantIndividu);
+        const parentsDeLIndividuDeLArbre = parents(individuDeLArbre);
+        const epouxDeLIndividuDeLArbre = epoux(individuDeLArbre);
+        const enfantsDeLIndividuDeLArbre = enfants(individuDeLArbre);
+        const fratrieDeLIndividuDeLArbre = fratrie(individuDeLArbre);
+        return individuDeLArbre.arraySelect().map(individu => {
+            return ({
+                id: individu[0].pointer.replace(/@/g, ''),
+                name: individu.getName().getGivenName().value() + ' ' + individu.getName().getSurname().value(),
+                gender: individu.getSex().value()[0] === 'M' ? 'male' : 'female',
+                parents: parentsDeLIndividuDeLArbre,
+                spouses: epouxDeLIndividuDeLArbre,
+                children: enfantsDeLIndividuDeLArbre,
+                siblings: fratrieDeLIndividuDeLArbre
+            });
+        }).concat(parentsDeLIndividuDeLArbre.map(parent => {
+            const individu = arbreGedcom.getIndividualRecord('@' + parent.id + '@');
+            return {
+                id: parent.id,
+                gender: individu.getSex().value()[0] === 'M' ? 'male' : 'female',
+                name: individu.getName().getGivenName().value() + ' ' + individu.getName().getSurname().value(),
+                parents: [],
+                children: enfants(individu),
+                spouses: epoux(individu),
+                siblings: fratrie(individu)
+            }
+        })).concat(epouxDeLIndividuDeLArbre.map(epouxIndividu => {
+            const individu = arbreGedcom.getIndividualRecord('@' + epouxIndividu.id + '@');
+            return {
+                id: epouxIndividu.id,
+                gender: individu.getSex().value()[0] === 'M' ? 'male' : 'female',
+                name: individu.getName().getGivenName().value() + ' ' + individu.getName().getSurname().value(),
+                parents: [],
+                children: enfants(individu),
+                spouses: epoux(individu),
+                siblings: fratrie(individu)
+            }
+        })).concat(enfantsDeLIndividuDeLArbre.map(enfant => {
+            const individu = arbreGedcom.getIndividualRecord('@' + enfant.id + '@');
+            return {
+                id: enfant.id,
+                gender: individu.getSex().value()[0] === 'M' ? 'male' : 'female',
+                name: individu.getName().getGivenName().value() + ' ' + individu.getName().getSurname().value(),
+                parents: parents(individu),
+                children: [],
+                spouses: [],
+                siblings: fratrie(individu)
+            }
+        })).concat(fratrieDeLIndividuDeLArbre.map(enfant => {
+            const individu = arbreGedcom.getIndividualRecord('@' + enfant.id + '@');
+            return {
+                id: enfant.id,
+                gender: individu.getSex().value()[0] === 'M' ? 'male' : 'female',
+                name: individu.getName().getGivenName().value() + ' ' + individu.getName().getSurname().value(),
+                parents: parents(individu),
+                spouses: [],
+                children: [],
+                siblings: fratrie(individu)
+            }
+        }));
+    }
+
     return {
+        arbre,
         nombreDIndividus: () => arbreGedcom.getIndividualRecord().length,
         date: () => arbreGedcom.getHeader().getFileCreationDate().valueAsExactDate()[0],
-        nomIndividuRacine: () => arbreGedcom.getIndividualRecord().arraySelect()[0].getName().getGivenName().value() + ' ' + arbreGedcom.getIndividualRecord().arraySelect()[0].getName().getSurname().value(),
         individus: () => {
             const individus = arbreGedcom.getIndividualRecord();
             return individus.arraySelect().map(individu => ({

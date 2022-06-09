@@ -122,6 +122,14 @@ functions:
           method: get
           authorizer:
             name: accessTokenAuth0
+  detail-gedcom:
+    handler: src/utilisateurs/arbre.detail
+    events:
+      - httpApi:
+          path: /arbres/{identifiant}/detail/{individu}
+          method: get
+          authorizer:
+            name: accessTokenAuth0
   details-individu:
     handler: src/utilisateurs/arbre.rechercherParIdentifiant
     events:
