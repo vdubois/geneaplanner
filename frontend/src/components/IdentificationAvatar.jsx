@@ -4,6 +4,7 @@ import Menu from "@mui/material/Menu/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import React, {useEffect, useState} from "react";
 import {useAuth0} from "@auth0/auth0-react";
+import {useNavigate} from "react-router-dom";
 
 export const IdentificationAvatar = () => {
 
@@ -21,6 +22,7 @@ export const IdentificationAvatar = () => {
     const fermerMenuAvatar = () => {
         modifierAncreDuMenuAvatar(null);
     };
+    const navigateTo = useNavigate();
 
     return (
         <React.Fragment>
@@ -61,8 +63,7 @@ export const IdentificationAvatar = () => {
                         open={menuAvatarEstOuvert}
                         onClose={fermerMenuAvatar}
                     >
-                        <MenuItem onClick={() => {
-                        }}>Profile</MenuItem>
+                        <MenuItem onClick={() => navigateTo('/profil')}>Profil</MenuItem>
                         <MenuItem onClick={() => logout()}>Déconnexion</MenuItem>
                     </Menu>
                 </div>

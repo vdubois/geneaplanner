@@ -5,6 +5,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import {usePublierArbre, usePublierRacineDeLArbre} from "../api/arbres.hooks";
 import {Erreur} from "../components/Erreur";
 import {SelectionRacine} from "./selection-racine/SelectionRacine";
+import {useNavigate} from "react-router-dom";
 
 export const ImportationDeFichierGedcom = () => {
     const [etapeActive, setEtapeActive] = useState(0);
@@ -14,6 +15,8 @@ export const ImportationDeFichierGedcom = () => {
     const [individus, setIndividus] = useState([]);
     const publierArbre = usePublierArbre();
     const publierRacineDeLArbre = usePublierRacineDeLArbre();
+    const navigateTo = useNavigate();
+    const [racineDeLArbre, setRacineDeLArbre] = useState(null);
 
     const selectionnerUnFichierGEDCOM = ({target}) => {
         const fichier = target.files[0];
@@ -45,6 +48,7 @@ export const ImportationDeFichierGedcom = () => {
         try {
             const resultat = await publierRacineDeLArbre(racine);
             console.log(resultat);
+            setRacineDeLArbre(racine);
             etapeSuivante();
         } catch (erreur) {
             setErreur(erreur.message);
@@ -104,7 +108,7 @@ export const ImportationDeFichierGedcom = () => {
                                 <Typography className="ImportationDeFichierGedcomSyntheseTexte">Fichier GEDCOM importé avec succès, {individus?.length} individus ont été importés</Typography>
                             </div>
                             <div className="ImportationDeFichierGedcomActions">
-                                <Button variant="contained" color="primary" component="span">
+                                <Button variant="contained" color="primary" component="span" onClick={() => navigateTo("/recherche-d-individus/" + racineDeLArbre.id)}>
                                     Voir votre généalogie
                                 </Button>
                             </div>

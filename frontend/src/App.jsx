@@ -13,6 +13,7 @@ import {ApportDeCorrections} from "./apporter-des-corrections/ApportDeCorrection
 import {FicheDeRecherche} from "./organiser-les-recherches/fiche-de-recherche/FicheDeRecherche";
 import {FicheDArchives} from './preparer-passage-aux-archives/fiche-d-archives/FicheDArchives';
 import {styled} from "@mui/material/styles";
+import {Profil} from "./profil/Profil";
 
 export const App = () => {
     const Root = styled('div')(({theme}) => ({
@@ -54,6 +55,7 @@ export const App = () => {
                         <Route exact path="/preparer-passage-aux-archives/:archive" element={<FicheDArchives />}/>
                         <Route exact path="/recherche-d-individus/:racine" element={<RechercheDIndividus />}/>
                         <Route exact path="/importer-un-fichier-gedcom" element={<ImportationDeFichierGedcom />}/>
+                        <Route exact path="/profil" element={<Profil />}/>
                     </Routes>
                 </Toolbar>
             </Content>

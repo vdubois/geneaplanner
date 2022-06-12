@@ -122,6 +122,14 @@ functions:
           method: get
           authorizer:
             name: accessTokenAuth0
+  suppression-gedcom:
+    handler: src/utilisateurs/arbre.supprimer
+    events:
+      - httpApi:
+          path: /arbres/{identifiant}
+          method: delete
+          authorizer:
+            name: accessTokenAuth0
   detail-gedcom:
     handler: src/utilisateurs/arbre.detail
     events:

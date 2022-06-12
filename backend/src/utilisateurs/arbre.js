@@ -1,4 +1,4 @@
-const {ok, unauthorized, badRequest, notFound, created} = require("aws-lambda-utils");
+const {ok, unauthorized, badRequest, notFound, created, noContent} = require("aws-lambda-utils");
 const utilisateurConnecte = require('../authentification/utilisateurConnecte');
 const gedcom = require('read-gedcom');
 const S3Builder = require('aws-sdk-fluent-builder').S3Builder;
@@ -122,6 +122,18 @@ module.exports.rechercherParIdentifiant = async event => {
   } catch (error) {
     return notFound(error.message);
   }
+}
+
+module.exports.supprimer = async event => {
+  const utilisateur = utilisateurConnecte(event);
+  if (event.pathParameters.identifiant !== utilisateur.email) {
+    return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
+  }
+  const fichierArbre = await espaceDeStockageDesFichiersGEDCOM.readFile(`${utilisateur.email}.ged`);
+  if (fichierArbre) {
+    await espaceDeStockageDesFichiersGEDCOM.deleteFile(`${utilisateur.email}.ged`);
+  }
+  return noContent();
 }
 
 module.exports.rechercherIndividuParIdentifiant = rechercherIndividuParIdentifiant;
