@@ -1,6 +1,6 @@
 import {
     useDeleteMutationWithAuth,
-    usePatchMutationWithAuth,
+    usePatchMutationWithAuth, usePostMutationWithAuth,
     usePutMutationWithAuth,
     useQueryWithAuth
 } from "./react-query.hooks";
@@ -33,6 +33,9 @@ export const useArbre = (individu, enabled) => {
 
 export const usePublierArbre = () =>
     usePutMutationWithAuth(`/arbres/[email]`, ['individus'])
+
+export const usePublierFichiersArbre = () =>
+    usePostMutationWithAuth(`/arbres/[email]/fichiers`, [])
 
 export const usePublierRacineDeLArbre = () =>
     usePatchMutationWithAuth(`/arbres/[email]`, ['individus'])

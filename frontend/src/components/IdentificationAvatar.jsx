@@ -63,7 +63,10 @@ export const IdentificationAvatar = () => {
                         open={menuAvatarEstOuvert}
                         onClose={fermerMenuAvatar}
                     >
-                        <MenuItem onClick={() => navigateTo('/profil')}>Profil</MenuItem>
+                        <MenuItem onClick={() => {
+                            modifierAncreDuMenuAvatar(false);
+                            navigateTo('/profil');
+                        }}>Profil</MenuItem>
                         <MenuItem onClick={() => logout()}>Déconnexion</MenuItem>
                     </Menu>
                 </div>
