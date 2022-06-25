@@ -122,6 +122,22 @@ functions:
           method: patch
           authorizer:
             name: accessTokenAuth0
+  enregistrement-api-key:
+    handler: src/googlemaps/googlemaps.enregistrerApiKey
+    events:
+      - httpApi:
+          path: /googlemaps/{identifiant}
+          method: post
+          authorizer:
+            name: accessTokenAuth0
+  recuperation-api-key:
+    handler: src/googlemaps/googlemaps.recupererApiKey
+    events:
+      - httpApi:
+          path: /googlemaps/{identifiant}
+          method: get
+          authorizer:
+            name: accessTokenAuth0
   enregistrement-fichiers-arbre:
     handler: src/fichiers/fichiers.enregistrerFichiers
     events:

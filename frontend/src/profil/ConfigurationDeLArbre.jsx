@@ -15,7 +15,6 @@ export const ConfigurationDeLArbre = () => {
     const [fenetreDeConfirmationDeSuppressionOuverte, setFenetreDeConfirmationDeSuppressionOuverte] = useState(false);
 
     return <>
-        {user?.name && <Typography variant="h4" className="ProfilTitre">Profil de {user.name}</Typography>}
         {arbre && arbre?.individus?.length > 0 && <Box id="formulaire" display="flex" flexDirection="column">
             <Box display="flex" alignItems="center" gap="10px">
                 <span>Votre arbre généalogique : {arbre.individus.length} individus, dernière mise à jour le {dateAsString(arbre.date)}</span>
