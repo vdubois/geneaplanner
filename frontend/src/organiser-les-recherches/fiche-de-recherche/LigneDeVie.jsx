@@ -34,7 +34,8 @@ export const LigneDeVie = ({individu}) => {
         <TimelineConnector />
       </TimelineSeparator>
       <TimelineContent>
-        <Typography>Le {dateAsString(individu.mariage.date)} &agrave; {individu.mariage.lieu}</Typography>
+        {individu.mariage.date && <Typography>Le {dateAsString(individu.mariage.date)} &agrave; {individu.mariage.lieu}</Typography>}
+        {!individu.mariage.date && <Typography>{individu.mariage.lieu}</Typography>}
       </TimelineContent>
     </TimelineItem>}
     {individu?.deces && <TimelineItem>

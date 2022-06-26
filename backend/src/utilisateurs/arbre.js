@@ -97,15 +97,7 @@ const rechercherIndividuParIdentifiant = async (emailUtilisateur, identifiantInd
   const fichierArbre = await espaceDeStockageDesFichiersGEDCOM.readFile(`${emailUtilisateur}.ged`);
   if (fichierArbre) {
     const arbreGenealogique = arbre(gedcom.readGedcom(fichierArbre));
-    return {
-      id: identifiantIndividu.replace(/@/g, ''),
-      nom: arbreGenealogique.nomIndividu(identifiantIndividu),
-      naissance: arbreGenealogique.naissance(identifiantIndividu),
-      bapteme: arbreGenealogique.bapteme(identifiantIndividu),
-      deces: arbreGenealogique.deces(identifiantIndividu),
-      fiancailles: arbreGenealogique.fiancailles(identifiantIndividu),
-      mariage: arbreGenealogique.mariage(identifiantIndividu)
-    };
+    return arbreGenealogique.detailsIndividu(identifiantIndividu);
   } else {
     throw new Error(`L'individu d'identifiant ${identifiantIndividu} n'existe pas`);
   }
@@ -120,6 +112,7 @@ module.exports.rechercherParIdentifiant = async event => {
     const detailIndividus = await rechercherIndividuParIdentifiant(utilisateur.email, `@${event.pathParameters.individu}@`);
     return ok(detailIndividus);
   } catch (error) {
+    console.error(error);
     return notFound(error.message);
   }
 }

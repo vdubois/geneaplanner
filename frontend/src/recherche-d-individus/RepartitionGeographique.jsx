@@ -25,24 +25,39 @@ export const RepartitionGeographique = ({identifiantIndividu}) => {
     };
 
     const contenuMarqueur = (evenement) => {
-        switch (evenement.type) {
-            case 'bapteme':
-                return `Baptisé(e) le ${dateAsString(evenement.date)} à ${evenement.lieu}`;
-            case 'naissance':
-                return `Né(e) le ${dateAsString(evenement.date)} à ${evenement.lieu}`;
-            case 'fiancailles':
-                return `Fiancé(e) le ${dateAsString(evenement.date)} à ${evenement.lieu}`;
-            case 'mariage':
-                return `Marié(e) le ${dateAsString(evenement.date)} à ${evenement.lieu}`;
-            case 'deces':
-                return `Décédé(e) le ${dateAsString(evenement.date)} à ${evenement.lieu}`;
+        if (evenement.date) {
+            switch (evenement.type) {
+                case 'bapteme':
+                    return <span>Baptisé{individu?.sexe === 'F' ? 'e' : ''} le {dateAsString(evenement.date)} à {evenement.lieu}</span>;
+                case 'naissance':
+                    return <span>Né{individu?.sexe === 'F' ? 'e' : ''} le {dateAsString(evenement.date)} à {evenement.lieu}</span>;
+                case 'fiancailles':
+                    return <span>Fiancé{individu?.sexe === 'F' ? 'e' : ''} le {dateAsString(evenement.date)} à {evenement.lieu}</span>;
+                case 'mariage':
+                    return <span>Marié{individu?.sexe === 'F' ? 'e' : ''} le {dateAsString(evenement.date)} à {evenement.lieu}</span>;
+                case 'deces':
+                    return <span>Décédé{individu?.sexe === 'F' ? 'e' : ''} le {dateAsString(evenement.date)} à {evenement.lieu}</span>;
+            }
+        } else {
+            switch (evenement.type) {
+                case 'bapteme':
+                    return <span>Baptisé{individu?.sexe === 'F' ? 'e' : ''} à {evenement.lieu}</span>;
+                case 'naissance':
+                    return <span>Né{individu?.sexe === 'F' ? 'e' : ''} à {evenement.lieu}</span>;
+                case 'fiancailles':
+                    return <span>Fiancé{individu?.sexe === 'F' ? 'e' : ''} à {evenement.lieu}</span>;
+                case 'mariage':
+                    return <span>Marié{individu?.sexe === 'F' ? 'e' : ''} à {evenement.lieu}</span>;
+                case 'deces':
+                    return <span>Décédé{individu?.sexe === 'F' ? 'e' : ''} à {evenement.lieu}</span>;
+            }
         }
     }
 
     const contenuMarqueurs = (evenementsAgreges) => {
-        return evenementsAgreges
-            .map(evenement => contenuMarqueur(evenement))
-            .join(', ');
+        return <Box display="flex" flexDirection="column" gap="10px">
+            {evenementsAgreges.map(evenement => contenuMarqueur(evenement))}
+        </Box>
     }
 
     useEffect(() => {
@@ -108,7 +123,7 @@ export const RepartitionGeographique = ({identifiantIndividu}) => {
     return <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" sx={styleConteneurCarte}>
         {apiKeyEnCoursDeChargement && <CircularProgress />}
         {apiKeyAbsente && <span>Vous devez définir la clé d'API Google dans Profil > API Google Maps</span>}
-        {apiKeyPresente && Object.keys(lieux).length > 0 && <MapContainer center={position} zoom={9} scrollWheelZoom>
+        {apiKeyPresente && Object.keys(lieux).length > 0 && <MapContainer center={lieux[Object.keys(lieux)[0]][0].latitudeLongitude} zoom={7} scrollWheelZoom>
             <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

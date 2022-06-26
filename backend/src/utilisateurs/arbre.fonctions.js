@@ -18,6 +18,11 @@ module.exports = ((arbreGedcom) => {
         return individu.getName().getGivenName().value() + ' ' + individu.getName().getSurname().value();
     };
 
+    const sexeIndividu = (identifiantIndividu) => {
+        const individu = arbreGedcom.getIndividualRecord(identifiantIndividu);
+        return individu.getSex().value()[0];
+    };
+
     const naissance = (identifiantIndividu) => {
         const individu = arbreGedcom.getIndividualRecord(identifiantIndividu);
         return evenementPersonnel(individu, 'Birth');
@@ -41,7 +46,7 @@ module.exports = ((arbreGedcom) => {
         if (evenementPresent) {
             const detailsDeLEvenement = evenementDeLIndividu.getEventMarriage();
             const lieu = detailsDeLEvenement.getPlace().value()[0];
-            const date = detailsDeLEvenement.getDate().valueAsDate()[0].date;
+            const date = detailsDeLEvenement.getDate().valueAsDate()[0]?.date;
             return {
                 date,
                 lieu
@@ -212,6 +217,7 @@ module.exports = ((arbreGedcom) => {
             return {
                 id: identifiantIndividu.replace(/@/g, ''),
                 nom: nomIndividu(identifiantIndividu),
+                sexe: sexeIndividu(identifiantIndividu),
                 naissance: naissance(identifiantIndividu),
                 bapteme: bapteme(identifiantIndividu),
                 deces: deces(identifiantIndividu),
@@ -224,6 +230,7 @@ module.exports = ((arbreGedcom) => {
         bapteme,
         deces,
         mariage,
-        fiancailles
+        fiancailles,
+        sexe: (identifiantIndividu) => sexeIndividu(identifiantIndividu),
     }
 });
