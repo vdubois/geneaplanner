@@ -20,5 +20,18 @@ export const useParametrageFichiers = (enabled) => {
     };
 }
 
+export const useFichiers = (identifiantIndividu, enabled) => {
+    const { isLoading, error, data } = useQueryWithAuth(
+        ["fichiersIndividu", identifiantIndividu],
+        `/arbres/[email]/fichiers/${identifiantIndividu}`,
+        enabled
+    );
+    return {
+        fichiersEnCoursDeChargement: isLoading,
+        fichiersEnErreur: error,
+        fichiers: data
+    };
+}
+
 export const useModifierParametrageFichiers = () =>
     usePatchMutationWithAuth(`/fichiers/[email]`, ['fichiers'])

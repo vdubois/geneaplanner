@@ -96,9 +96,10 @@ module.exports.enregistrerFichiers = async event => {
             const fichiersDeLArbre = [];
 
             fichiers.forEach(fichier => {
-                const individuTrouve = individusDeLArbre.find(individu =>
-                    fichier.path.includes(individu.id)
-                    && fichier.path.toLowerCase().includes(individu.nom.toLowerCase()));
+                const individuTrouve = individusDeLArbre.find(individu => {
+                    const individuRegex = new RegExp(`\\b${individu.id}\\b`);
+                    return fichier.path.match(individuRegex) !== null;
+                });
                 if (individuTrouve) {
                     fichiersDeLArbre.push({
                         individu: individuTrouve.id,
@@ -115,6 +116,23 @@ module.exports.enregistrerFichiers = async event => {
         }
         return badRequest("Vous devez renseigner d'abord votre arbre généalogique");
     } catch (erreur) {
+        return serverError(erreur);
+    }
+}
+
+module.exports.recupererFichiers = async event => {
+    const utilisateur = utilisateurConnecte(event);
+    if (event.pathParameters.identifiant !== utilisateur.email) {
+        return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
+    }
+    try {
+        const fichiers = await dynamoDBRepository.findOneByPartitionKey(`${utilisateur.email}#fichiers-arbre`);
+        if (!fichiers) {
+            return ok([]);
+        }
+        return ok(fichiers.fichiers.filter(fichier => fichier.type === 'blob' && fichier.individu === event.pathParameters.identifiantIndividu));
+    } catch (erreur) {
+        console.error(erreur);
         return serverError(erreur);
     }
 }

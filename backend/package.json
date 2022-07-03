@@ -17,7 +17,7 @@
     "@thundra/core": "2.13.46",
     "aws-lambda-utils": "0.0.2",
     "aws-sdk-fluent-builder": "0.3.1",
-    "read-gedcom": "0.3.1"
+    "read-gedcom": "0.3.2"
   },
   "devDependencies": {
     "serverless-plugin-thundra": "2.6.2",

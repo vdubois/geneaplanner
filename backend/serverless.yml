@@ -106,6 +106,14 @@ functions:
           method: post
           authorizer:
             name: accessTokenAuth0
+  recuperation-fichiers:
+    handler: src/fichiers/fichiers.recupererFichiers
+    events:
+      - httpApi:
+          path: /arbres/{identifiant}/fichiers/{identifiantIndividu}
+          method: get
+          authorizer:
+            name: accessTokenAuth0
   parametrage-fichiers:
     handler: src/fichiers/fichiers.parametres
     events:

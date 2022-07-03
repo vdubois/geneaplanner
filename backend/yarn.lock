@@ -718,10 +718,10 @@ queue-microtask@^1.2.2:
   resolved "https://registry.npmjs.org/queue-microtask/-/queue-microtask-1.2.3.tgz"
   integrity sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==
 
-read-gedcom@0.3.1:
-  version "0.3.1"
-  resolved "https://registry.npmjs.org/read-gedcom/-/read-gedcom-0.3.1.tgz"
-  integrity sha512-qLKR3XzMC67+6bFhzNGQDZqsMv8nKoguS76WjnBn9CDD12hLnYcBssLiQs5A+5MfANbkCrUeU23baY+aT1Uo0A==
+read-gedcom@0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/read-gedcom/-/read-gedcom-0.3.2.tgz#572df73005997218e81a0feff8e244a9d3421aca"
+  integrity sha512-zScKxCRr30wqF5tK60uUmq/IE60KQ1f5xZsH9HBB5/Jl6E9eFx9sCKe3waj1oyFmqCAzisMZSYGi6gfZ25Kilw==
 
 readable-stream@^3.4.0:
   version "3.6.0"
@@ -912,9 +912,9 @@ umzug-cli@^2.0.0:
     umzug "^2.0.0"
     yargs-parser "^7.0.0"
 
-"umzug-dynamodb-storage@https://github.com/christophgysin/node-umzug-dynamodb-storage.git#tablename-case-sensitive":
+"umzug-dynamodb-storage@git://github.com/christophgysin/node-umzug-dynamodb-storage/#tablename-case-sensitive":
   version "1.0.2"
-  resolved "git+ssh://git@github.com/christophgysin/node-umzug-dynamodb-storage.git#051fa4586de2a1f2098b53bb0066e42bf72ba140"
+  resolved "git://github.com/christophgysin/node-umzug-dynamodb-storage/#051fa4586de2a1f2098b53bb0066e42bf72ba140"
   dependencies:
     delay "^2.0.0"
     dynogels "^9.0.0"
