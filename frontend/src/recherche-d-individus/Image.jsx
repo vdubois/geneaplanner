@@ -4,13 +4,13 @@ import axios from "axios";
 import {base64ArrayBuffer} from "./base64ArrayBuffer";
 import {CircularProgress} from "@mui/material";
 
-export const PDF = ({host, token, project, filePath, scale, rotation, page, setPagesCount}) => {
+export const Image = ({host, token, project, filePath, scale, rotation}) => {
     const [contenu, setContenu] = useState();
     const [enCoursDeChargement, setEnCoursDeChargement] = useState(false);
 
     useEffect(() => {
         setEnCoursDeChargement(true)
-        const fetchPDF = async (filePath) => {
+        const fetchImage = async (filePath) => {
             const {data} = await axios({
                 url: `${host}/api/v4/projects/${project}/repository/files/${encodeURIComponent(filePath)}/raw`,
                 responseType: "arraybuffer",
@@ -21,7 +21,7 @@ export const PDF = ({host, token, project, filePath, scale, rotation, page, setP
             })
             return data;
         };
-        fetchPDF(filePath)
+        fetchImage(filePath)
             .then(text => setContenu(base64ArrayBuffer(text)))
             .finally(() => setEnCoursDeChargement(false));
     }, [host, token, project, filePath]);
@@ -34,22 +34,14 @@ export const PDF = ({host, token, project, filePath, scale, rotation, page, setP
             setEnCoursDeChargement(false);
             setContenu(contenuDuFichier);
         }, 400);
-    }, [scale, rotation, page]);
+    }, [scale, rotation]);
 
     return <>
         {enCoursDeChargement && <CircularProgress/>}
-        {!enCoursDeChargement && contenu && <PDFViewer
-            document={{
-                base64: contenu,
-            }}
-            scale={scale}
-            externalInput
-            scaleStep={0.5}
-            maxScale={5}
-            minScale={0.5}
-            rotationAngle={rotation}
-            page={page}
-            getMaxPageCount={(pageCount) => setPagesCount(pageCount)}
+        {!enCoursDeChargement && contenu && <img
+            src={`data:image/${filePath.substring(filePath.lastIndexOf('.'))};base64,${contenu}`}
+            width={1000}
+            height={1000}
         />}
     </>;
 }
