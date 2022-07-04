@@ -1,16 +1,34 @@
 import {Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton} from "@mui/material";
 import {PDF} from "./PDF";
-import {ChevronLeft, ChevronRight, RotateLeft, RotateRight, ZoomIn, ZoomOut} from "@mui/icons-material";
+import {ChevronLeft, ChevronRight, Close, RotateLeft, RotateRight, ZoomIn, ZoomOut} from "@mui/icons-material";
 
 export const BoiteDeDialoguePDF = ({fichierPDFOuvert, setFichierPDFOuvert, titreDocument, host, token, project, filePath, scale, setScale, rotation, setRotation, page, setPage, pagesCount, setPagesCount}) => {
+    const onClose = () => setFichierPDFOuvert(false);
     return <Dialog
         fullWidth
         maxWidth="xl"
         open={fichierPDFOuvert}
-        onClose={() => setFichierPDFOuvert(false)}
+        onClose={onClose}
+        scroll="paper"
     >
-        <DialogTitle>{titreDocument}</DialogTitle>
-        <DialogContent sx={{textAlign: 'center'}}>
+        <DialogTitle>
+            {titreDocument}
+            {onClose ? (
+                <IconButton
+                    aria-label="close"
+                    onClick={onClose}
+                    sx={{
+                        position: 'absolute',
+                        right: 8,
+                        top: 8,
+                        color: (theme) => theme.palette.grey[500],
+                    }}
+                >
+                    <Close />
+                </IconButton>
+            ) : null}
+        </DialogTitle>
+        <DialogContent sx={{textAlign: 'center', height: '100vh'}}>
             {host && token && project && filePath && <PDF
                 host={host}
                 token={token}
@@ -31,7 +49,7 @@ export const BoiteDeDialoguePDF = ({fichierPDFOuvert, setFichierPDFOuvert, titre
                     }}>
                         <ZoomIn/>
                     </IconButton>
-                    <IconButton disabled={scale === 0.5} color="primary" onClick={() => {
+                    <IconButton disabled={scale === 1} color="primary" onClick={() => {
                         setScale(scale => scale - 1);
                     }}>
                         <ZoomOut/>
@@ -61,7 +79,7 @@ export const BoiteDeDialoguePDF = ({fichierPDFOuvert, setFichierPDFOuvert, titre
                 </Box>}
                 <div style={{flexGrow: 1}}></div>
                 <Box display="flex">
-                    <Button onClick={() => setFichierPDFOuvert(false)}>Fermer</Button>
+                    <Button onClick={onClose}>Fermer</Button>
                 </Box>
             </Box>
         </DialogActions>

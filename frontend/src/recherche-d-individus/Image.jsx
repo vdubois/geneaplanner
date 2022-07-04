@@ -2,14 +2,13 @@ import {useEffect, useState} from "react";
 import PDFViewer from 'pdf-viewer-reactjs';
 import axios from "axios";
 import {base64ArrayBuffer} from "./base64ArrayBuffer";
-import {CircularProgress} from "@mui/material";
+import {Box, CircularProgress} from "@mui/material";
 
 export const Image = ({host, token, project, filePath, scale, rotation}) => {
     const [contenu, setContenu] = useState();
-    const [enCoursDeChargement, setEnCoursDeChargement] = useState(false);
+    const [enCoursDeChargement, setEnCoursDeChargement] = useState(true);
 
     useEffect(() => {
-        setEnCoursDeChargement(true)
         const fetchImage = async (filePath) => {
             const {data} = await axios({
                 url: `${host}/api/v4/projects/${project}/repository/files/${encodeURIComponent(filePath)}/raw`,
@@ -27,21 +26,24 @@ export const Image = ({host, token, project, filePath, scale, rotation}) => {
     }, [host, token, project, filePath]);
 
     useEffect(() => {
-        setEnCoursDeChargement(true);
         const contenuDuFichier = contenu;
         setContenu(undefined);
         setTimeout(() => {
-            setEnCoursDeChargement(false);
             setContenu(contenuDuFichier);
-        }, 400);
+        }, 50);
     }, [scale, rotation]);
 
     return <>
-        {enCoursDeChargement && <CircularProgress/>}
+        {enCoursDeChargement && <Box display="flex" justifyContent="center" alignItems="center" sx={{height: '100%'}}>
+            <CircularProgress/>
+        </Box>}
         {!enCoursDeChargement && contenu && <img
             src={`data:image/${filePath.substring(filePath.lastIndexOf('.'))};base64,${contenu}`}
-            width={1000}
-            height={1000}
+            width={1000 * scale}
+            style={{
+                maxWidth: 'none',
+                transform: `rotate(${rotation}deg)`
+            }}
         />}
     </>;
 }
