@@ -28,28 +28,28 @@ export const RepartitionGeographique = ({identifiantIndividu}) => {
         if (evenement.date) {
             switch (evenement.type) {
                 case 'bapteme':
-                    return <span>Baptisé{individu?.sexe === 'F' ? 'e' : ''} le {dateAsString(evenement.date)} à {evenement.lieu}</span>;
+                    return <span key="bapteme">Baptisé{individu?.sexe === 'F' ? 'e' : ''} le {dateAsString(evenement.date)} à {evenement.lieu}</span>;
                 case 'naissance':
-                    return <span>Né{individu?.sexe === 'F' ? 'e' : ''} le {dateAsString(evenement.date)} à {evenement.lieu}</span>;
+                    return <span key="naissance">Né{individu?.sexe === 'F' ? 'e' : ''} le {dateAsString(evenement.date)} à {evenement.lieu}</span>;
                 case 'fiancailles':
-                    return <span>Fiancé{individu?.sexe === 'F' ? 'e' : ''} le {dateAsString(evenement.date)} à {evenement.lieu}</span>;
+                    return <span key="fiancailles">Fiancé{individu?.sexe === 'F' ? 'e' : ''} le {dateAsString(evenement.date)} à {evenement.lieu}</span>;
                 case 'mariage':
-                    return <span>Marié{individu?.sexe === 'F' ? 'e' : ''} le {dateAsString(evenement.date)} à {evenement.lieu}</span>;
+                    return <span key="mariage">Marié{individu?.sexe === 'F' ? 'e' : ''} le {dateAsString(evenement.date)} à {evenement.lieu}{individu?.mariage?.epouse && ` avec ${individu?.mariage?.epouse}`}</span>;
                 case 'deces':
-                    return <span>Décédé{individu?.sexe === 'F' ? 'e' : ''} le {dateAsString(evenement.date)} à {evenement.lieu}</span>;
+                    return <span key="deces">Décédé{individu?.sexe === 'F' ? 'e' : ''} le {dateAsString(evenement.date)} à {evenement.lieu}</span>;
             }
         } else {
             switch (evenement.type) {
                 case 'bapteme':
-                    return <span>Baptisé{individu?.sexe === 'F' ? 'e' : ''} à {evenement.lieu}</span>;
+                    return <span key="bapteme">Baptisé{individu?.sexe === 'F' ? 'e' : ''} à {evenement.lieu}</span>;
                 case 'naissance':
-                    return <span>Né{individu?.sexe === 'F' ? 'e' : ''} à {evenement.lieu}</span>;
+                    return <span key="naissance">Né{individu?.sexe === 'F' ? 'e' : ''} à {evenement.lieu}</span>;
                 case 'fiancailles':
-                    return <span>Fiancé{individu?.sexe === 'F' ? 'e' : ''} à {evenement.lieu}</span>;
+                    return <span key="fiancailles">Fiancé{individu?.sexe === 'F' ? 'e' : ''} à {evenement.lieu}</span>;
                 case 'mariage':
-                    return <span>Marié{individu?.sexe === 'F' ? 'e' : ''} à {evenement.lieu}</span>;
+                    return <span key="mariage">Marié{individu?.sexe === 'F' ? 'e' : ''} à {evenement.lieu}{individu?.mariage?.epouse && ` avec ${individu?.mariage?.epouse}`}</span>;
                 case 'deces':
-                    return <span>Décédé{individu?.sexe === 'F' ? 'e' : ''} à {evenement.lieu}</span>;
+                    return <span key="deces">Décédé{individu?.sexe === 'F' ? 'e' : ''} à {evenement.lieu}</span>;
             }
         }
     }

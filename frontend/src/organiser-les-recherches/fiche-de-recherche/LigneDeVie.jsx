@@ -34,8 +34,8 @@ export const LigneDeVie = ({individu}) => {
         <TimelineConnector />
       </TimelineSeparator>
       <TimelineContent>
-        {individu.mariage.date && <Typography>Le {dateAsString(individu.mariage.date)} {individu.mariage.lieu && `à ${individu.mariage.lieu}`}</Typography>}
-        {!individu.mariage.date && <Typography>{individu.mariage.lieu}</Typography>}
+        {individu.mariage.date && <Typography>Le {dateAsString(individu.mariage.date)} {individu.mariage.lieu && `à ${individu.mariage.lieu}`}{individu.mariage.epouse && ` avec ${individu.mariage.epouse}`}</Typography>}
+        {!individu.mariage.date && <Typography>{individu.mariage.lieu} {individu.mariage.epouse && ` avec ${individu.mariage.epouse}`}</Typography>}
       </TimelineContent>
     </TimelineItem>}
     {individu?.deces && <TimelineItem>
@@ -47,7 +47,8 @@ export const LigneDeVie = ({individu}) => {
         <TimelineConnector />
       </TimelineSeparator>
       <TimelineContent>
-        <Typography>Le {dateAsString(individu.deces.date)} {individu.deces.lieu && `à ${individu.deces.lieu}`}</Typography>
+        {individu.deces.date && <Typography>Le {dateAsString(individu.deces.date)} {individu.deces.lieu && `à ${individu.deces.lieu}`}</Typography>}
+        {!individu.deces.date && <Typography>{individu.deces.lieu && `A ${individu.deces.lieu}`}</Typography>}
       </TimelineContent>
     </TimelineItem>}
   </Timeline>;

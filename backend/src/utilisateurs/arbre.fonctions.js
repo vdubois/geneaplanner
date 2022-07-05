@@ -43,13 +43,16 @@ module.exports = ((arbreGedcom) => {
         const evenementDeLIndividu = individu.getFamilyAsSpouse();
         const evenementPresent = evenementDeLIndividu.length > 0
             && evenementDeLIndividu.getEventMarriage().length > 0;
+        const sexe = individu.getSex().value()[0];
         if (evenementPresent) {
             const detailsDeLEvenement = evenementDeLIndividu.getEventMarriage();
             const lieu = detailsDeLEvenement.getPlace().value()[0];
             const date = detailsDeLEvenement.getDate().valueAsDate()[0]?.date;
             return {
                 date,
-                lieu
+                lieu,
+                epouse: sexe === 'M' ? evenementDeLIndividu.getWife().getIndividualRecord().getName().getGivenName().value() + ' ' + evenementDeLIndividu.getWife().getIndividualRecord().getName().getSurname().value()
+                    : evenementDeLIndividu.getHusband().getIndividualRecord().getName().getGivenName().value() + ' ' + evenementDeLIndividu.getHusband().getIndividualRecord().getName().getSurname().value()
             }
         }
     };
