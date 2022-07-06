@@ -25,6 +25,19 @@ export const LigneDeVie = ({individu}) => {
         <Typography>Le {dateAsString(individu.naissance.date)} {individu.naissance.lieu && `à ${individu.naissance.lieu}`}</Typography>
       </TimelineContent>
     </TimelineItem>}
+    {individu?.fiancailles && <TimelineItem>
+      <TimelineOppositeContent>
+        <Typography>Fian&ccedil;ailles</Typography>
+      </TimelineOppositeContent>
+      <TimelineSeparator>
+        <TimelineDot />
+        <TimelineConnector />
+      </TimelineSeparator>
+      <TimelineContent>
+        {individu.fiancailles.date && <Typography>Le {dateAsString(individu.fiancailles.date)} {individu.fiancailles.lieu && `à ${individu.fiancailles.lieu}`}{individu.fiancailles.fiance && ` avec ${individu.fiancailles.fiance}`}</Typography>}
+        {!individu.fiancailles.date && <Typography>{individu.fiancailles.lieu} {individu.fiancailles.fiance && ` avec ${individu.fiancailles.fiance}`}</Typography>}
+      </TimelineContent>
+    </TimelineItem>}
     {individu?.mariage && <TimelineItem>
       <TimelineOppositeContent>
         <Typography>Mariage</Typography>

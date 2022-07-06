@@ -32,7 +32,7 @@ export const RepartitionGeographique = ({identifiantIndividu}) => {
                 case 'naissance':
                     return <span key="naissance">Né{individu?.sexe === 'F' ? 'e' : ''} le {dateAsString(evenement.date)} à {evenement.lieu}</span>;
                 case 'fiancailles':
-                    return <span key="fiancailles">Fiancé{individu?.sexe === 'F' ? 'e' : ''} le {dateAsString(evenement.date)} à {evenement.lieu}</span>;
+                    return <span key="fiancailles">Fiancé{individu?.sexe === 'F' ? 'e' : ''} le {dateAsString(evenement.date)} à {evenement.lieu}{individu?.fiancailles?.fiance && ` avec ${individu?.fiancailles?.fiance}`}</span>;
                 case 'mariage':
                     return <span key="mariage">Marié{individu?.sexe === 'F' ? 'e' : ''} le {dateAsString(evenement.date)} à {evenement.lieu}{individu?.mariage?.epouse && ` avec ${individu?.mariage?.epouse}`}</span>;
                 case 'deces':
@@ -45,7 +45,7 @@ export const RepartitionGeographique = ({identifiantIndividu}) => {
                 case 'naissance':
                     return <span key="naissance">Né{individu?.sexe === 'F' ? 'e' : ''} à {evenement.lieu}</span>;
                 case 'fiancailles':
-                    return <span key="fiancailles">Fiancé{individu?.sexe === 'F' ? 'e' : ''} à {evenement.lieu}</span>;
+                    return <span key="fiancailles">Fiancé{individu?.sexe === 'F' ? 'e' : ''} à {evenement.lieu}{individu?.fiancailles?.fiance && ` avec ${individu?.fiancailles?.fiance}`}</span>;
                 case 'mariage':
                     return <span key="mariage">Marié{individu?.sexe === 'F' ? 'e' : ''} à {evenement.lieu}{individu?.mariage?.epouse && ` avec ${individu?.mariage?.epouse}`}</span>;
                 case 'deces':
