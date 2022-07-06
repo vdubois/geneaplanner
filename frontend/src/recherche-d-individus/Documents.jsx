@@ -13,6 +13,7 @@ import {
 } from "@mui/icons-material";
 import {BoiteDeDialoguePDF} from "./BoiteDeDialoguePDF";
 import {BoiteDeDialogueImage} from "./BoiteDeDialogueImage";
+import {triDesDocuments} from "./triDesDocuments";
 
 export const Documents = ({individu}) => {
     const {isAuthenticated} = useAuth0();
@@ -41,7 +42,7 @@ export const Documents = ({individu}) => {
     return <Box display="flex" flexDirection="column" alignItems="center" sx={{width: '100%'}}>
         {fichiersEnCoursDeChargement && <CircularProgress/>}
         <Box display="flex" flexDirection="column" sx={{width: '100%'}}>
-            {!fichiersEnCoursDeChargement && fichiers?.length > 0 && fichiers.map(fichier => <span key={fichier.id}>{fichier.name} <IconButton
+            {!fichiersEnCoursDeChargement && fichiers?.length > 0 && fichiers.sort(triDesDocuments).map(fichier => <span key={fichier.id}>{fichier.name} <IconButton
                 onClick={() => {
                     if (fichier.path.toLowerCase().endsWith(".pdf")) {
                         setFichierPDFOuvert(true);
