@@ -5,7 +5,7 @@ module.exports = ((arbreGedcom) => {
         const evenementPresent = evenementDeLIndividu.length > 0;
         if (evenementPresent) {
             const lieu = evenementDeLIndividu.getPlace().valueAsParts().join().replaceAll(',', ', ');
-            const date = evenementDeLIndividu.getDate().valueAsDate()[0].date;
+            const date = evenementDeLIndividu.getDate().valueAsDate()[0]?.date;
             return {
                 date,
                 lieu

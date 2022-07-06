@@ -17,7 +17,7 @@ export const Arbre = ({arbreGenealogique, racine}) => {
                 </Tabs>
             </Box>
             <TabPanel value="1">
-                {arbreGenealogique && arbreGenealogique.length > 0 && <ReactFamilyTree
+                {arbreGenealogique && arbreGenealogique?.length > 0 && <ReactFamilyTree
                     nodes={arbreGenealogique}
                     rootId={racine}
                     width={width}

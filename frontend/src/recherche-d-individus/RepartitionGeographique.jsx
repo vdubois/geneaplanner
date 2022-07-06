@@ -63,11 +63,11 @@ export const RepartitionGeographique = ({identifiantIndividu}) => {
     useEffect(() => {
         const fetchLieux = async () => {
             const evenements = {
-                bapteme: individu.hasOwnProperty('bapteme') ? individu.bapteme : undefined,
-                naissance: individu.hasOwnProperty('naissance') ? individu.naissance : undefined,
-                fiancailles: individu.hasOwnProperty('fiancailles') ? individu.fiancailles : undefined,
-                mariage: individu.hasOwnProperty('mariage') ? individu.mariage : undefined,
-                deces: individu.hasOwnProperty('deces') ? individu.deces : undefined,
+                bapteme: individu && individu?.hasOwnProperty('bapteme') ? individu.bapteme : undefined,
+                naissance: individu && individu?.hasOwnProperty('naissance') ? individu.naissance : undefined,
+                fiancailles: individu && individu?.hasOwnProperty('fiancailles') ? individu.fiancailles : undefined,
+                mariage: individu && individu?.hasOwnProperty('mariage') ? individu.mariage : undefined,
+                deces: individu && individu?.hasOwnProperty('deces') ? individu.deces : undefined,
             };
             const evenementsRenseignes = {};
             Object.keys(evenements)

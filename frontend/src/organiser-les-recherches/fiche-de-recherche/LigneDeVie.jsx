@@ -22,7 +22,8 @@ export const LigneDeVie = ({individu}) => {
         <TimelineConnector />
       </TimelineSeparator>
       <TimelineContent>
-        <Typography>Le {dateAsString(individu.naissance.date)} {individu.naissance.lieu && `à ${individu.naissance.lieu}`}</Typography>
+        {individu.naissance.date && <Typography>Le {dateAsString(individu.naissance.date)} {individu.naissance.lieu && `à ${individu.naissance.lieu}`}</Typography>}
+        {!individu.naissance.date && <Typography>A {individu.naissance.lieu}</Typography>}
       </TimelineContent>
     </TimelineItem>}
     {individu?.fiancailles && <TimelineItem>
