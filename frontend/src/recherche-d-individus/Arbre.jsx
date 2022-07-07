@@ -6,7 +6,7 @@ import {TabContext, TabPanel} from "@mui/lab";
 
 export const Arbre = ({arbreGenealogique, racine}) => {
     const width = 220;
-    const height = 80;
+    const height = 100;
     const [value, setValue] = useState("1");
 
     return <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" sx={{flex: 1, height: '100%'}}>

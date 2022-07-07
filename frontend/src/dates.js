@@ -1,4 +1,7 @@
 export const dateAsString = ({day, month, year}) => {
+    if (!day && !month) {
+        return `en ${year.value ? year.value : year}`;
+    }
     let mois;
     switch (month) {
         case 1: mois = 'janvier'; break;
@@ -14,5 +17,18 @@ export const dateAsString = ({day, month, year}) => {
         case 11: mois = 'novembre'; break;
         case 12: mois = 'décembre'; break;
     }
-    return `${day} ${mois} ${year.value ? year.value : year}`;
+    if (!day && month) {
+        return `en ${mois} ${year.value ? year.value : year}`;
+    }
+    return `le ${day} ${mois} ${year.value ? year.value : year}`;
+};
+
+export const dateAsShortString = ({day, month, year}) => {
+    if (!day && !month) {
+        return year.value ? year.value : year;
+    }
+    if (!day && month) {
+        return `${month < 10 ? `0${month}` : month}/${year.value ? year.value : year}`;
+    }
+    return `${day < 10 ? `0${day}` : day}/${month < 10 ? `0${month}` : month}/${year.value ? year.value : year}`;
 };

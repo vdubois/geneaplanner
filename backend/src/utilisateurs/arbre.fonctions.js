@@ -66,7 +66,7 @@ module.exports = ((arbreGedcom) => {
         if (evenementPresent) {
             const detailsDeLEvenement = evenementDeLIndividu.getEventEngagement();
             const lieu = detailsDeLEvenement.getPlace().value()[0];
-            const date = detailsDeLEvenement.getDate().valueAsDate()[0].date;
+            const date = detailsDeLEvenement.getDate().valueAsDate()[0]?.date;
             return {
                 date,
                 lieu,
@@ -159,7 +159,12 @@ module.exports = ((arbreGedcom) => {
                 parents: parentsDeLIndividuDeLArbre,
                 spouses: epouxDeLIndividuDeLArbre,
                 children: enfantsDeLIndividuDeLArbre,
-                siblings: fratrieDeLIndividuDeLArbre
+                siblings: fratrieDeLIndividuDeLArbre,
+                naissance: naissance(individu[0].pointer),
+                bapteme: bapteme(individu[0].pointer),
+                fiancailles: fiancailles(individu[0].pointer),
+                mariage: mariage(individu[0].pointer),
+                deces: deces(individu[0].pointer)
             });
         }).concat(parentsDeLIndividuDeLArbre.map(parent => {
             const individu = arbreGedcom.getIndividualRecord('@' + parent.id + '@');
@@ -170,7 +175,12 @@ module.exports = ((arbreGedcom) => {
                 parents: [],
                 children: enfants(individu),
                 spouses: epoux(individu),
-                siblings: fratrie(individu)
+                siblings: fratrie(individu),
+                naissance: naissance('@' + parent.id + '@'),
+                bapteme: bapteme('@' + parent.id + '@'),
+                fiancailles: fiancailles('@' + parent.id + '@'),
+                mariage: mariage('@' + parent.id + '@'),
+                deces: deces('@' + parent.id + '@')
             }
         })).concat(epouxDeLIndividuDeLArbre.map(epouxIndividu => {
             const individu = arbreGedcom.getIndividualRecord('@' + epouxIndividu.id + '@');
@@ -181,7 +191,12 @@ module.exports = ((arbreGedcom) => {
                 parents: [],
                 children: enfants(individu),
                 spouses: epoux(individu),
-                siblings: fratrie(individu)
+                siblings: fratrie(individu),
+                naissance: naissance('@' + epouxIndividu.id + '@'),
+                bapteme: bapteme('@' + epouxIndividu.id + '@'),
+                fiancailles: fiancailles('@' + epouxIndividu.id + '@'),
+                mariage: mariage('@' + epouxIndividu.id + '@'),
+                deces: deces('@' + epouxIndividu.id + '@')
             }
         })).concat(enfantsDeLIndividuDeLArbre.map(enfant => {
             const individu = arbreGedcom.getIndividualRecord('@' + enfant.id + '@');
@@ -192,7 +207,12 @@ module.exports = ((arbreGedcom) => {
                 parents: parents(individu),
                 children: [],
                 spouses: [],
-                siblings: fratrie(individu)
+                siblings: fratrie(individu),
+                naissance: naissance('@' + enfant.id + '@'),
+                bapteme: bapteme('@' + enfant.id + '@'),
+                fiancailles: fiancailles('@' + enfant.id + '@'),
+                mariage: mariage('@' + enfant.id + '@'),
+                deces: deces('@' + enfant.id + '@')
             }
         })).concat(fratrieDeLIndividuDeLArbre.map(enfant => {
             const individu = arbreGedcom.getIndividualRecord('@' + enfant.id + '@');
@@ -203,7 +223,12 @@ module.exports = ((arbreGedcom) => {
                 parents: parents(individu),
                 spouses: [],
                 children: [],
-                siblings: fratrie(individu)
+                siblings: fratrie(individu),
+                naissance: naissance('@' + enfant.id + '@'),
+                bapteme: bapteme('@' + enfant.id + '@'),
+                fiancailles: fiancailles('@' + enfant.id + '@'),
+                mariage: mariage('@' + enfant.id + '@'),
+                deces: deces('@' + enfant.id + '@')
             }
         }));
     }
