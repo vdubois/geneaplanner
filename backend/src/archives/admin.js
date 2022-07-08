@@ -8,10 +8,6 @@ const dynamoDBRepository = new DynamoDBBuilder()
     .build();
 
 module.exports.recupererLesArchives = async event => {
-    const utilisateur = utilisateurConnecte(event);
-    if (!utilisateur.estAdministrateur()) {
-        return unauthorized(`Vous n'avez pas accès à cette fonctionnalité`);
-    }
     const partitionKey = `archives-modeles`;
     const archivesModeles = await dynamoDBRepository.findOneByPartitionKey(partitionKey);
     if (archivesModeles) {

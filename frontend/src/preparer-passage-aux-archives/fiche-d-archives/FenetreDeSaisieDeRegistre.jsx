@@ -66,7 +66,7 @@ export const FenetreDeSaisieDeRegistre = ({ouverte, fermer, individus, archives}
             <DialogContentText>
                 Veuillez remplir les champs obligatoires ci-dessous afin de renseigner le registre à consulter aux archives.
             </DialogContentText>
-            <Autocomplete
+            {individus && <Autocomplete
                 id="combo-box-demo"
                 options={individus}
                 getOptionLabel={individu => individu ? `${individu.nom} (${individu.id})` : ''}
@@ -80,7 +80,7 @@ export const FenetreDeSaisieDeRegistre = ({ouverte, fermer, individus, archives}
                     label="Individu concerné *"
                     variant="outlined"
                 />}
-            />
+            />}
             <FormControl variant="outlined" className="ChampFenetreDeSaisie" fullWidth>
                 <InputLabel
                     id="demo-simple-select-label">Ev&eacute;nement *</InputLabel>

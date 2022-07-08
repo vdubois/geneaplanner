@@ -8,10 +8,16 @@ import {Erreur} from '../components/Erreur';
 import {Add} from '@mui/icons-material';
 import {FenetreDeSaisieDArchive} from './FenetreDeSaisieDArchive';
 import {ListeDesArchives} from './ListeDesArchives';
+import {useAdminArchives} from "../api/archives.admin.hooks";
 
 export const PreparationPassageAuxArchives = () => {
     const {isAuthenticated} = useAuth0();
     const {archivesEnCoursDeChargement, archivesEnErreur, archives} = useArchives(isAuthenticated);
+    const {
+        archivesEnCoursDeChargement: archivesModelesEnCoursDeChargement,
+        archivesEnErreur: archivesModelesEnErreur,
+        archives: archivesModeles
+    } = useAdminArchives(isAuthenticated);
 
     const [fenetreDeSaisieOuverte, setFenetreDeSaisieOuverte] = useState(false);
 
@@ -30,10 +36,12 @@ export const PreparationPassageAuxArchives = () => {
                 archives={archives}
             />
         </Container>
-        <FenetreDeSaisieDArchive
+        {fenetreDeSaisieOuverte && <FenetreDeSaisieDArchive
           ouverte={fenetreDeSaisieOuverte}
           fermer={() => setFenetreDeSaisieOuverte(false)}
-        />
+          archivesModeles={archivesModeles}
+        />}
         {archivesEnErreur && <Erreur message={archivesEnErreur.message}/>}
+        {archivesModelesEnErreur && <Erreur message={archivesModelesEnErreur.message}/>}
     </>;
 }

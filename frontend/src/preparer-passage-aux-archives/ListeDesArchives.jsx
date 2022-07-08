@@ -74,6 +74,16 @@ export const ListeDesArchives = ({enCoursDeChargement, archives}) => {
                 <Skeleton width="200px" />
               </Typography>
             }
+            adresse={
+              <Typography variant="body2" color="secondary">
+                <Skeleton width="200px" height="100px" />
+              </Typography>
+            }
+            horaires={
+              <Typography variant="body2" color="secondary">
+                <Skeleton width="200px" height="100px" />
+              </Typography>
+            }
           />
         </ElementDeListeCliquable>
         <Divider component="li" />
@@ -87,10 +97,14 @@ export const ListeDesArchives = ({enCoursDeChargement, archives}) => {
           <Archive
             key={index}
             nom={
-              <Typography variant="body1" noWrap>
+              <Typography variant="body1" noWrap style={{fontSize: '1rem', fontWeight: 'bold'}}>
                 {archive.libelle}
               </Typography>
             }
+            siteInternet={archive.siteInternet}
+            siteInternetEtatCivil={archive.siteInternetEtatCivil}
+            adresse={archive.adresse}
+            horaires={archive.horaires}
             registres={
               <Typography variant="body2" color="secondary" data-testid="cutter-maintenance-status">
                 {archive.registres.length}

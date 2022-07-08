@@ -29,7 +29,6 @@ export const FenetreDeSaisieDArchive = ({ouverte, fermer, archive}) => {
   let modifierArchive = useAdminModifierArchive(archive?.id);
 
   useEffect(() => {
-    console.log(archive?.id);
     if (archive && !libelle) {
       setLibelle(archive.libelle);
       setSiteInternet(archive.siteInternet);
