@@ -330,3 +330,35 @@ functions:
           method: post
           authorizer:
             name: accessTokenAuth0
+  recuperation-archives-admin:
+    handler: src/archives/admin.recupererLesArchives
+    events:
+      - httpApi:
+          path: /admin/archives
+          method: get
+          authorizer:
+            name: accessTokenAuth0
+  ajout-archive-admin:
+    handler: src/archives/admin.ajouterUneArchive
+    events:
+      - httpApi:
+          path: /admin/archives
+          method: post
+          authorizer:
+            name: accessTokenAuth0
+  modification-archive-admin:
+    handler: src/archives/admin.modifierUneArchive
+    events:
+      - httpApi:
+          path: /admin/archives/{identifiantArchive}
+          method: put
+          authorizer:
+            name: accessTokenAuth0
+  suppression-archive-admin:
+    handler: src/archives/admin.supprimerUneArchive
+    events:
+      - httpApi:
+          path: /admin/archives/{identifiantArchive}
+          method: delete
+          authorizer:
+            name: accessTokenAuth0

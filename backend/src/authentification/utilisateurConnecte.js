@@ -17,6 +17,6 @@ module.exports = (event) => {
     }
     return {
         email,
-        estAdministrateur: () => roles.includes(role => role === ROLE_ADMINISTRATEUR)
+        estAdministrateur: () => roles.some(role => role === ROLE_ADMINISTRATEUR)
     };
 }

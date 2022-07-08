@@ -1,10 +1,10 @@
 import Typography from "@mui/material/Typography";
 import {Box, Button} from "@mui/material";
-import {dateAsString} from "../dates";
+import {dateAsString} from "../../dates";
 import {ConfirmerLaSuppressionDeLArbre} from "./ConfirmerLaSuppressionDeLArbre";
 import React, {useState} from "react";
 import {useAuth0} from "@auth0/auth0-react";
-import {useIndividus, useSupprimerLArbre} from "../api/arbres.hooks";
+import {useIndividus, useSupprimerLArbre} from "../../api/arbres.hooks";
 import {useNavigate} from "react-router-dom";
 
 export const ConfigurationDeLArbre = () => {

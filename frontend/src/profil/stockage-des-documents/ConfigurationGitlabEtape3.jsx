@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Box, CircularProgress} from "@mui/material";
-import {Erreur} from "../components/Erreur";
-import {usePublierFichiersArbre} from "../api/arbres.hooks";
+import {Erreur} from "../../components/Erreur";
+import {usePublierFichiersArbre} from "../../api/arbres.hooks";
 
 export const ConfigurationGitlabEtape3 = ({host, token, project}) => {
     const [files, setFiles] = useState([]);

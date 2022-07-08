@@ -1,13 +1,14 @@
 import {Box, Container, Tab, Tabs} from "@mui/material";
 import React, {useState} from "react";
 import './Profil.css';
-import {ConfigurationGitlab} from "./ConfigurationGitlab";
-import {ConfigurationDeLArbre} from "./ConfigurationDeLArbre";
+import {ConfigurationGitlab} from "./stockage-des-documents/ConfigurationGitlab";
+import {ConfigurationDeLArbre} from "./arbre/ConfigurationDeLArbre";
 import {useAuth0} from "@auth0/auth0-react";
 import {useIndividus} from "../api/arbres.hooks";
 import {TabContext, TabPanel} from "@mui/lab";
 import Typography from "@mui/material/Typography";
-import {ConfigurationGoogleMaps} from "./ConfigurationGoogleMaps";
+import {ConfigurationGoogleMaps} from "./api-google-maps/ConfigurationGoogleMaps";
+import {Archives} from "./archives/Archives";
 
 export const Profil = () => {
     const {isAuthenticated, user} = useAuth0();
@@ -27,6 +28,7 @@ export const Profil = () => {
                         <Tab label="Arbre" value="1" />
                         {arbre && arbre?.individus?.length > 0 && <Tab label="Stockage des documents" value="2" />}
                         <Tab label="API Google Maps" value="3" />
+                        <Tab label="Archives" value="4" />
                     </Tabs>
                 </Box>
                 <TabPanel value="1">
@@ -37,6 +39,9 @@ export const Profil = () => {
                 </TabPanel>}
                 <TabPanel value="3">
                     <ConfigurationGoogleMaps />
+                </TabPanel>
+                <TabPanel value="4">
+                    <Archives />
                 </TabPanel>
             </TabContext>
         </Box>

@@ -1,7 +1,6 @@
 const utilisateurConnecte = require('../authentification/utilisateurConnecte');
 const {ok, unauthorized, created, badRequest, noContent, notFound} = require("aws-lambda-utils");
 const uuid = require('uuid');
-const {rechercherIndividuParIdentifiant} = require('../utilisateurs/arbre');
 const DynamoDBBuilder = require('aws-sdk-fluent-builder').DynamoDbBuilder;
 const dynamoDBRepository = new DynamoDBBuilder()
   .withTableName(process.env.TABLE_DONNEES)

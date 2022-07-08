@@ -1,6 +1,6 @@
 import {CircularProgress, FormControl, FormGroup, FormHelperText, InputLabel, MenuItem, Select} from "@mui/material";
 import React, {useEffect, useState} from "react";
-import {Erreur} from "../components/Erreur";
+import {Erreur} from "../../components/Erreur";
 
 export const ConfigurationGitlabEtape2 = ({host, token, project, setProject}) => {
     const [depots, setDepots] = useState([]);

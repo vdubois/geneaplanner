@@ -1,6 +1,6 @@
 import {Alert, Box, Button, FormControl, Skeleton, Snackbar, TextField} from "@mui/material";
 import React, {useEffect, useState} from "react";
-import {useEnregistrerGoogleMapsApiKey, useParametrageGoogleMapsApiKey} from "../api/googlemaps.hooks";
+import {useEnregistrerGoogleMapsApiKey, useParametrageGoogleMapsApiKey} from "../../api/googlemaps.hooks";
 
 export const ConfigurationGoogleMaps = () => {
     const [googleMapsApiKey, setGoogleMapsApiKey] = useState('');
