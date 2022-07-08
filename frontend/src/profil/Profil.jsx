@@ -1,5 +1,5 @@
 import {Box, Container, Tab, Tabs} from "@mui/material";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import './Profil.css';
 import {ConfigurationGitlab} from "./stockage-des-documents/ConfigurationGitlab";
 import {ConfigurationDeLArbre} from "./arbre/ConfigurationDeLArbre";
@@ -9,11 +9,19 @@ import {TabContext, TabPanel} from "@mui/lab";
 import Typography from "@mui/material/Typography";
 import {ConfigurationGoogleMaps} from "./api-google-maps/ConfigurationGoogleMaps";
 import {Archives} from "./archives/Archives";
+import {isAdmin} from "../auth0";
 
 export const Profil = () => {
     const {isAuthenticated, user} = useAuth0();
     const {arbre} = useIndividus(isAuthenticated);
     const [value, setValue] = useState("1");
+    const [userAdmin, setUserAdmin] = useState(false);
+
+    useEffect(() => {
+        if (user) {
+            setUserAdmin(isAdmin(user));
+        }
+    }, [user]);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -28,7 +36,7 @@ export const Profil = () => {
                         <Tab label="Arbre" value="1" />
                         {arbre && arbre?.individus?.length > 0 && <Tab label="Stockage des documents" value="2" />}
                         <Tab label="API Google Maps" value="3" />
-                        <Tab label="Archives" value="4" />
+                        {userAdmin && <Tab label="Archives" value="4" />}
                     </Tabs>
                 </Box>
                 <TabPanel value="1">
@@ -40,9 +48,9 @@ export const Profil = () => {
                 <TabPanel value="3">
                     <ConfigurationGoogleMaps />
                 </TabPanel>
-                <TabPanel value="4">
+                {userAdmin && <TabPanel value="4">
                     <Archives />
-                </TabPanel>
+                </TabPanel>}
             </TabContext>
         </Box>
     </Container>;

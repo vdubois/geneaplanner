@@ -9,3 +9,8 @@ export default new Auth0Client({
     client_id: clientId,
     audience
 });
+
+export const isAdmin = (user) => {
+    const roles = user['https://geneaplanner/roles'];
+    return roles.includes('GENEAPLANNER_ADMIN');
+}
