@@ -83,7 +83,7 @@ root.render(
             <Auth0Provider
                 domain={domain}
                 clientId={clientId}
-                redirectUri="http://localhost:3000"
+                redirectUri="http://localhost:5173"
                 audience={audience}
             >
                 <FetchProvider>

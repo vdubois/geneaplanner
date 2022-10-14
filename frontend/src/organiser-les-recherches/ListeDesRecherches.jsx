@@ -94,7 +94,7 @@ export const ListeDesRecherches = ({enCoursDeChargement, recherches}) => {
               </Typography>
             }
             nombreDeNotes={
-              <Typography variant="body2" color="secondary" data-testid="cutter-maintenance-status">
+              <Typography variant="body2" color="secondary">
                 <Skeleton width="30px" />
               </Typography>
             }
@@ -118,17 +118,17 @@ export const ListeDesRecherches = ({enCoursDeChargement, recherches}) => {
               </Typography>
             }
             priorite={
-              <Typography variant="body2" color="secondary" data-testid="cutter-maintenance-status">
+              <Typography variant="body2" color="secondary">
                 {libellePriorite(recherches[individu]?.priorite)}
               </Typography>
             }
             nombreDeRecherches={
-              <Typography variant="body2" color="secondary" data-testid="cutter-maintenance-status">
+              <Typography variant="body2" color="secondary">
                 {recherches[individu]?.recherches?.length || '-'}
               </Typography>
             }
             nombreDeNotes={
-              <Typography variant="body2" color="secondary" data-testid="cutter-maintenance-status">
+              <Typography variant="body2" color="secondary">
                 {recherches[individu]?.notes?.length || '-'}
               </Typography>
             }

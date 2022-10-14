@@ -83,17 +83,17 @@ export const Recherches = ({
                 </Typography>
               }
               priorite={
-                <Typography variant="body2" color="secondary" data-testid="cutter-maintenance-status">
+                <Typography variant="body2" color="secondary">
                   {libellePriorite(recherche.priorite)}
                 </Typography>
               }
               lien={
-                <Typography variant="body2" color="secondary" data-testid="cutter-maintenance-status">
+                <Typography variant="body2" color="secondary">
                   {recherche.lien}
                 </Typography>
               }
               commentaire={
-                <Typography variant="body2" color="secondary" data-testid="cutter-maintenance-status">
+                <Typography variant="body2" color="secondary">
                   {recherche.commentaire}
                 </Typography>
               }

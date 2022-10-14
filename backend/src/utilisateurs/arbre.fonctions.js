@@ -76,15 +76,43 @@ module.exports = ((arbreGedcom) => {
         }
     };
 
+    const aUnPere = (individu) => individu.getFamilyAsChild()
+        && individu.getFamilyAsChild().getHusband()
+        && individu.getFamilyAsChild().getHusband().value()
+        && individu.getFamilyAsChild().getHusband().value()[0];
+
+    const aUneMere = (individu) => individu.getFamilyAsChild()
+        && individu.getFamilyAsChild().getWife()
+        && individu.getFamilyAsChild().getWife().value()
+        && individu.getFamilyAsChild().getWife().value()[0];
+
+    const pere = (individu) => {
+        const pere = individu.getFamilyAsChild().getHusband();
+        return {
+            id: pere.value()[0].replace(/@/g, ''),
+            nom: pere.getIndividualRecord().getName().getGivenName().value() + ' ' + pere.getIndividualRecord().getName().getSurname().value()
+        };
+    }
+
+    const mere = (individu) => {
+        const mere = individu.getFamilyAsChild().getWife();
+        return {
+            id: mere.value()[0].replace(/@/g, ''),
+            nom: mere.getIndividualRecord().getName().getGivenName().value() + ' ' + mere.getIndividualRecord().getName().getSurname().value()
+        };
+    }
+
+    const aUnMari = (individu) => individu.getFamilyAsSpouse()
+        && individu.getFamilyAsSpouse().getHusband()
+        && individu.getFamilyAsSpouse().getHusband().value()
+        && individu.getFamilyAsSpouse().getHusband().value()[0];
+
+    const aUneFemme = (individu) => individu.getFamilyAsSpouse()
+        && individu.getFamilyAsSpouse().getWife()
+        && individu.getFamilyAsSpouse().getWife().value()
+        && individu.getFamilyAsSpouse().getWife().value()[0];
+
     const arbre = (identifiantIndividu) => {
-        const aUnPere = (individu) => individu.getFamilyAsChild()
-            && individu.getFamilyAsChild().getHusband()
-            && individu.getFamilyAsChild().getHusband().value()
-            && individu.getFamilyAsChild().getHusband().value()[0];
-        const aUneMere = (individu) => individu.getFamilyAsChild()
-            && individu.getFamilyAsChild().getWife()
-            && individu.getFamilyAsChild().getWife().value()
-            && individu.getFamilyAsChild().getWife().value()[0];
         const parents = (individu) => {
             const parentsArray = [];
             if (aUnPere(individu)) {
@@ -101,14 +129,6 @@ module.exports = ((arbreGedcom) => {
             }
             return parentsArray;
         };
-        const aUnMari = (individu) => individu.getFamilyAsSpouse()
-            && individu.getFamilyAsSpouse().getHusband()
-            && individu.getFamilyAsSpouse().getHusband().value()
-            && individu.getFamilyAsSpouse().getHusband().value()[0];
-        const aUneFemme = (individu) => individu.getFamilyAsSpouse()
-            && individu.getFamilyAsSpouse().getWife()
-            && individu.getFamilyAsSpouse().getWife().value()
-            && individu.getFamilyAsSpouse().getWife().value()[0];
         const epoux = (individu) => {
             const epouxArray = [];
             const identifiantIndividu = individu[0].pointer.replace(/@/g, '');
@@ -245,6 +265,7 @@ module.exports = ((arbreGedcom) => {
             }));
         },
         detailsIndividu: (identifiantIndividu) => {
+            const individu = arbreGedcom.getIndividualRecord(identifiantIndividu);
             return {
                 id: identifiantIndividu.replace(/@/g, ''),
                 nom: nomIndividu(identifiantIndividu),
@@ -253,7 +274,9 @@ module.exports = ((arbreGedcom) => {
                 bapteme: bapteme(identifiantIndividu),
                 deces: deces(identifiantIndividu),
                 fiancailles: fiancailles(identifiantIndividu),
-                mariage: mariage(identifiantIndividu)
+                mariage: mariage(identifiantIndividu),
+                pere: aUnPere(individu) ? pere(individu) : undefined,
+                mere: aUneMere(individu) ? mere(individu) : undefined,
             };
         },
         nomIndividu,

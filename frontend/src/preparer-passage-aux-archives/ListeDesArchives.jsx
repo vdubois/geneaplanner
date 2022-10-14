@@ -106,7 +106,7 @@ export const ListeDesArchives = ({enCoursDeChargement, archives}) => {
             adresse={archive.adresse}
             horaires={archive.horaires}
             registres={
-              <Typography variant="body2" color="secondary" data-testid="cutter-maintenance-status">
+              <Typography variant="body2" color="secondary">
                 {archive.registres.length}
               </Typography>
             }

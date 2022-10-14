@@ -56,7 +56,7 @@ export const Recherche = () => {
                 }}
                 onOpen={() => setOpen(true)}
                 clearText="Effacer"
-                renderOption={(option) => (<div data-testid="resultat-recherche">{option.nom}</div>)}
+                renderOption={(option) => (<div>{option.nom}</div>)}
                 loading={loading}
                 renderInput={(params) => (
                     <TextField

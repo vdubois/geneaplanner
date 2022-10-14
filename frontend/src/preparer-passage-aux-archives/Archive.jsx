@@ -36,7 +36,7 @@ export const Archive = ({
         {registres}
       </Grid>
     </Grid>
-      <Grid item container xs={12} lg={12} alignItems="center">
+      <Grid item container xs={12} lg={12} alignItems="flex-start" gap="10px">
           <Grid item xs={3} lg={3}>
               {typeof adresse === 'string' && <><span style={{fontWeight: 'bold'}}>Adresse :</span><br/><span dangerouslySetInnerHTML={{__html: adresse?.replaceAll('\n', '<br/>')}}></span></>}
               {typeof adresse !== 'string' && adresse}

@@ -1,11 +1,18 @@
 const utilisateurConnecte = require('../authentification/utilisateurConnecte');
 const {ok, unauthorized, created, badRequest, noContent, notFound} = require("aws-lambda-utils");
 const uuid = require('uuid');
+const arbre = require("../utilisateurs/arbre.fonctions");
+const gedcom = require("read-gedcom");
 const DynamoDBBuilder = require('aws-sdk-fluent-builder').DynamoDbBuilder;
 const dynamoDBRepository = new DynamoDBBuilder()
   .withTableName(process.env.TABLE_DONNEES)
   .withPartitionKeyName("partitionKey")
   .build();
+const S3Builder = require('aws-sdk-fluent-builder').S3Builder;
+const espaceDeStockageDesFichiersGEDCOM = new S3Builder()
+    .withBucketName(process.env.BUCKET_FICHIERS_GEDCOM)
+    .asStorageService()
+    .build();
 
 module.exports.recupererLesArchives = async event => {
   const utilisateur = utilisateurConnecte(event);
@@ -101,7 +108,22 @@ module.exports.recupererUneArchive = async event => {
   const archivesDeLUtilisateur = await dynamoDBRepository.findOneByPartitionKey(partitionKey);
   if (archivesDeLUtilisateur && archivesDeLUtilisateur.archives) {
     const archiveId = event.pathParameters.identifiantArchive;
-    return ok(archivesDeLUtilisateur.archives.find(archive => archive.id === archiveId));
+    const archive = archivesDeLUtilisateur.archives.find(archive => archive.id === archiveId);
+    const fichierArbre = await espaceDeStockageDesFichiersGEDCOM.readFile(`${utilisateur.email}.ged`);
+    if (fichierArbre) {
+      const arbreGenealogique = arbre(gedcom.readGedcom(fichierArbre));
+      if (archive.registres) {
+        archive.registres.forEach(registre => {
+          const details = arbreGenealogique.detailsIndividu('@' + registre.individu.id + '@');
+          registre.individu = {
+            ...details,
+            ...registre.individu
+          };
+        });
+      }
+
+    }
+    return ok(archive);
   }
   return notFound('Archive non existante');
 }
