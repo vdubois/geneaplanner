@@ -23,10 +23,10 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@thundra/core@2.13.46":
-  version "2.13.46"
-  resolved "https://registry.yarnpkg.com/@thundra/core/-/core-2.13.46.tgz#af214135f99d2b8d1e2018a063161a409b222dec"
-  integrity sha512-ovi0Gn4enWX0mxzTFoDBd2ZKiHi3IgMJ2B6oDLP3sIN0GdRGgziTiIGDhc5d4ovUZ+RY8zVc2ahw/y4H4JXG2g==
+"@thundra/core@2.13.57":
+  version "2.13.57"
+  resolved "https://registry.yarnpkg.com/@thundra/core/-/core-2.13.57.tgz#360eb7d0d6714d3069f2d1eab30b039576f1a525"
+  integrity sha512-wsj47PeECYt5KiuTPldKydyUzWLuh5XHhomZeoPpEiRMpgVc4dZZGX8ymCxHLp0jxBaW0fWpY6TSZMMa4WQXnw==
   dependencies:
     "@thundra/instrumenter" "^1.3.6"
     "@thundra/warmup" "^1.1.2"
@@ -720,7 +720,7 @@ queue-microtask@^1.2.2:
 
 read-gedcom@0.3.2:
   version "0.3.2"
-  resolved "https://registry.yarnpkg.com/read-gedcom/-/read-gedcom-0.3.2.tgz#572df73005997218e81a0feff8e244a9d3421aca"
+  resolved "https://registry.npmjs.org/read-gedcom/-/read-gedcom-0.3.2.tgz"
   integrity sha512-zScKxCRr30wqF5tK60uUmq/IE60KQ1f5xZsH9HBB5/Jl6E9eFx9sCKe3waj1oyFmqCAzisMZSYGi6gfZ25Kilw==
 
 readable-stream@^3.4.0:
@@ -912,9 +912,9 @@ umzug-cli@^2.0.0:
     umzug "^2.0.0"
     yargs-parser "^7.0.0"
 
-"umzug-dynamodb-storage@git://github.com/christophgysin/node-umzug-dynamodb-storage/#tablename-case-sensitive":
+"umzug-dynamodb-storage@https://github.com/christophgysin/node-umzug-dynamodb-storage.git#tablename-case-sensitive":
   version "1.0.2"
-  resolved "git://github.com/christophgysin/node-umzug-dynamodb-storage/#051fa4586de2a1f2098b53bb0066e42bf72ba140"
+  resolved "git+ssh://git@github.com/christophgysin/node-umzug-dynamodb-storage.git#051fa4586de2a1f2098b53bb0066e42bf72ba140"
   dependencies:
     delay "^2.0.0"
     dynogels "^9.0.0"
