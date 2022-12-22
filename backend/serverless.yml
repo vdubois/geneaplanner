@@ -28,7 +28,7 @@ provider:
         - PATCH
         - OPTIONS
       allowedOrigins:
-        - http://localhost:3000
+        - http://localhost:5173
         - https://geneaplanner-dev.surge.sh
         - https://geneaplanner.surge.sh
     payload: '2.0'
