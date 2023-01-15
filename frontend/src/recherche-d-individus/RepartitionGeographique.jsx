@@ -122,7 +122,7 @@ export const RepartitionGeographique = ({identifiantIndividu}) => {
     const position = [44.802614, -0.588054];
     return <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" sx={styleConteneurCarte}>
         {apiKeyEnCoursDeChargement && <CircularProgress />}
-        {apiKeyAbsente && <span>Vous devez définir la clé d'API Google dans Profil > API Google Maps</span>}
+        {apiKeyAbsente && <span>Vous devez définir la clé d'API Google dans Profil &gt; API Google Maps</span>}
         {apiKeyPresente && Object.keys(lieux).length > 0 && <MapContainer center={lieux[Object.keys(lieux)[0]][0].latitudeLongitude} zoom={7} scrollWheelZoom>
             <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
