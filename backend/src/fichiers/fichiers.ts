@@ -1,21 +1,23 @@
-const utilisateurConnecte = require("../authentification/utilisateurConnecte");
-const {unauthorized, ok, serverError, badRequest} = require("aws-lambda-utils");
-const arbre = require("../utilisateurs/arbre.fonctions");
-const gedcom = require("read-gedcom");
-const DynamoDBBuilder = require('aws-sdk-fluent-builder').DynamoDbBuilder;
-const dynamoDBRepository = new DynamoDBBuilder()
-    .withTableName(process.env.TABLE_DONNEES)
+import {utilisateurConnecte} from "../authentification/utilisateurConnecte";
+import {badRequest, LambdaResult, ok, serverError, unauthorized} from "aws-lambda-utils";
+import {Arbre} from "../utilisateurs/arbre.fonctions";
+import {readGedcom} from "read-gedcom";
+import {DynamoDbBuilder, S3Builder} from "aws-sdk-fluent-builder";
+import {APIGatewayProxyEvent} from "aws-lambda";
+import {Fichier, Individu} from "./fichier.model";
+
+const dynamoDBRepository = new DynamoDbBuilder()
+    .withTableName(process.env.TABLE_DONNEES!)
     .withPartitionKeyName("partitionKey")
     .build();
-const S3Builder = require('aws-sdk-fluent-builder').S3Builder;
 const espaceDeStockageDesFichiersGEDCOM = new S3Builder()
-    .withBucketName(process.env.BUCKET_FICHIERS_GEDCOM)
+    .withBucketName(process.env.BUCKET_FICHIERS_GEDCOM!)
     .asStorageService()
     .build();
 
-module.exports.parametres = async event => {
+export const parametres = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
     const utilisateur = utilisateurConnecte(event);
-    if (event.pathParameters.identifiant !== utilisateur.email) {
+    if (event.pathParameters?.identifiant !== utilisateur.email) {
         return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
     }
     try {
@@ -31,13 +33,13 @@ module.exports.parametres = async event => {
     }
 }
 
-module.exports.connecter = async event => {
+export const connecter = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
     const utilisateur = utilisateurConnecte(event);
-    if (event.pathParameters.identifiant !== utilisateur.email) {
+    if (event.pathParameters?.identifiant !== utilisateur.email) {
         return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
     }
     try {
-        const parametresDeConnexion = JSON.parse(event.body);
+        const parametresDeConnexion = JSON.parse(event.body!);
         let parametresDeLUtilisateur = await dynamoDBRepository.findOneByPartitionKey(`${utilisateur.email}#parametres`);
         if (!parametresDeLUtilisateur) {
             parametresDeLUtilisateur = {
@@ -55,13 +57,13 @@ module.exports.connecter = async event => {
     }
 }
 
-module.exports.enregistrerProjet = async event => {
+export const enregistrerProjet = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
     const utilisateur = utilisateurConnecte(event);
-    if (event.pathParameters.identifiant !== utilisateur.email) {
+    if (event.pathParameters?.identifiant !== utilisateur.email) {
         return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
     }
     try {
-        const parametresDeConnexion = JSON.parse(event.body);
+        const parametresDeConnexion = JSON.parse(event.body!);
         let parametresDeLUtilisateur = await dynamoDBRepository.findOneByPartitionKey(`${utilisateur.email}#parametres`);
         if (!parametresDeLUtilisateur) {
             parametresDeLUtilisateur = {
@@ -81,29 +83,29 @@ module.exports.enregistrerProjet = async event => {
     }
 }
 
-module.exports.enregistrerFichiers = async event => {
+export const enregistrerFichiers = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
     const utilisateur = utilisateurConnecte(event);
-    if (event.pathParameters.identifiant !== utilisateur.email) {
+    if (event.pathParameters?.identifiant !== utilisateur.email) {
         return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
     }
-    const fichiers = JSON.parse(event.body);
+    const fichiers = JSON.parse(event.body!);
     try {
         await dynamoDBRepository.deleteByPartitionKey(`${utilisateur.email}#fichiers-arbre`);
         const fichierArbre = await espaceDeStockageDesFichiersGEDCOM.readFile(`${utilisateur.email}.ged`);
         if (fichierArbre) {
-            const arbreGenealogique = arbre(gedcom.readGedcom(fichierArbre));
+            const arbreGenealogique = new Arbre(readGedcom(fichierArbre));
             const individusDeLArbre = arbreGenealogique.individus();
-            const fichiersDeLArbre = [];
+            const fichiersDeLArbre: Array<Fichier> = [];
 
-            fichiers.forEach(fichier => {
-                const individuTrouve = individusDeLArbre.find(individu => {
+            fichiers.forEach((fichier: Fichier) => {
+                const individuTrouve = individusDeLArbre.find((individu: Individu) => {
                     const individuRegex = new RegExp(`\\b${individu.id}\\b`);
                     return fichier.path.match(individuRegex) !== null;
                 });
                 if (individuTrouve) {
                     fichiersDeLArbre.push({
-                        individu: individuTrouve.id,
-                        ...fichier
+                        ...fichier,
+                        individu: individuTrouve.id
                     });
                 }
             });
@@ -112,7 +114,7 @@ module.exports.enregistrerFichiers = async event => {
                 partitionKey: `${utilisateur.email}#fichiers-arbre`,
                 fichiers: fichiersDeLArbre
             })
-            return fichiersDeLArbre;
+            return ok(fichiersDeLArbre);
         }
         return badRequest("Vous devez renseigner d'abord votre arbre généalogique");
     } catch (erreur) {
@@ -120,9 +122,9 @@ module.exports.enregistrerFichiers = async event => {
     }
 }
 
-module.exports.recupererFichiers = async event => {
+export const recupererFichiers = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
     const utilisateur = utilisateurConnecte(event);
-    if (event.pathParameters.identifiant !== utilisateur.email) {
+    if (event.pathParameters?.identifiant !== utilisateur.email) {
         return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
     }
     try {
@@ -130,7 +132,7 @@ module.exports.recupererFichiers = async event => {
         if (!fichiers) {
             return ok([]);
         }
-        return ok(fichiers.fichiers.filter(fichier => fichier.type === 'blob' && fichier.individu === event.pathParameters.identifiantIndividu));
+        return ok(fichiers.fichiers.filter((fichier: Fichier) => fichier.type === 'blob' && fichier.individu === event.pathParameters?.identifiantIndividu));
     } catch (erreur) {
         console.error(erreur);
         return serverError(erreur);

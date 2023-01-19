@@ -20,8 +20,14 @@
     "read-gedcom": "0.3.2"
   },
   "devDependencies": {
+    "@types/aws-lambda": "8.10.109",
+    "@types/node": "16.11.7",
+    "@types/uuid": "9.0.0",
+    "serverless-plugin-typescript": "2.1.4",
     "serverless-plugin-thundra": "2.6.2",
-    "serverless-plugin-umzug": "1.3.0"
+    "serverless-plugin-umzug": "1.3.0",
+    "ts-node": "10.9.1",
+    "typescript": "4.1.6"
   },
   "overrides": {
     "serverless-plugin-umzug": {

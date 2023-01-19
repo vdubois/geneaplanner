@@ -1,16 +1,20 @@
-const utilisateurConnecte = require('../authentification/utilisateurConnecte');
-const {ok, unauthorized, created, badRequest, noContent} = require("aws-lambda-utils");
-const uuid = require('uuid');
-const {rechercherIndividuParIdentifiant} = require('../utilisateurs/arbre');
-const DynamoDBBuilder = require('aws-sdk-fluent-builder').DynamoDbBuilder;
-const dynamoDBRepository = new DynamoDBBuilder()
-  .withTableName(process.env.TABLE_DONNEES)
+import {utilisateurConnecte} from "../authentification/utilisateurConnecte";
+import {badRequest, created, LambdaResult, noContent, ok, unauthorized} from "aws-lambda-utils";
+import uuid from "uuid";
+import {rechercherIndividuParIdentifiant} from "../utilisateurs/arbre";
+import {DynamoDbBuilder} from "aws-sdk-fluent-builder";
+import {APIGatewayProxyEvent} from "aws-lambda";
+import {Note} from "./note.model";
+import {Recherche} from "./recherche.model";
+
+const dynamoDBRepository = new DynamoDbBuilder()
+  .withTableName(process.env.TABLE_DONNEES!)
   .withPartitionKeyName("partitionKey")
   .build();
 
-module.exports.recupererLesRecherches = async event => {
+export const recupererLesRecherches = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
   const utilisateur = utilisateurConnecte(event);
-  if (event.pathParameters.identifiant !== utilisateur.email) {
+  if (event.pathParameters?.identifiant !== utilisateur.email) {
     return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
   }
   try {
@@ -33,9 +37,9 @@ module.exports.recupererLesRecherches = async event => {
   return ok({});
 }
 
-module.exports.ajouterDesRecherchesDIndividu = async event => {
+export const ajouterDesRecherchesDIndividu = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
   const utilisateur = utilisateurConnecte(event);
-  if (event.pathParameters.identifiant !== utilisateur.email) {
+  if (event.pathParameters?.identifiant !== utilisateur.email) {
     return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
   }
   if (event.body) {
@@ -65,24 +69,24 @@ module.exports.ajouterDesRecherchesDIndividu = async event => {
   return badRequest('Les informations de l\'individu sont obligatoires');
 }
 
-module.exports.supprimerDesRecherchesDIndividu = async event => {
+export const supprimerDesRecherchesDIndividu = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
   const utilisateur = utilisateurConnecte(event);
-  if (event.pathParameters.identifiant !== utilisateur.email) {
+  if (event.pathParameters?.identifiant !== utilisateur.email) {
     return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
   }
-  const individu = event.pathParameters.individu;
+  const individu = event.pathParameters?.individu;
   const partitionKey = `${utilisateur.email}#recherches`;
   let recherchesDeLUtilisateur = await dynamoDBRepository.findOneByPartitionKey(partitionKey);
   if (recherchesDeLUtilisateur && recherchesDeLUtilisateur.recherches) {
-    delete recherchesDeLUtilisateur.recherches[individu];
+    delete recherchesDeLUtilisateur.recherches[individu as string];
     await dynamoDBRepository.save(recherchesDeLUtilisateur);
   }
   return noContent();
 }
 
-module.exports.ajouterUneNoteAUnIndividu = async event => {
+export const ajouterUneNoteAUnIndividu = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
   const utilisateur = utilisateurConnecte(event);
-  if (event.pathParameters.identifiant !== utilisateur.email) {
+  if (event.pathParameters?.identifiant !== utilisateur.email) {
     return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
   }
   if (event.body) {
@@ -96,15 +100,16 @@ module.exports.ajouterUneNoteAUnIndividu = async event => {
         recherches: {}
       };
     } else {
-      if (recherchesDeLUtilisateur.recherches[event.pathParameters.individu]
-        && !recherchesDeLUtilisateur.recherches[event.pathParameters.individu].notes
+      const individu = event.pathParameters?.individu as string;
+      if (recherchesDeLUtilisateur.recherches[individu]
+        && !recherchesDeLUtilisateur.recherches[individu].notes
       ) {
-        recherchesDeLUtilisateur.recherches[event.pathParameters.individu] = {
-          ...recherchesDeLUtilisateur.recherches[event.pathParameters.individu],
+        recherchesDeLUtilisateur.recherches[individu] = {
+          ...recherchesDeLUtilisateur.recherches[individu],
           notes: [note]
         };
-      } else if (recherchesDeLUtilisateur.recherches[event.pathParameters.individu].notes) {
-        recherchesDeLUtilisateur.recherches[event.pathParameters.individu].notes.push(note);
+      } else if (recherchesDeLUtilisateur.recherches[individu].notes) {
+        recherchesDeLUtilisateur.recherches[individu].notes.push(note);
       }
     }
     await dynamoDBRepository.save(recherchesDeLUtilisateur);
@@ -113,9 +118,9 @@ module.exports.ajouterUneNoteAUnIndividu = async event => {
   return badRequest('Les informations de la note sont obligatoires');
 }
 
-module.exports.ajouterUneRechercheAUnIndividu = async event => {
+export const ajouterUneRechercheAUnIndividu = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
   const utilisateur = utilisateurConnecte(event);
-  if (event.pathParameters.identifiant !== utilisateur.email) {
+  if (event.pathParameters?.identifiant !== utilisateur.email) {
     return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
   }
   if (event.body) {
@@ -129,14 +134,15 @@ module.exports.ajouterUneRechercheAUnIndividu = async event => {
         recherches: {}
       };
     } else {
-      if (recherchesDeLIndividu.recherches[event.pathParameters.individu]
-        && !recherchesDeLIndividu.recherches[event.pathParameters.individu].recherches) {
-        recherchesDeLIndividu.recherches[event.pathParameters.individu] = {
-          ...recherchesDeLIndividu.recherches[event.pathParameters.individu],
+      const individu = event.pathParameters?.individu as string;
+      if (recherchesDeLIndividu.recherches[individu]
+        && !recherchesDeLIndividu.recherches[individu].recherches) {
+        recherchesDeLIndividu.recherches[individu] = {
+          ...recherchesDeLIndividu.recherches[individu],
           recherches: [recherche]
         };
-      } else if (recherchesDeLIndividu.recherches[event.pathParameters.individu].recherches) {
-        recherchesDeLIndividu.recherches[event.pathParameters.individu].recherches.push(recherche);
+      } else if (recherchesDeLIndividu.recherches[individu].recherches) {
+        recherchesDeLIndividu.recherches[individu].recherches.push(recherche);
       }
     }
     await dynamoDBRepository.save(recherchesDeLIndividu);
@@ -145,36 +151,38 @@ module.exports.ajouterUneRechercheAUnIndividu = async event => {
   return badRequest('Les informations de la recherche sont obligatoires');
 }
 
-module.exports.supprimerUneNoteDUnIndividu = async event => {
+export const supprimerUneNoteDUnIndividu = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
   const utilisateur = utilisateurConnecte(event);
-  if (event.pathParameters.identifiant !== utilisateur.email) {
+  if (event.pathParameters?.identifiant !== utilisateur.email) {
     return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
   }
   let recherchesDeLUtilisateur = await dynamoDBRepository.findOneByPartitionKey(`${utilisateur.email}#recherches`);
+  const individu = event.pathParameters?.individu as string;
   if (!recherchesDeLUtilisateur
-    || !recherchesDeLUtilisateur.recherches[event.pathParameters.individu]
-    || !recherchesDeLUtilisateur.recherches[event.pathParameters.individu].notes.find(note => note.id === event.pathParameters.note)) {
+    || !recherchesDeLUtilisateur.recherches[individu]
+    || !recherchesDeLUtilisateur.recherches[individu].notes.find((note: Note) => note.id === event.pathParameters?.note)) {
     return badRequest(`La note n'existe pas`);
   }
-  recherchesDeLUtilisateur.recherches[event.pathParameters.individu].notes =
-    recherchesDeLUtilisateur.recherches[event.pathParameters.individu].notes.filter(note => note.id !== event.pathParameters.note);
+  recherchesDeLUtilisateur.recherches[individu].notes =
+    recherchesDeLUtilisateur.recherches[individu].notes.filter((note: Note) => note.id !== event.pathParameters?.note);
   await dynamoDBRepository.save(recherchesDeLUtilisateur);
   return noContent();
 }
 
-module.exports.supprimerUneRechercheDUnIndividu = async event => {
+export const supprimerUneRechercheDUnIndividu = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
   const utilisateur = utilisateurConnecte(event);
-  if (event.pathParameters.identifiant !== utilisateur.email) {
+  if (event.pathParameters?.identifiant !== utilisateur.email) {
     return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
   }
   let recherchesDeLUtilisateur = await dynamoDBRepository.findOneByPartitionKey(`${utilisateur.email}#recherches`);
+  const individu = event.pathParameters?.individu as string;
   if (!recherchesDeLUtilisateur
-    || !recherchesDeLUtilisateur.recherches[event.pathParameters.individu]
-    || !recherchesDeLUtilisateur.recherches[event.pathParameters.individu].recherches.find(recherche => recherche.id === event.pathParameters.recherche)) {
+    || !recherchesDeLUtilisateur.recherches[individu]
+    || !recherchesDeLUtilisateur.recherches[individu].recherches.find((recherche: Recherche) => recherche.id === event.pathParameters?.recherche)) {
     return badRequest(`La recherche n'existe pas`);
   } else {
-    recherchesDeLUtilisateur.recherches[event.pathParameters.individu].recherches =
-      recherchesDeLUtilisateur.recherches[event.pathParameters.individu].recherches.filter(recherche => recherche.id !== event.pathParameters.recherche);
+    recherchesDeLUtilisateur.recherches[individu].recherches =
+      recherchesDeLUtilisateur.recherches[individu].recherches.filter((recherche: Recherche) => recherche.id !== event.pathParameters?.recherche);
   }
   await dynamoDBRepository.save(recherchesDeLUtilisateur);
   return noContent();

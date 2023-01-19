@@ -1,15 +1,18 @@
-const utilisateurConnecte = require('../authentification/utilisateurConnecte');
-const {ok, unauthorized, created, badRequest, noContent, notFound} = require("aws-lambda-utils");
-const uuid = require('uuid');
-const DynamoDBBuilder = require('aws-sdk-fluent-builder').DynamoDbBuilder;
-const dynamoDBRepository = new DynamoDBBuilder()
-  .withTableName(process.env.TABLE_DONNEES)
+import {utilisateurConnecte} from "../authentification/utilisateurConnecte";
+import {APIGatewayProxyEvent} from "aws-lambda";
+import {badRequest, created, LambdaResult, noContent, notFound, ok, unauthorized} from "aws-lambda-utils";
+import {Archive} from "./archive.model";
+import uuid from "uuid";
+import {DynamoDbBuilder} from "aws-sdk-fluent-builder";
+
+const dynamoDBRepository = new DynamoDbBuilder()
+  .withTableName(process.env.TABLE_DONNEES!)
   .withPartitionKeyName("partitionKey")
   .build();
 
-module.exports.recupererLesArchives = async event => {
+export const recupererLesArchives = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
   const utilisateur = utilisateurConnecte(event);
-  if (event.pathParameters.identifiant !== utilisateur.email) {
+  if (event.pathParameters?.identifiant !== utilisateur.email) {
     return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
   }
   const partitionKey = `${utilisateur.email}#archives`;
@@ -24,9 +27,9 @@ module.exports.recupererLesArchives = async event => {
   return ok([]);
 }
 
-module.exports.ajouterUneArchive = async event => {
+export const ajouterUneArchive = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
   const utilisateur = utilisateurConnecte(event);
-  if (event.pathParameters.identifiant !== utilisateur.email) {
+  if (event.pathParameters?.identifiant !== utilisateur.email) {
     return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
   }
   if (event.body) {
@@ -51,9 +54,9 @@ module.exports.ajouterUneArchive = async event => {
   return badRequest('Le libelle des archives est obligatoire');
 }
 
-module.exports.modifierLeLibelleDUneArchive = async event => {
+export const modifierLeLibelleDUneArchive = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
   const utilisateur = utilisateurConnecte(event);
-  if (event.pathParameters.identifiant !== utilisateur.email) {
+  if (event.pathParameters?.identifiant !== utilisateur.email) {
     return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
   }
   if (event.body) {
@@ -67,7 +70,7 @@ module.exports.modifierLeLibelleDUneArchive = async event => {
       return badRequest("Le libellé de l'archive est obligatoire");
     }
     let archiveAModifier = archivesDeLUtilisateur.archives
-      .find(archive => archive.id === event.pathParameters.identifiantArchive);
+      .find((archive: Archive) => archive.id === event.pathParameters?.identifiantArchive);
     if (archiveAModifier) {
       archiveAModifier.libelle = archive.libelle;
       await dynamoDBRepository.save(archivesDeLUtilisateur);
@@ -77,53 +80,53 @@ module.exports.modifierLeLibelleDUneArchive = async event => {
   return badRequest("L'archive correspondante n'existe pas");
 }
 
-module.exports.supprimerUneArchive = async event => {
+export const supprimerUneArchive = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
   const utilisateur = utilisateurConnecte(event);
-  if (event.pathParameters.identifiant !== utilisateur.email) {
+  if (event.pathParameters?.identifiant !== utilisateur.email) {
     return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
   }
-  const archiveId = event.pathParameters.identifiantArchive;
+  const archiveId = event.pathParameters?.identifiantArchive;
   const partitionKey = `${utilisateur.email}#archives`;
   let archivesDeLUtilisateur = await dynamoDBRepository.findOneByPartitionKey(partitionKey);
   if (archivesDeLUtilisateur && archivesDeLUtilisateur.archives && archivesDeLUtilisateur.archives.length > 0) {
-    archivesDeLUtilisateur.archives = archivesDeLUtilisateur.archives.filter(archive => archive.id !== archiveId);
+    archivesDeLUtilisateur.archives = archivesDeLUtilisateur.archives.filter((archive: Archive) => archive.id !== archiveId);
     await dynamoDBRepository.save(archivesDeLUtilisateur);
   }
   return noContent();
 }
 
-module.exports.recupererUneArchive = async event => {
+export const recupererUneArchive = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
   const utilisateur = utilisateurConnecte(event);
-  if (event.pathParameters.identifiant !== utilisateur.email) {
+  if (event.pathParameters?.identifiant !== utilisateur.email) {
     return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
   }
   const partitionKey = `${utilisateur.email}#archives`;
   const archivesDeLUtilisateur = await dynamoDBRepository.findOneByPartitionKey(partitionKey);
   if (archivesDeLUtilisateur && archivesDeLUtilisateur.archives) {
-    const archiveId = event.pathParameters.identifiantArchive;
-    return ok(archivesDeLUtilisateur.archives.find(archive => archive.id === archiveId));
+    const archiveId = event.pathParameters?.identifiantArchive;
+    return ok(archivesDeLUtilisateur.archives.find((archive: Archive) => archive.id === archiveId));
   }
   return notFound('Archive non existante');
 }
 
-module.exports.ajouterRegistreAuxArchives = async event => {
+export const ajouterRegistreAuxArchives = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
   const utilisateur = utilisateurConnecte(event);
-  if (event.pathParameters.identifiant !== utilisateur.email) {
+  if (event.pathParameters?.identifiant !== utilisateur.email) {
     return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
   }
   if (event.body) {
     const registre = JSON.parse(event.body);
     const partitionKey = `${utilisateur.email}#archives`;
     let archivesDeLUtilisateur = await dynamoDBRepository.findOneByPartitionKey(partitionKey);
-    const archiveId = event.pathParameters.identifiantArchive;
-    if (!archivesDeLUtilisateur || !archivesDeLUtilisateur.archives.find(archive => archive.id === archiveId)) {
+    const archiveId = event.pathParameters?.identifiantArchive;
+    if (!archivesDeLUtilisateur || !archivesDeLUtilisateur.archives.find((archive: Archive) => archive.id === archiveId)) {
       return badRequest(`Les archives demandées n'existent pas`);
     }
     let registreCree = {
       id: uuid.v4(),
       ...registre,
     };
-    archivesDeLUtilisateur.archives.find(archive => archive.id === archiveId).registres.push(registre);
+    archivesDeLUtilisateur.archives.find((archive: Archive) => archive.id === archiveId).registres.push(registre);
     await dynamoDBRepository.save(archivesDeLUtilisateur);
     return created(registreCree);
   }

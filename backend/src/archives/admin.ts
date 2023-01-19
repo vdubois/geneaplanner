@@ -1,13 +1,16 @@
-const {ok, unauthorized, created, badRequest, noContent} = require("aws-lambda-utils");
-const utilisateurConnecte = require("../authentification/utilisateurConnecte");
-const uuid = require('uuid');
-const DynamoDBBuilder = require('aws-sdk-fluent-builder').DynamoDbBuilder;
-const dynamoDBRepository = new DynamoDBBuilder()
-    .withTableName(process.env.TABLE_DONNEES)
+import {ok, unauthorized, created, badRequest, noContent, LambdaResult} from "aws-lambda-utils";
+import {utilisateurConnecte} from "../authentification/utilisateurConnecte";
+import uuid from 'uuid';
+import {DynamoDbBuilder} from 'aws-sdk-fluent-builder';
+import {APIGatewayProxyEvent} from "aws-lambda";
+import {Archive} from "./archive.model";
+
+const dynamoDBRepository = new DynamoDbBuilder()
+    .withTableName(process.env.TABLE_DONNEES!)
     .withPartitionKeyName("partitionKey")
     .build();
 
-module.exports.recupererLesArchives = async event => {
+export const recupererLesArchives = async (): Promise<LambdaResult> => {
     const partitionKey = `archives-modeles`;
     const archivesModeles = await dynamoDBRepository.findOneByPartitionKey(partitionKey);
     if (archivesModeles) {
@@ -20,7 +23,7 @@ module.exports.recupererLesArchives = async event => {
     return ok([]);
 }
 
-module.exports.ajouterUneArchive = async event => {
+export const ajouterUneArchive = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
     const utilisateur = utilisateurConnecte(event);
     if (!utilisateur.estAdministrateur()) {
         return unauthorized(`Vous n'avez pas accès à cette fonctionnalité`);
@@ -46,7 +49,7 @@ module.exports.ajouterUneArchive = async event => {
     return badRequest(`Les paramètres d'une archive sont obligatoires`);
 }
 
-module.exports.modifierUneArchive = async event => {
+export const modifierUneArchive = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
     const utilisateur = utilisateurConnecte(event);
     if (!utilisateur.estAdministrateur()) {
         return unauthorized(`Vous n'avez pas accès à cette fonctionnalité`);
@@ -59,10 +62,10 @@ module.exports.modifierUneArchive = async event => {
             return badRequest('Aucune archive existante');
         }
         let indexArchiveAModifier = archivesModeles.archives
-            .findIndex(archive => archive.id === event.pathParameters.identifiantArchive);
+            .findIndex((archive: Archive) => archive.id === event.pathParameters?.identifiantArchive);
         if (indexArchiveAModifier !== -1) {
             archivesModeles.archives[indexArchiveAModifier] = {
-                id: event.pathParameters.identifiantArchive,
+                id: event.pathParameters?.identifiantArchive,
                 ...archive
             };
             await dynamoDBRepository.save(archivesModeles);
@@ -72,16 +75,16 @@ module.exports.modifierUneArchive = async event => {
     return badRequest("L'archive correspondante n'existe pas");
 }
 
-module.exports.supprimerUneArchive = async event => {
+export const supprimerUneArchive = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
     const utilisateur = utilisateurConnecte(event);
     if (!utilisateur.estAdministrateur()) {
         return unauthorized(`Vous n'avez pas accès à cette fonctionnalité`);
     }
-    const archiveId = event.pathParameters.identifiantArchive;
+    const archiveId = event.pathParameters?.identifiantArchive;
     const partitionKey = `archives-modeles`;
     let archivesModeles = await dynamoDBRepository.findOneByPartitionKey(partitionKey);
     if (archivesModeles && archivesModeles.archives && archivesModeles.archives.length > 0) {
-        archivesModeles.archives = archivesModeles.archives.filter(archive => archive.id !== archiveId);
+        archivesModeles.archives = archivesModeles.archives.filter((archive: Archive) => archive.id !== archiveId);
         await dynamoDBRepository.save(archivesModeles);
     }
     return noContent();

@@ -83,6 +83,7 @@ provider:
 plugins:
   - serverless-plugin-thundra
   - serverless-plugin-umzug
+  - serverless-plugin-typescript
 
 custom:
   umzug:

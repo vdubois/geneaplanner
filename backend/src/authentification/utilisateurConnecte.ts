@@ -1,8 +1,8 @@
-const ROLE_ADMINISTRATEUR = 'GENEAPLANNER_ADMIN';
-const ROLE_UTILISATEUR = 'GENEAPLANNER_USER';
+import {APIGatewayProxyEvent} from "aws-lambda";
+import {Role} from "./role.model";
 
-module.exports = (event) => {
-    const claims = event.requestContext.authorizer.jwt.claims;
+export const utilisateurConnecte = (event: APIGatewayProxyEvent) => {
+    const claims = event.requestContext?.authorizer?.jwt.claims;
     const roles = claims[`https://geneaplanner/roles`] ? claims[`https://geneaplanner/roles`].split(',') : [];
     const email = claims[`https://geneaplanner/email`];
     const utilisateurVerifieParMail = claims[`https://geneaplanner/email_verified`];
@@ -12,11 +12,11 @@ module.exports = (event) => {
     if (!utilisateurVerifieParMail) {
         throw new Error(`L'utilisateur ${email} n'a pas été vérifié`);
     }
-    if (!roles.includes(ROLE_UTILISATEUR)) {
+    if (!roles.includes(Role.UTILISATEUR)) {
         throw new Error(`L'utilisateur ${email} n'est pas autorisé à accéder à l'application`);
     }
     return {
         email,
-        estAdministrateur: () => roles.some(role => role === ROLE_ADMINISTRATEUR)
+        estAdministrateur: () => roles.some((role: Role) => role === Role.ADMINISTRATEUR)
     };
 }

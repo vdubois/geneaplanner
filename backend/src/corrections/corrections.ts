@@ -1,15 +1,18 @@
-const utilisateurConnecte = require('../authentification/utilisateurConnecte');
-const {ok, unauthorized, created, badRequest, noContent} = require("aws-lambda-utils");
-const uuid = require('uuid');
-const DynamoDBBuilder = require('aws-sdk-fluent-builder').DynamoDbBuilder;
-const dynamoDBRepository = new DynamoDBBuilder()
-    .withTableName(process.env.TABLE_DONNEES)
+import {utilisateurConnecte} from "../authentification/utilisateurConnecte";
+import {badRequest, created, LambdaResult, noContent, ok, unauthorized} from "aws-lambda-utils";
+import uuid from "uuid";
+import {DynamoDbBuilder} from "aws-sdk-fluent-builder";
+import {APIGatewayProxyEvent} from "aws-lambda";
+import {Correction} from "./correction.model";
+
+const dynamoDBRepository = new DynamoDbBuilder()
+    .withTableName(process.env.TABLE_DONNEES!)
     .withPartitionKeyName("partitionKey")
     .build();
 
-module.exports.recupererLesCorrections = async event => {
+export const recupererLesCorrections = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
     const utilisateur = utilisateurConnecte(event);
-    if (event.pathParameters.identifiant !== utilisateur.email) {
+    if (event.pathParameters?.identifiant !== utilisateur.email) {
         return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
     }
     const correctionsDeLUtilisateur = await dynamoDBRepository.findOneByPartitionKey(`${utilisateur.email}#corrections`);
@@ -19,9 +22,9 @@ module.exports.recupererLesCorrections = async event => {
     return ok([]);
 }
 
-module.exports.ajouterUneCorrection = async event => {
+export const ajouterUneCorrection = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
     const utilisateur = utilisateurConnecte(event);
-    if (event.pathParameters.identifiant !== utilisateur.email) {
+    if (event.pathParameters?.identifiant !== utilisateur.email) {
         return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
     }
     if (event.body) {
@@ -42,9 +45,9 @@ module.exports.ajouterUneCorrection = async event => {
     return badRequest('Les informations de la correction sont obligatoires');
 }
 
-module.exports.validerUneCorrection = async event => {
+export const validerUneCorrection = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
     const utilisateur = utilisateurConnecte(event);
-    if (event.pathParameters.identifiant !== utilisateur.email) {
+    if (event.pathParameters?.identifiant !== utilisateur.email) {
         return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
     }
     let correctionsDeLUtilisateur = await dynamoDBRepository.findOneByPartitionKey(`${utilisateur.email}#corrections`);
@@ -52,7 +55,7 @@ module.exports.validerUneCorrection = async event => {
         return badRequest(`La correction n'existe pas`);
     } else {
         correctionsDeLUtilisateur.corrections =
-            correctionsDeLUtilisateur.corrections.filter(correction => correction.identifiant !== event.pathParameters.identifiantCorrection);
+            correctionsDeLUtilisateur.corrections.filter((correction: Correction) => correction.identifiant !== event.pathParameters?.identifiantCorrection);
     }
     await dynamoDBRepository.save(correctionsDeLUtilisateur);
     return noContent();

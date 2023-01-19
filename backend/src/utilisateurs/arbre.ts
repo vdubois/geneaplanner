@@ -1,21 +1,23 @@
-const {ok, unauthorized, badRequest, notFound, created, noContent} = require("aws-lambda-utils");
-const utilisateurConnecte = require('../authentification/utilisateurConnecte');
-const gedcom = require('read-gedcom');
-const S3Builder = require('aws-sdk-fluent-builder').S3Builder;
+import {badRequest, created, LambdaResult, noContent, notFound, ok, unauthorized} from "aws-lambda-utils";
+import {utilisateurConnecte} from "../authentification/utilisateurConnecte";
+import {readGedcom} from "read-gedcom";
+import {DynamoDbBuilder, S3Builder} from "aws-sdk-fluent-builder";
+import {Arbre} from './arbre.fonctions';
+import {APIGatewayProxyEvent} from "aws-lambda";
+
 const espaceDeStockageDesFichiersGEDCOM = new S3Builder()
-  .withBucketName(process.env.BUCKET_FICHIERS_GEDCOM)
+  .withBucketName(process.env.BUCKET_FICHIERS_GEDCOM!)
   .asStorageService()
   .build();
-const arbre = require('./arbre.fonctions');
-const DynamoDBBuilder = require('aws-sdk-fluent-builder').DynamoDbBuilder;
-const dynamoDBRepository = new DynamoDBBuilder()
-    .withTableName(process.env.TABLE_DONNEES)
+
+const dynamoDBRepository = new DynamoDbBuilder()
+    .withTableName(process.env.TABLE_DONNEES!)
     .withPartitionKeyName("partitionKey")
     .build();
 
-module.exports.definirRacineDeLArbre = async event => {
+export const definirRacineDeLArbre = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
   const utilisateur = utilisateurConnecte(event);
-  if (event.pathParameters.identifiant !== utilisateur.email) {
+  if (event.pathParameters?.identifiant !== utilisateur.email) {
     return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
   }
   if (event.body) {
@@ -36,28 +38,28 @@ module.exports.definirRacineDeLArbre = async event => {
   return badRequest('Les informations de la racine sont obligatoires');
 }
 
-module.exports.charger = async event => {
+export const charger = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
   const utilisateur = utilisateurConnecte(event);
-  if (event.pathParameters.identifiant !== utilisateur.email) {
+  if (event.pathParameters?.identifiant !== utilisateur.email) {
     return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
   }
-  const fichierGEDCOM = Buffer.from(event.body, 'base64');
-  const arbreGenealogique = arbre(gedcom.readGedcom(fichierGEDCOM));
+  const fichierGEDCOM = Buffer.from(event.body as string, 'base64');
+  const arbreGenealogique = new Arbre(readGedcom(fichierGEDCOM));
   await espaceDeStockageDesFichiersGEDCOM.writeFile(`${utilisateur.email}.ged`, fichierGEDCOM);
   return ok({
     individus: arbreGenealogique.individus()
   });
 };
 
-module.exports.rechercher = async event => {
+export const rechercher = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
   const utilisateur = utilisateurConnecte(event);
-  if (event.pathParameters.identifiant !== utilisateur.email) {
+  if (event.pathParameters?.identifiant !== utilisateur.email) {
     return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
   }
   try {
     const fichierArbre = await espaceDeStockageDesFichiersGEDCOM.readFile(`${utilisateur.email}.ged`);
     if (fichierArbre) {
-      const arbreGenealogique = arbre(gedcom.readGedcom(fichierArbre));
+      const arbreGenealogique = new Arbre(readGedcom(fichierArbre));
       const partitionKey = `${utilisateur.email}#racine`;
       let racineDeLArbre = await dynamoDBRepository.findOneByPartitionKey(partitionKey);
       return ok({
@@ -67,6 +69,7 @@ module.exports.rechercher = async event => {
         individus: arbreGenealogique.individus()
       });
     }
+    return notFound('Arbre non trouvé');
   } catch (error) {
     console.error(error);
     return ok({
@@ -76,40 +79,41 @@ module.exports.rechercher = async event => {
   }
 }
 
-module.exports.detail = async event => {
+export const detail = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
   const utilisateur = utilisateurConnecte(event);
-  if (event.pathParameters.identifiant !== utilisateur.email) {
+  if (event.pathParameters?.identifiant !== utilisateur.email) {
     return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
   }
   try {
     const fichierArbre = await espaceDeStockageDesFichiersGEDCOM.readFile(`${utilisateur.email}.ged`);
     if (fichierArbre) {
-      const arbreGenealogique = arbre(gedcom.readGedcom(fichierArbre));
-      return ok(arbreGenealogique.arbre(event.pathParameters.individu));
+      const arbreGenealogique = new Arbre(readGedcom(fichierArbre));
+      return ok(arbreGenealogique.arbre(event.pathParameters?.individu!));
     }
+    return notFound('Arbre non trouvé');
   } catch (error) {
     console.error(error);
     return ok([]);
   }
 }
 
-const rechercherIndividuParIdentifiant = async (emailUtilisateur, identifiantIndividu) => {
+export const rechercherIndividuParIdentifiant = async (emailUtilisateur: string, identifiantIndividu: string) => {
   const fichierArbre = await espaceDeStockageDesFichiersGEDCOM.readFile(`${emailUtilisateur}.ged`);
   if (fichierArbre) {
-    const arbreGenealogique = arbre(gedcom.readGedcom(fichierArbre));
+    const arbreGenealogique = new Arbre(readGedcom(fichierArbre));
     return arbreGenealogique.detailsIndividu(identifiantIndividu);
   } else {
     throw new Error(`L'individu d'identifiant ${identifiantIndividu} n'existe pas`);
   }
 };
 
-module.exports.rechercherParIdentifiant = async event => {
+export const rechercherParIdentifiant = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
   const utilisateur = utilisateurConnecte(event);
-  if (event.pathParameters.identifiant !== utilisateur.email) {
+  if (event.pathParameters?.identifiant !== utilisateur.email) {
     return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
   }
   try {
-    const detailIndividus = await rechercherIndividuParIdentifiant(utilisateur.email, `@${event.pathParameters.individu}@`);
+    const detailIndividus = await rechercherIndividuParIdentifiant(utilisateur.email, `@${event.pathParameters?.individu}@`);
     return ok(detailIndividus);
   } catch (error) {
     console.error(error);
@@ -117,9 +121,9 @@ module.exports.rechercherParIdentifiant = async event => {
   }
 }
 
-module.exports.supprimer = async event => {
+export const supprimer = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
   const utilisateur = utilisateurConnecte(event);
-  if (event.pathParameters.identifiant !== utilisateur.email) {
+  if (event.pathParameters?.identifiant !== utilisateur.email) {
     return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
   }
   const fichierArbre = await espaceDeStockageDesFichiersGEDCOM.readFile(`${utilisateur.email}.ged`);
@@ -128,5 +132,3 @@ module.exports.supprimer = async event => {
   }
   return noContent();
 }
-
-module.exports.rechercherIndividuParIdentifiant = rechercherIndividuParIdentifiant;

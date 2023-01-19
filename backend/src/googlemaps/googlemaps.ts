@@ -1,18 +1,21 @@
-const utilisateurConnecte = require("../authentification/utilisateurConnecte");
-const {unauthorized, ok, notFound} = require("aws-lambda-utils");
-const DynamoDBBuilder = require('aws-sdk-fluent-builder').DynamoDbBuilder;
-const dynamoDBRepository = new DynamoDBBuilder()
-    .withTableName(process.env.TABLE_DONNEES)
+import {APIGatewayProxyEvent} from "aws-lambda";
+import {LambdaResult} from "aws-lambda-utils";
+import {utilisateurConnecte} from "../authentification/utilisateurConnecte";
+import {unauthorized, ok, notFound} from "aws-lambda-utils";
+import {DynamoDbBuilder} from 'aws-sdk-fluent-builder';
+
+const dynamoDBRepository = new DynamoDbBuilder()
+    .withTableName(process.env.TABLE_DONNEES!!)
     .withPartitionKeyName("partitionKey")
     .build();
 
-module.exports.enregistrerApiKey = async event => {
+export const enregistrerApiKey = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
     const utilisateur = utilisateurConnecte(event);
-    if (event.pathParameters.identifiant !== utilisateur.email) {
+    if (event.pathParameters?.identifiant !== utilisateur.email) {
         return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
     }
     try {
-        const parametres = JSON.parse(event.body);
+        const parametres = JSON.parse(event.body!!);
         let parametresDeLUtilisateur = await dynamoDBRepository.findOneByPartitionKey(`${utilisateur.email}#parametres`);
         if (!parametresDeLUtilisateur) {
             parametresDeLUtilisateur = {
@@ -30,9 +33,9 @@ module.exports.enregistrerApiKey = async event => {
     }
 }
 
-module.exports.recupererApiKey = async event => {
+export const recupererApiKey = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
     const utilisateur = utilisateurConnecte(event);
-    if (event.pathParameters.identifiant !== utilisateur.email) {
+    if (event.pathParameters?.identifiant !== utilisateur.email) {
         return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
     }
     try {
