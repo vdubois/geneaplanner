@@ -1,4 +1,4 @@
-import {utilisateurConnecte} from "../authentification/utilisateurConnecte";
+import {Utilisateur} from "../commun/infrastructure/primaire/Utilisateur";
 import {badRequest, created, LambdaResult, noContent, ok, unauthorized} from "aws-lambda-utils";
 import uuid from "uuid";
 import {DynamoDbBuilder} from "aws-sdk-fluent-builder";
@@ -11,8 +11,8 @@ const dynamoDBRepository = new DynamoDbBuilder()
     .build();
 
 export const recupererLesCorrections = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
-    const utilisateur = utilisateurConnecte(event);
-    if (event.pathParameters?.identifiant !== utilisateur.email) {
+    const utilisateur = new Utilisateur(event);
+    if (utilisateur.estNonAutorise()) {
         return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
     }
     const correctionsDeLUtilisateur = await dynamoDBRepository.findOneByPartitionKey(`${utilisateur.email}#corrections`);
@@ -23,8 +23,8 @@ export const recupererLesCorrections = async (event: APIGatewayProxyEvent): Prom
 }
 
 export const ajouterUneCorrection = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
-    const utilisateur = utilisateurConnecte(event);
-    if (event.pathParameters?.identifiant !== utilisateur.email) {
+    const utilisateur = new Utilisateur(event);
+    if (utilisateur.estNonAutorise()) {
         return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
     }
     if (event.body) {
@@ -46,8 +46,8 @@ export const ajouterUneCorrection = async (event: APIGatewayProxyEvent): Promise
 }
 
 export const validerUneCorrection = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
-    const utilisateur = utilisateurConnecte(event);
-    if (event.pathParameters?.identifiant !== utilisateur.email) {
+    const utilisateur = new Utilisateur(event);
+    if (utilisateur.estNonAutorise()) {
         return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
     }
     let correctionsDeLUtilisateur = await dynamoDBRepository.findOneByPartitionKey(`${utilisateur.email}#corrections`);

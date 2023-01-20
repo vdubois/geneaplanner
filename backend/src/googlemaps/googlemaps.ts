@@ -1,7 +1,7 @@
 import {APIGatewayProxyEvent} from "aws-lambda";
 import {LambdaResult} from "aws-lambda-utils";
-import {utilisateurConnecte} from "../authentification/utilisateurConnecte";
-import {unauthorized, ok, notFound} from "aws-lambda-utils";
+import {Utilisateur} from "../commun/infrastructure/primaire/Utilisateur";
+import {unauthorized, ok} from "aws-lambda-utils";
 import {DynamoDbBuilder} from 'aws-sdk-fluent-builder';
 
 const dynamoDBRepository = new DynamoDbBuilder()
@@ -10,8 +10,8 @@ const dynamoDBRepository = new DynamoDbBuilder()
     .build();
 
 export const enregistrerApiKey = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
-    const utilisateur = utilisateurConnecte(event);
-    if (event.pathParameters?.identifiant !== utilisateur.email) {
+    const utilisateur = new Utilisateur(event);
+    if (utilisateur.estNonAutorise()) {
         return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
     }
     try {
@@ -30,23 +30,5 @@ export const enregistrerApiKey = async (event: APIGatewayProxyEvent): Promise<La
     } catch (erreur) {
         console.error(erreur);
         return ok(false);
-    }
-}
-
-export const recupererApiKey = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
-    const utilisateur = utilisateurConnecte(event);
-    if (event.pathParameters?.identifiant !== utilisateur.email) {
-        return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
-    }
-    try {
-        let parametresDeLUtilisateur = await dynamoDBRepository.findOneByPartitionKey(`${utilisateur.email}#parametres`);
-        if (!parametresDeLUtilisateur) {
-            return notFound("Clé d'API Google Maps non définie");
-        } else {
-            return ok({googleMapsApiKey: parametresDeLUtilisateur.googleMapsApiKey});
-        }
-    } catch (erreur) {
-        console.error(erreur);
-        return notFound(erreur);
     }
 }

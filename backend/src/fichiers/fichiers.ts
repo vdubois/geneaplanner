@@ -1,4 +1,4 @@
-import {utilisateurConnecte} from "../authentification/utilisateurConnecte";
+import {Utilisateur} from "../commun/infrastructure/primaire/Utilisateur";
 import {badRequest, LambdaResult, ok, serverError, unauthorized} from "aws-lambda-utils";
 import {Arbre} from "../utilisateurs/arbre.fonctions";
 import {readGedcom} from "read-gedcom";
@@ -16,8 +16,8 @@ const espaceDeStockageDesFichiersGEDCOM = new S3Builder()
     .build();
 
 export const parametres = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
-    const utilisateur = utilisateurConnecte(event);
-    if (event.pathParameters?.identifiant !== utilisateur.email) {
+    const utilisateur = new Utilisateur(event);
+    if (utilisateur.estNonAutorise()) {
         return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
     }
     try {
@@ -34,8 +34,8 @@ export const parametres = async (event: APIGatewayProxyEvent): Promise<LambdaRes
 }
 
 export const connecter = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
-    const utilisateur = utilisateurConnecte(event);
-    if (event.pathParameters?.identifiant !== utilisateur.email) {
+    const utilisateur = new Utilisateur(event);
+    if (utilisateur.estNonAutorise()) {
         return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
     }
     try {
@@ -58,8 +58,8 @@ export const connecter = async (event: APIGatewayProxyEvent): Promise<LambdaResu
 }
 
 export const enregistrerProjet = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
-    const utilisateur = utilisateurConnecte(event);
-    if (event.pathParameters?.identifiant !== utilisateur.email) {
+    const utilisateur = new Utilisateur(event);
+    if (utilisateur.estNonAutorise()) {
         return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
     }
     try {
@@ -84,8 +84,8 @@ export const enregistrerProjet = async (event: APIGatewayProxyEvent): Promise<La
 }
 
 export const enregistrerFichiers = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
-    const utilisateur = utilisateurConnecte(event);
-    if (event.pathParameters?.identifiant !== utilisateur.email) {
+    const utilisateur = new Utilisateur(event);
+    if (utilisateur.estNonAutorise()) {
         return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
     }
     const fichiers = JSON.parse(event.body!);
@@ -123,8 +123,8 @@ export const enregistrerFichiers = async (event: APIGatewayProxyEvent): Promise<
 }
 
 export const recupererFichiers = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
-    const utilisateur = utilisateurConnecte(event);
-    if (event.pathParameters?.identifiant !== utilisateur.email) {
+    const utilisateur = new Utilisateur(event);
+    if (utilisateur.estNonAutorise()) {
         return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
     }
     try {

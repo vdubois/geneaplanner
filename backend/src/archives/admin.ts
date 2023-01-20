@@ -1,5 +1,5 @@
 import {ok, unauthorized, created, badRequest, noContent, LambdaResult} from "aws-lambda-utils";
-import {utilisateurConnecte} from "../authentification/utilisateurConnecte";
+import {Utilisateur} from "../commun/infrastructure/primaire/Utilisateur";
 import uuid from 'uuid';
 import {DynamoDbBuilder} from 'aws-sdk-fluent-builder';
 import {APIGatewayProxyEvent} from "aws-lambda";
@@ -10,21 +10,8 @@ const dynamoDBRepository = new DynamoDbBuilder()
     .withPartitionKeyName("partitionKey")
     .build();
 
-export const recupererLesArchives = async (): Promise<LambdaResult> => {
-    const partitionKey = `archives-modeles`;
-    const archivesModeles = await dynamoDBRepository.findOneByPartitionKey(partitionKey);
-    if (archivesModeles) {
-        delete archivesModeles.partitionKey;
-        if (!archivesModeles.archives) {
-            archivesModeles.archives = [];
-        }
-        return ok(archivesModeles.archives);
-    }
-    return ok([]);
-}
-
 export const ajouterUneArchive = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
-    const utilisateur = utilisateurConnecte(event);
+    const utilisateur = new Utilisateur(event);
     if (!utilisateur.estAdministrateur()) {
         return unauthorized(`Vous n'avez pas accès à cette fonctionnalité`);
     }
@@ -50,7 +37,7 @@ export const ajouterUneArchive = async (event: APIGatewayProxyEvent): Promise<La
 }
 
 export const modifierUneArchive = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
-    const utilisateur = utilisateurConnecte(event);
+    const utilisateur = new Utilisateur(event);
     if (!utilisateur.estAdministrateur()) {
         return unauthorized(`Vous n'avez pas accès à cette fonctionnalité`);
     }
@@ -76,7 +63,7 @@ export const modifierUneArchive = async (event: APIGatewayProxyEvent): Promise<L
 }
 
 export const supprimerUneArchive = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
-    const utilisateur = utilisateurConnecte(event);
+    const utilisateur = new Utilisateur(event);
     if (!utilisateur.estAdministrateur()) {
         return unauthorized(`Vous n'avez pas accès à cette fonctionnalité`);
     }

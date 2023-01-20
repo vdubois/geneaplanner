@@ -1,4 +1,4 @@
-import {utilisateurConnecte} from "../authentification/utilisateurConnecte";
+import {Utilisateur} from "../commun/infrastructure/primaire/Utilisateur";
 import {badRequest, created, LambdaResult, noContent, ok, unauthorized} from "aws-lambda-utils";
 import uuid from "uuid";
 import {rechercherIndividuParIdentifiant} from "../utilisateurs/arbre";
@@ -13,8 +13,8 @@ const dynamoDBRepository = new DynamoDbBuilder()
   .build();
 
 export const recupererLesRecherches = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
-  const utilisateur = utilisateurConnecte(event);
-  if (event.pathParameters?.identifiant !== utilisateur.email) {
+  const utilisateur = new Utilisateur(event);
+  if (utilisateur.estNonAutorise()) {
     return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
   }
   try {
@@ -38,8 +38,8 @@ export const recupererLesRecherches = async (event: APIGatewayProxyEvent): Promi
 }
 
 export const ajouterDesRecherchesDIndividu = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
-  const utilisateur = utilisateurConnecte(event);
-  if (event.pathParameters?.identifiant !== utilisateur.email) {
+  const utilisateur = new Utilisateur(event);
+  if (utilisateur.estNonAutorise()) {
     return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
   }
   if (event.body) {
@@ -70,8 +70,8 @@ export const ajouterDesRecherchesDIndividu = async (event: APIGatewayProxyEvent)
 }
 
 export const supprimerDesRecherchesDIndividu = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
-  const utilisateur = utilisateurConnecte(event);
-  if (event.pathParameters?.identifiant !== utilisateur.email) {
+  const utilisateur = new Utilisateur(event);
+  if (utilisateur.estNonAutorise()) {
     return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
   }
   const individu = event.pathParameters?.individu;
@@ -85,8 +85,8 @@ export const supprimerDesRecherchesDIndividu = async (event: APIGatewayProxyEven
 }
 
 export const ajouterUneNoteAUnIndividu = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
-  const utilisateur = utilisateurConnecte(event);
-  if (event.pathParameters?.identifiant !== utilisateur.email) {
+  const utilisateur = new Utilisateur(event);
+  if (utilisateur.estNonAutorise()) {
     return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
   }
   if (event.body) {
@@ -119,8 +119,8 @@ export const ajouterUneNoteAUnIndividu = async (event: APIGatewayProxyEvent): Pr
 }
 
 export const ajouterUneRechercheAUnIndividu = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
-  const utilisateur = utilisateurConnecte(event);
-  if (event.pathParameters?.identifiant !== utilisateur.email) {
+  const utilisateur = new Utilisateur(event);
+  if (utilisateur.estNonAutorise()) {
     return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
   }
   if (event.body) {
@@ -152,8 +152,8 @@ export const ajouterUneRechercheAUnIndividu = async (event: APIGatewayProxyEvent
 }
 
 export const supprimerUneNoteDUnIndividu = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
-  const utilisateur = utilisateurConnecte(event);
-  if (event.pathParameters?.identifiant !== utilisateur.email) {
+  const utilisateur = new Utilisateur(event);
+  if (utilisateur.estNonAutorise()) {
     return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
   }
   let recherchesDeLUtilisateur = await dynamoDBRepository.findOneByPartitionKey(`${utilisateur.email}#recherches`);
@@ -170,8 +170,8 @@ export const supprimerUneNoteDUnIndividu = async (event: APIGatewayProxyEvent): 
 }
 
 export const supprimerUneRechercheDUnIndividu = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
-  const utilisateur = utilisateurConnecte(event);
-  if (event.pathParameters?.identifiant !== utilisateur.email) {
+  const utilisateur = new Utilisateur(event);
+  if (utilisateur.estNonAutorise()) {
     return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
   }
   let recherchesDeLUtilisateur = await dynamoDBRepository.findOneByPartitionKey(`${utilisateur.email}#recherches`);

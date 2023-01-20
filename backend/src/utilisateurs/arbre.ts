@@ -1,9 +1,12 @@
 import {badRequest, created, LambdaResult, noContent, notFound, ok, unauthorized} from "aws-lambda-utils";
-import {utilisateurConnecte} from "../authentification/utilisateurConnecte";
+import {Utilisateur} from "../commun/infrastructure/primaire/Utilisateur";
 import {readGedcom} from "read-gedcom";
 import {DynamoDbBuilder, S3Builder} from "aws-sdk-fluent-builder";
 import {Arbre} from './arbre.fonctions';
 import {APIGatewayProxyEvent} from "aws-lambda";
+import {inject} from "typescript-inject";
+import {SuppressionDeLArbreDUnCompte, SupprimerLArbreDUnCompte} from "../comptes/usecases/SuppressionDeLArbreDUnCompte";
+import '../comptes/infrastructure/configuration';
 
 const espaceDeStockageDesFichiersGEDCOM = new S3Builder()
   .withBucketName(process.env.BUCKET_FICHIERS_GEDCOM!)
@@ -16,8 +19,8 @@ const dynamoDBRepository = new DynamoDbBuilder()
     .build();
 
 export const definirRacineDeLArbre = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
-  const utilisateur = utilisateurConnecte(event);
-  if (event.pathParameters?.identifiant !== utilisateur.email) {
+  const utilisateur = new Utilisateur(event);
+  if (utilisateur.estNonAutorise()) {
     return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
   }
   if (event.body) {
@@ -39,8 +42,8 @@ export const definirRacineDeLArbre = async (event: APIGatewayProxyEvent): Promis
 }
 
 export const charger = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
-  const utilisateur = utilisateurConnecte(event);
-  if (event.pathParameters?.identifiant !== utilisateur.email) {
+  const utilisateur = new Utilisateur(event);
+  if (utilisateur.estNonAutorise()) {
     return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
   }
   const fichierGEDCOM = Buffer.from(event.body as string, 'base64');
@@ -52,8 +55,8 @@ export const charger = async (event: APIGatewayProxyEvent): Promise<LambdaResult
 };
 
 export const rechercher = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
-  const utilisateur = utilisateurConnecte(event);
-  if (event.pathParameters?.identifiant !== utilisateur.email) {
+  const utilisateur = new Utilisateur(event);
+  if (utilisateur.estNonAutorise()) {
     return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
   }
   try {
@@ -80,8 +83,8 @@ export const rechercher = async (event: APIGatewayProxyEvent): Promise<LambdaRes
 }
 
 export const detail = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
-  const utilisateur = utilisateurConnecte(event);
-  if (event.pathParameters?.identifiant !== utilisateur.email) {
+  const utilisateur = new Utilisateur(event);
+  if (utilisateur.estNonAutorise()) {
     return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
   }
   try {
@@ -108,8 +111,8 @@ export const rechercherIndividuParIdentifiant = async (emailUtilisateur: string,
 };
 
 export const rechercherParIdentifiant = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
-  const utilisateur = utilisateurConnecte(event);
-  if (event.pathParameters?.identifiant !== utilisateur.email) {
+  const utilisateur = new Utilisateur(event);
+  if (utilisateur.estNonAutorise()) {
     return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
   }
   try {
@@ -122,13 +125,14 @@ export const rechercherParIdentifiant = async (event: APIGatewayProxyEvent): Pro
 }
 
 export const supprimer = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
-  const utilisateur = utilisateurConnecte(event);
-  if (event.pathParameters?.identifiant !== utilisateur.email) {
+  const utilisateur = new Utilisateur(event);
+  if (utilisateur.estNonAutorise()) {
     return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
   }
-  const fichierArbre = await espaceDeStockageDesFichiersGEDCOM.readFile(`${utilisateur.email}.ged`);
-  if (fichierArbre) {
-    await espaceDeStockageDesFichiersGEDCOM.deleteFile(`${utilisateur.email}.ged`);
+  const suppressionDUnArbre = inject<SuppressionDeLArbreDUnCompte>('SuppressionDeLArbreDUnCompte');
+  const resultat = await suppressionDUnArbre.executer(new SupprimerLArbreDUnCompte(utilisateur.email));
+  if (resultat.isFailure()) {
+    return notFound('Arbre non existant');
   }
   return noContent();
 }

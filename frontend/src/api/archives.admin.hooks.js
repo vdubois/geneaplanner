@@ -8,7 +8,7 @@ import {
 export const useAdminArchives = (enabled) => {
   const { isLoading, error, data } = useQueryWithAuth(
     "archives-admin",
-    `/admin/archives`,
+    `/utilisateurs/[email]/modeles-archives`,
     enabled
   );
   return {

@@ -1,4 +1,4 @@
-import {utilisateurConnecte} from "../authentification/utilisateurConnecte";
+import {Utilisateur} from "../commun/infrastructure/primaire/Utilisateur";
 import {APIGatewayProxyEvent} from "aws-lambda";
 import {badRequest, created, LambdaResult, noContent, notFound, ok, unauthorized} from "aws-lambda-utils";
 import {Archive} from "./archive.model";
@@ -11,8 +11,8 @@ const dynamoDBRepository = new DynamoDbBuilder()
   .build();
 
 export const recupererLesArchives = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
-  const utilisateur = utilisateurConnecte(event);
-  if (event.pathParameters?.identifiant !== utilisateur.email) {
+  const utilisateur = new Utilisateur(event);
+  if (utilisateur.estNonAutorise()) {
     return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
   }
   const partitionKey = `${utilisateur.email}#archives`;
@@ -28,8 +28,8 @@ export const recupererLesArchives = async (event: APIGatewayProxyEvent): Promise
 }
 
 export const ajouterUneArchive = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
-  const utilisateur = utilisateurConnecte(event);
-  if (event.pathParameters?.identifiant !== utilisateur.email) {
+  const utilisateur = new Utilisateur(event);
+  if (utilisateur.estNonAutorise()) {
     return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
   }
   if (event.body) {
@@ -55,8 +55,8 @@ export const ajouterUneArchive = async (event: APIGatewayProxyEvent): Promise<La
 }
 
 export const modifierLeLibelleDUneArchive = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
-  const utilisateur = utilisateurConnecte(event);
-  if (event.pathParameters?.identifiant !== utilisateur.email) {
+  const utilisateur = new Utilisateur(event);
+  if (utilisateur.estNonAutorise()) {
     return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
   }
   if (event.body) {
@@ -81,8 +81,8 @@ export const modifierLeLibelleDUneArchive = async (event: APIGatewayProxyEvent):
 }
 
 export const supprimerUneArchive = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
-  const utilisateur = utilisateurConnecte(event);
-  if (event.pathParameters?.identifiant !== utilisateur.email) {
+  const utilisateur = new Utilisateur(event);
+  if (utilisateur.estNonAutorise()) {
     return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
   }
   const archiveId = event.pathParameters?.identifiantArchive;
@@ -96,8 +96,8 @@ export const supprimerUneArchive = async (event: APIGatewayProxyEvent): Promise<
 }
 
 export const recupererUneArchive = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
-  const utilisateur = utilisateurConnecte(event);
-  if (event.pathParameters?.identifiant !== utilisateur.email) {
+  const utilisateur = new Utilisateur(event);
+  if (utilisateur.estNonAutorise()) {
     return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
   }
   const partitionKey = `${utilisateur.email}#archives`;
@@ -110,8 +110,8 @@ export const recupererUneArchive = async (event: APIGatewayProxyEvent): Promise<
 }
 
 export const ajouterRegistreAuxArchives = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
-  const utilisateur = utilisateurConnecte(event);
-  if (event.pathParameters?.identifiant !== utilisateur.email) {
+  const utilisateur = new Utilisateur(event);
+  if (utilisateur.estNonAutorise()) {
     return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
   }
   if (event.body) {

@@ -96,6 +96,7 @@ package:
     - "node_modules/aws-sdk-fluent-builder/**"
     - "node_modules/read-gedcom/**"
     - "node_modules/uuid/**"
+    - "node_modules/typescript-inject/**"
     - "node_modules/@thundra/core/**"
 
 functions:
@@ -140,7 +141,7 @@ functions:
           authorizer:
             name: accessTokenAuth0
   recuperation-api-key:
-    handler: src/googlemaps/googlemaps.recupererApiKey
+    handler: src/comptes/infrastructure/primaire/lambdas/recupererApiKeyGoogleMaps.handler
     events:
       - httpApi:
           path: /googlemaps/{identifiant}
@@ -332,10 +333,10 @@ functions:
           authorizer:
             name: accessTokenAuth0
   recuperation-archives-admin:
-    handler: src/archives/admin.recupererLesArchives
+    handler: src/comptes/infrastructure/primaire/lambdas/recupererLesModelesDArchives.handler
     events:
       - httpApi:
-          path: /admin/archives
+          path: /utilisateurs/{identifiant}/modeles-archives
           method: get
           authorizer:
             name: accessTokenAuth0

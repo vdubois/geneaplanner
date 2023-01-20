@@ -3342,6 +3342,11 @@
   "resolved" "https://registry.npmjs.org/type/-/type-2.7.2.tgz"
   "version" "2.7.2"
 
+"typescript-inject@0.0.8":
+  "integrity" "sha512-GQWau4A0XIl3wYJUohD/+61H3NhUXSvbfFwMNaf1ljcnd/nj85u0aMUuTepPsiGZTs6LjAg5gIqu/SE8O8NkRQ=="
+  "resolved" "https://registry.npmjs.org/typescript-inject/-/typescript-inject-0.0.8.tgz"
+  "version" "0.0.8"
+
 "typescript@>=2.2.2", "typescript@>=2.7", "typescript@>=2.8.0 || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.6.0-beta || >= 3.7.0-dev || >= 3.7.0-beta", "typescript@4.1.6":
   "integrity" "sha512-pxnwLxeb/Z5SP80JDRzVjh58KsM6jZHRAOtTpS7sXLS4ogXNKC9ANxHHZqLLeVHZN35jCtI4JdmLLbLiC1kBow=="
   "resolved" "https://registry.npmjs.org/typescript/-/typescript-4.1.6.tgz"
