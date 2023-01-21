@@ -181,7 +181,7 @@ functions:
           authorizer:
             name: accessTokenAuth0
   suppression-gedcom:
-    handler: src/utilisateurs/arbre.supprimer
+    handler: src/comptes/infrastructure/primaire/lambdas/suppressionDUnArbre.handler
     events:
       - httpApi:
           path: /arbres/{identifiant}

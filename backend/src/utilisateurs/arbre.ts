@@ -1,11 +1,9 @@
-import {badRequest, created, LambdaResult, noContent, notFound, ok, unauthorized} from "aws-lambda-utils";
+import {badRequest, created, LambdaResult, notFound, ok, unauthorized} from "aws-lambda-utils";
 import {Utilisateur} from "../commun/infrastructure/primaire/Utilisateur";
 import {readGedcom} from "read-gedcom";
 import {DynamoDbBuilder, S3Builder} from "aws-sdk-fluent-builder";
 import {Arbre} from './arbre.fonctions';
 import {APIGatewayProxyEvent} from "aws-lambda";
-import {inject} from "typescript-inject";
-import {SuppressionDeLArbreDUnCompte, SupprimerLArbreDUnCompte} from "../comptes/usecases/SuppressionDeLArbreDUnCompte";
 import '../comptes/infrastructure/configuration';
 
 const espaceDeStockageDesFichiersGEDCOM = new S3Builder()
@@ -122,17 +120,4 @@ export const rechercherParIdentifiant = async (event: APIGatewayProxyEvent): Pro
     console.error(error);
     return notFound(error.message);
   }
-}
-
-export const supprimer = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
-  const utilisateur = new Utilisateur(event);
-  if (utilisateur.estNonAutorise()) {
-    return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
-  }
-  const suppressionDUnArbre = inject<SuppressionDeLArbreDUnCompte>('SuppressionDeLArbreDUnCompte');
-  const resultat = await suppressionDUnArbre.executer(new SupprimerLArbreDUnCompte(utilisateur.email));
-  if (resultat.isFailure()) {
-    return notFound('Arbre non existant');
-  }
-  return noContent();
 }
