@@ -349,7 +349,7 @@ functions:
           authorizer:
             name: accessTokenAuth0
   modification-archive-admin:
-    handler: src/archives/admin.modifierUneArchive
+    handler: src/comptes/infrastructure/primaire/lambdas/modificationDUnModeleDArchives.handler
     events:
       - httpApi:
           path: /admin/modeles-archives/{identifiantArchive}

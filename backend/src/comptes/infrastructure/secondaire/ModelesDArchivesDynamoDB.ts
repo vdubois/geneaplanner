@@ -4,6 +4,8 @@ import uuid from "uuid";
 import {DynamoDbRepository} from "aws-sdk-fluent-builder";
 import {IdentifiantDeModeleDArchives} from "../../domaine/IdentifiantDeModeleDArchives";
 import {Archive} from "../../../archives/archive.model";
+import {Result} from "../../../commun/Result";
+import {ModeleDArchivesInexistant} from "../../domaine/irregularites/ModeleDArchivesInexistant";
 
 export class ModelesDArchivesDynamoDB implements ModelesDArchives {
 
@@ -35,5 +37,31 @@ export class ModelesDArchivesDynamoDB implements ModelesDArchives {
             archivesModeles.archives = archivesModeles.archives.filter((archive: Archive) => archive.id !== identifiant.valeur);
             await this.dynamoDbRepository.save(archivesModeles);
         }
+    }
+
+    async modifier(identifiant: IdentifiantDeModeleDArchives, modeleDArchives: ModeleDArchives): Promise<void> {
+        const modelesDArchives = await this.dynamoDbRepository.findOneByPartitionKey(this.partitionKey);
+        const indexArchiveAModifier = modelesDArchives.archives
+            .findIndex((modele: ModeleDArchives) => modele.id === identifiant.valeur);
+        if (indexArchiveAModifier !== -1) {
+            modelesDArchives.archives[indexArchiveAModifier] = {
+                id: identifiant.valeur,
+                ...modeleDArchives
+            };
+            await this.dynamoDbRepository.save(modelesDArchives);
+        }
+    }
+
+    async recuperer(identifiant: IdentifiantDeModeleDArchives): Promise<Result<ModeleDArchives, ModeleDArchivesInexistant>> {
+        const modelesDArchives = await this.dynamoDbRepository.findOneByPartitionKey(this.partitionKey);
+        if (!modelesDArchives || !modelesDArchives.archives) {
+            return Result.failure(new ModeleDArchivesInexistant());
+        }
+        const indexDuModeleDArchives = modelesDArchives.archives
+            .findIndex((modele: ModeleDArchives) => modele.id === identifiant.valeur);
+        if (indexDuModeleDArchives === -1) {
+            return Result.failure(new ModeleDArchivesInexistant());
+        }
+        return Result.success(modelesDArchives.archives[indexDuModeleDArchives]);
     }
 }

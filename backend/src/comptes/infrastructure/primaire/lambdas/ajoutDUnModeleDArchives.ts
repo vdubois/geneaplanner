@@ -8,9 +8,9 @@ import {autoriserAdministrateur} from "../../../../commun/infrastructure/primair
 export const handler = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
     return autoriserAdministrateur(event, async (event: APIGatewayProxyEvent) => {
         if (event.body) {
-            const archive: AjouterUnModeleDArchives = JSON.parse(event.body);
+            const commande: AjouterUnModeleDArchives = JSON.parse(event.body);
             const ajoutDUnModeleDArchives = inject<AjoutDUnModeleDArchives>('AjoutDUnModeleDArchives');
-            const resultat = await ajoutDUnModeleDArchives.executer(archive);
+            const resultat = await ajoutDUnModeleDArchives.executer(commande);
             return created(resultat.resultat.value());
         }
         return badRequest(`Les paramètres d'une archive sont obligatoires`);
