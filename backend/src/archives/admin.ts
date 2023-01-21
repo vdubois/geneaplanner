@@ -1,6 +1,5 @@
-import {ok, unauthorized, created, badRequest, noContent, LambdaResult} from "aws-lambda-utils";
+import {ok, unauthorized, badRequest, LambdaResult} from "aws-lambda-utils";
 import {Utilisateur} from "../commun/infrastructure/primaire/Utilisateur";
-import uuid from 'uuid';
 import {DynamoDbBuilder} from 'aws-sdk-fluent-builder';
 import {APIGatewayProxyEvent} from "aws-lambda";
 import {Archive} from "./archive.model";
@@ -9,32 +8,6 @@ const dynamoDBRepository = new DynamoDbBuilder()
     .withTableName(process.env.TABLE_DONNEES!)
     .withPartitionKeyName("partitionKey")
     .build();
-
-export const ajouterUneArchive = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
-    const utilisateur = new Utilisateur(event);
-    if (!utilisateur.estAdministrateur()) {
-        return unauthorized(`Vous n'avez pas accès à cette fonctionnalité`);
-    }
-    if (event.body) {
-        const archive = JSON.parse(event.body);
-        const partitionKey = `archives-modeles`;
-        let archivesModeles = await dynamoDBRepository.findOneByPartitionKey(partitionKey);
-        if (!archivesModeles) {
-            archivesModeles = {
-                partitionKey,
-                archives: []
-            }
-        }
-        let archiveCreee = {
-            id: uuid.v4(),
-            ...archive
-        };
-        archivesModeles.archives.push(archiveCreee);
-        await dynamoDBRepository.save(archivesModeles);
-        return created(archiveCreee);
-    }
-    return badRequest(`Les paramètres d'une archive sont obligatoires`);
-}
 
 export const modifierUneArchive = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
     const utilisateur = new Utilisateur(event);
@@ -60,19 +33,4 @@ export const modifierUneArchive = async (event: APIGatewayProxyEvent): Promise<L
         }
     }
     return badRequest("L'archive correspondante n'existe pas");
-}
-
-export const supprimerUneArchive = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
-    const utilisateur = new Utilisateur(event);
-    if (!utilisateur.estAdministrateur()) {
-        return unauthorized(`Vous n'avez pas accès à cette fonctionnalité`);
-    }
-    const archiveId = event.pathParameters?.identifiantArchive;
-    const partitionKey = `archives-modeles`;
-    let archivesModeles = await dynamoDBRepository.findOneByPartitionKey(partitionKey);
-    if (archivesModeles && archivesModeles.archives && archivesModeles.archives.length > 0) {
-        archivesModeles.archives = archivesModeles.archives.filter((archive: Archive) => archive.id !== archiveId);
-        await dynamoDBRepository.save(archivesModeles);
-    }
-    return noContent();
 }

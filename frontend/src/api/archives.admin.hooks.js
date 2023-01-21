@@ -19,10 +19,10 @@ export const useAdminArchives = (enabled) => {
 }
 
 export const useAdminAjouterArchive = () =>
-  usePostMutationWithAuth(`/admin/archives`, ['archives-admin']);
+  usePostMutationWithAuth(`/admin/modeles-archives`, ['archives-admin']);
 
 export const useAdminModifierArchive = (identifiantArchive) =>
-  usePutMutationWithAuth(`/admin/archives/${identifiantArchive}`, ['archives-admin']);
+  usePutMutationWithAuth(`/admin/modeles-archives/${identifiantArchive}`, ['archives-admin']);
 
 export const useAdminSupprimerArchive = (identifiantArchive) =>
-  useDeleteMutationWithAuth(`/admin/archives/${identifiantArchive}`, ['archives-admin']);
+  useDeleteMutationWithAuth(`/admin/modeles-archives/${identifiantArchive}`, ['archives-admin']);

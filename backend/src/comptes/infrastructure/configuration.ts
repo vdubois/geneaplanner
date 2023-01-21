@@ -4,6 +4,9 @@ import {ArbresS3} from "./secondaire/ArbresS3";
 import {DynamoDbBuilder, S3Builder} from "aws-sdk-fluent-builder";
 import {RecuperationDesInformationsDUnCompte} from "../usecases/RecuperationDesInformationsDUnCompte";
 import {ComptesDynamoDB} from "./secondaire/ComptesDynamoDB";
+import {AjoutDUnModeleDArchives} from "../usecases/AjoutDUnModeleDArchives";
+import {ModelesDArchivesDynamoDB} from "./secondaire/ModelesDArchivesDynamoDB";
+import {SuppressionDUnModeleDArchives} from "../usecases/SuppressionDUnModeleDArchives";
 
 const espaceDeStockageDesFichiersGEDCOM = new S3Builder()
     .withBucketName(process.env.BUCKET_FICHIERS_GEDCOM!)
@@ -17,3 +20,5 @@ const dynamoDBRepository = new DynamoDbBuilder()
 
 register('SuppressionDeLArbreDUnCompte', () => new SuppressionDeLArbreDUnCompte(new ArbresS3(espaceDeStockageDesFichiersGEDCOM)));
 register('RecuperationDesInformationsDUnCompte', () => new RecuperationDesInformationsDUnCompte(new ComptesDynamoDB(dynamoDBRepository)));
+register('AjoutDUnModeleDArchives', () => new AjoutDUnModeleDArchives(new ModelesDArchivesDynamoDB(dynamoDBRepository)));
+register('SuppressionDUnModeleDArchives', () => new SuppressionDUnModeleDArchives(new ModelesDArchivesDynamoDB(dynamoDBRepository)));

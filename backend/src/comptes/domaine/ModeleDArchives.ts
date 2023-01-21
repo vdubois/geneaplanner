@@ -1,5 +1,5 @@
-export interface ModeleDArchive {
-    id: string;
+export interface ModeleDArchives {
+    id?: string;
     adresse: string;
     siteInternet: string;
     libelle: string;

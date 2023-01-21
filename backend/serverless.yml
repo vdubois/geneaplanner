@@ -341,10 +341,10 @@ functions:
           authorizer:
             name: accessTokenAuth0
   ajout-archive-admin:
-    handler: src/archives/admin.ajouterUneArchive
+    handler: src/comptes/infrastructure/primaire/lambdas/ajoutDUnModeleDArchives.handler
     events:
       - httpApi:
-          path: /admin/archives
+          path: /admin/modeles-archives
           method: post
           authorizer:
             name: accessTokenAuth0
@@ -352,15 +352,15 @@ functions:
     handler: src/archives/admin.modifierUneArchive
     events:
       - httpApi:
-          path: /admin/archives/{identifiantArchive}
+          path: /admin/modeles-archives/{identifiantArchive}
           method: put
           authorizer:
             name: accessTokenAuth0
   suppression-archive-admin:
-    handler: src/archives/admin.supprimerUneArchive
+    handler: src/comptes/infrastructure/primaire/lambdas/suppressionDUnModeleDArchives.handler
     events:
       - httpApi:
-          path: /admin/archives/{identifiantArchive}
+          path: /admin/modeles-archives/{identifiantArchive}
           method: delete
           authorizer:
             name: accessTokenAuth0
