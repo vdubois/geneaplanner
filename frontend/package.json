@@ -3,16 +3,16 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@auth0/auth0-react": "1.12.1",
+    "@auth0/auth0-react": "2.0.0",
     "@auth0/auth0-spa-js": "2.0.2",
     "@emotion/react": "11.10.5",
     "@emotion/styled": "11.10.5",
     "@mui/icons-material": "5.11.0",
-    "@mui/lab": "5.0.0-alpha.115",
-    "@mui/material": "5.11.4",
+    "@mui/lab": "5.0.0-alpha.116",
+    "@mui/material": "5.11.5",
     "@mui/styles": "5.11.2",
-    "@reactour/tour": "3.1.8",
-    "axios": "1.2.2",
+    "@reactour/tour": "3.1.9",
+    "axios": "1.2.3",
     "bulma": "0.9.4",
     "classnames": "2.3.2",
     "jwt-decode": "3.1.2",
@@ -25,7 +25,7 @@
     "react-family-tree": "3.2.0",
     "react-leaflet": "4.2.0",
     "react-query": "3.39.2",
-    "react-router-dom": "6.6.2"
+    "react-router-dom": "6.7.0"
   },
   "scripts": {
     "start": "vite --mode development",
