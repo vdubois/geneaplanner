@@ -2,12 +2,13 @@ import {Commande} from "../../commun/usecases/Commande";
 import {UseCase} from "../../commun/usecases/UseCase";
 import {ResultatDeCommande} from "../../commun/ResultatDeCommande";
 import {Comptes} from "../domaine/Comptes";
+import {Compte} from "../domaine/Compte";
 
-export class RecuperationDesInformationsDUnCompte implements UseCase<RecupererLesInformationsDUnCompte, ResultatDeCommande<any, any>>{
+export class RecuperationDesInformationsDUnCompte implements UseCase<RecupererLesInformationsDUnCompte, ResultatDeCommande<Compte, any>>{
     constructor(private comptes: Comptes) {
     }
 
-    async executer(commande: RecupererLesInformationsDUnCompte): Promise<ResultatDeCommande<any, any>> {
+    async executer(commande: RecupererLesInformationsDUnCompte): Promise<ResultatDeCommande<Compte, any>> {
         const compte = await this.comptes.recuperer(commande.identifiantDuCompte);
         return ResultatDeCommande.valeur(compte);
     }

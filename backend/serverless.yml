@@ -133,7 +133,7 @@ functions:
           authorizer:
             name: accessTokenAuth0
   enregistrement-api-key:
-    handler: src/googlemaps/googlemaps.enregistrerApiKey
+    handler: src/comptes/infrastructure/primaire/lambdas/sauvegardeDeLApiKeyGoogleMaps.handler
     events:
       - httpApi:
           path: /googlemaps/{identifiant}

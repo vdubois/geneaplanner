@@ -18,4 +18,17 @@ export class ComptesDynamoDB implements Comptes {
             modelesDArchives: []
         }
     }
+
+    async sauvegarder(identifiantDuCompte: string, informationsDuCompte: Compte): Promise<void> {
+        let parametresDeLUtilisateur = await this.dynamoDbRepository.findOneByPartitionKey(`${identifiantDuCompte}#parametres`);
+        if (!parametresDeLUtilisateur) {
+            parametresDeLUtilisateur = {
+                partitionKey: `${identifiantDuCompte}#parametres`,
+                googleMapsApiKey: informationsDuCompte.googleMapsApiKey
+            };
+        } else {
+            parametresDeLUtilisateur.googleMapsApiKey = informationsDuCompte.googleMapsApiKey;
+        }
+        await this.dynamoDbRepository.save(parametresDeLUtilisateur);
+    }
 }
