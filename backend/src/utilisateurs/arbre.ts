@@ -1,4 +1,4 @@
-import {badRequest, created, LambdaResult, notFound, ok, unauthorized} from "aws-lambda-utils";
+import {LambdaResult, notFound, ok, unauthorized} from "aws-lambda-utils";
 import {Utilisateur} from "../commun/infrastructure/primaire/Utilisateur";
 import {readGedcom} from "read-gedcom";
 import {DynamoDbBuilder, S3Builder} from "aws-sdk-fluent-builder";
@@ -15,42 +15,6 @@ const dynamoDBRepository = new DynamoDbBuilder()
     .withTableName(process.env.TABLE_DONNEES!)
     .withPartitionKeyName("partitionKey")
     .build();
-
-export const definirRacineDeLArbre = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
-  const utilisateur = new Utilisateur(event);
-  if (utilisateur.estNonAutorise()) {
-    return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
-  }
-  if (event.body) {
-    const racine = JSON.parse(event.body);
-    const partitionKey = `${utilisateur.email}#racine`;
-    let racineDeLArbre = await dynamoDBRepository.findOneByPartitionKey(partitionKey);
-    if (!racineDeLArbre) {
-      racineDeLArbre = {
-        partitionKey,
-        racine: racine.id
-      };
-    } else {
-      racineDeLArbre.racine = racine.id;
-    }
-    await dynamoDBRepository.save(racineDeLArbre);
-    return created(racine);
-  }
-  return badRequest('Les informations de la racine sont obligatoires');
-}
-
-export const charger = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
-  const utilisateur = new Utilisateur(event);
-  if (utilisateur.estNonAutorise()) {
-    return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
-  }
-  const fichierGEDCOM = Buffer.from(event.body as string, 'base64');
-  const arbreGenealogique = new Arbre(readGedcom(fichierGEDCOM));
-  await espaceDeStockageDesFichiersGEDCOM.writeFile(`${utilisateur.email}.ged`, fichierGEDCOM);
-  return ok({
-    individus: arbreGenealogique.individus()
-  });
-};
 
 export const rechercher = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
   const utilisateur = new Utilisateur(event);

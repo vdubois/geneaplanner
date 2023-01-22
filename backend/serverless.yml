@@ -157,7 +157,7 @@ functions:
           authorizer:
             name: accessTokenAuth0
   definir-racine-gedcom:
-    handler: src/utilisateurs/arbre.definirRacineDeLArbre
+    handler: src/comptes/infrastructure/primaire/lambdas/definitionDeLaRacineDUnArbre.handler
     events:
       - httpApi:
           path: /arbres/{identifiant}
@@ -165,7 +165,7 @@ functions:
           authorizer:
             name: accessTokenAuth0
   chargement-gedcom:
-    handler: src/utilisateurs/arbre.charger
+    handler: src/comptes/infrastructure/primaire/lambdas/publicationDUnArbre.handler
     events:
       - httpApi:
           path: /arbres/{identifiant}
