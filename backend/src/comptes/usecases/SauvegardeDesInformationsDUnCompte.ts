@@ -8,7 +8,7 @@ import {
     LesInformationsDUnCompteOntEteSauvegardees
 } from "../domaine/evenements/LesInformationsDUnCompteOntEteSauvegardees";
 
-export class SauvegardeDesInformationsDUnCompte implements UseCase<SauvegarderLesInformationsDUnCompte, ResultatDeCommande<Evenement, Irregularite>>{
+export class SauvegardeDesInformationsDUnCompte implements UseCase<SauvegarderLesInformationsDUnCompte, ResultatDeCommande<Evenement, Irregularite>> {
     constructor(private comptes: Comptes) {
     }
 
