@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
-import './App.css';
+import './App.scss';
 import {AppMenu} from "./components/AppMenu";
 import {BarreDeNavigation} from "./components/BarreDeNavigation";
 import {Route, Routes} from "react-router-dom";

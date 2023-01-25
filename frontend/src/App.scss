@@ -1,0 +1,78 @@
+@import "./commun/fonts.scss";
+@import "./commun/variables.scss";
+
+.MuiIcon-root {
+  width: 2em !important;
+}
+
+.MuiAutocomplete-popupIndicator {
+  display: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.MuiInput-underline:before {
+  border-bottom: 0 !important;
+}
+
+.MuiInput-underline.Mui-focused:before {
+  border-bottom: 0 !important;
+}
+
+.MuiInput-underline:after {
+  border-bottom: 0 !important;
+}
+
+.MuiInput-underline.Mui-focused:after {
+  border-bottom: 0 !important;
+}
+
+.MuiAutocomplete-popper {
+  width: 500px !important;
+  left: 80px !important;
+}
+
+:focus-visible {
+  outline: none;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.flex-grow-1 {
+  flex-grow: 1;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: "Lato", sans-serif;
+  font-weight: $font-weight-regular-value;
+  font-size: 1.6rem;
+}
+
+.button {
+  height: 48px;
+  border-radius: 5px;
+  border: 0;
+  cursor: pointer;
+  font-weight: $font-weight-bold-value;
+  padding: .9rem 1.6rem;
+  font-size: 1.6rem;
+  font-family: "Lato", sans-serif;
+}

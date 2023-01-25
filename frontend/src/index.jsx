@@ -3,7 +3,6 @@ import { createRoot } from 'react-dom/client';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 import {BrowserRouter as Router} from "react-router-dom";
-import {App} from "./App";
 import {Auth0Provider} from "@auth0/auth0-react";
 import {audience, clientId, domain} from './auth0';
 import {createTheme, ThemeProvider} from "@mui/material/styles";
@@ -12,6 +11,7 @@ import {ReactQueryDevtools} from 'react-query/devtools';
 import {FetchProvider} from "./api/FetchProvider";
 import {StyledEngineProvider} from "@mui/material/styles";
 import {TourProvider} from "@reactour/tour";
+import {App2} from "./App2";
 
 const theme = createTheme({
     palette: {
@@ -96,7 +96,7 @@ root.render(
                                 }
                                 styles={{ popover: base => ({ ...base, maxWidth: '600px' }) }}
                             >
-                                <App/>
+                                <App2/>
                             </TourProvider>
                         </Router>
                         <ReactQueryDevtools initialIsOpen={false} />
