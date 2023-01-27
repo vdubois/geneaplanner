@@ -1,0 +1,29 @@
+@import "../commun/bootstrap-mixins";
+@import "../commun/colors.scss";
+
+#profil-entete {
+  margin-top: -30px;
+
+  @include media-breakpoint-down(lg) {
+    margin-top: -64px;
+  }
+
+  @include media-breakpoint-down(sm) {
+    margin-top: -30px;
+  }
+
+  padding: 3.4rem 2rem 4rem;
+
+  @include media-breakpoint-up(sm) {
+    padding: 3.4rem 4rem 4rem;
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding: 3.4rem 2rem 4rem;
+  }
+
+  background: white;
+  border: 1px solid $teinte-fond-orange-1;
+  box-shadow: $ombre;
+  border-radius: 10px;
+}

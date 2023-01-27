@@ -1,0 +1,21 @@
+@import "../commun/colors";
+
+.confirmation {
+  background-color: $confirmation-fond;
+  color: $confirmation-texte;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+span.icone-confirmation {
+  mask-image: url("/check.svg");
+  -webkit-mask-image: url("/check.svg");
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  mask-size: 18px;
+  -webkit-mask-size: 18px;
+  background-color: $confirmation-texte;
+  padding: 0 1.8rem 0 0;
+  height: 18px;
+  align-self: center;
+}

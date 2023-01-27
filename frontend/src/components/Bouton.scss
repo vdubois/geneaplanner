@@ -1,0 +1,36 @@
+@import "../commun/colors";
+
+.principale {
+  background-color: $principale-2;
+  color: white;
+  border: 1px solid $principale-2;
+
+  &:hover {
+    background-color: $principale-1;
+    border: 1px solid $principale-1;
+  }
+
+  &:disabled {
+    background-color: $disabled;
+    border: 1px solid $disabled;
+    cursor: default;
+  }
+}
+
+.secondaire {
+  background-color: white;
+  color: $principale-2;
+  border: 1px solid $principale-2;
+
+  &:hover {
+    color: white;
+    background-color: $principale-2;
+  }
+
+  &:disabled {
+    color: $disabled;
+    background-color: white;
+    border: 1px solid $disabled;
+    cursor: default;
+  }
+}

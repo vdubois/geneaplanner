@@ -1,5 +1,6 @@
 @import "./commun/fonts.scss";
 @import "./commun/variables.scss";
+@import "./commun/bootstrap-mixins";
 
 .MuiIcon-root {
   width: 2em !important;
@@ -56,6 +57,30 @@
   flex-grow: 1;
 }
 
+.gap-05 {
+  gap: 0.5rem;
+}
+
+.gap-1 {
+  gap: 1rem;
+}
+
+.gap-2 {
+  gap: 2rem;
+}
+
+.gap-3 {
+  gap: 3rem;
+}
+
+.pl-5 {
+  padding-left: 3.2rem !important;
+}
+
+.pr-5 {
+  padding-right: 3.2rem !important;
+}
+
 html {
   font-size: 62.5%;
 }
@@ -75,4 +100,18 @@ body {
   padding: .9rem 1.6rem;
   font-size: 1.6rem;
   font-family: "Lato", sans-serif;
+}
+
+.conteneur-principal {
+  @include media-breakpoint-down(md) {
+    width: 100%;
+  }
+
+  @include media-breakpoint-up(md) {
+    width: 768px;
+  }
+
+  @include media-breakpoint-up(xl) {
+    width: 1134px;
+  }
 }

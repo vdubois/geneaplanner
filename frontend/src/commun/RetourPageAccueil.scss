@@ -1,0 +1,22 @@
+@import "./colors";
+
+.retour {
+  text-decoration: none;
+  width: fit-content;
+  height: 18px;
+  color: $principale-2;
+}
+
+span.retour-icone {
+  mask-image: url("/chevron-down.svg");
+  -webkit-mask-image: url("/chevron-down.svg");
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  mask-size: 18px;
+  -webkit-mask-size: 18px;
+  background-color: $principale-2;
+  padding: 0 1.8rem 0 0;
+  height: 18px;
+  align-self: center;
+  transform: rotate(90deg);
+}
