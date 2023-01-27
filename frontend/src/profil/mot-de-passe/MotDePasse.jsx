@@ -37,6 +37,7 @@ export const MotDePasse = () => {
             id='changement-mot-de-passe'
             libelle='Changer mon mot de passe'
             disabled={afficherSucces}
+            variante='secondaire'
             onClick={demanderUnChangementDuMotDePasse}/>
     </div>
 }
