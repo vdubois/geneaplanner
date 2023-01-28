@@ -5,6 +5,7 @@ import {useEffect, useState} from "react";
 import {useAuth0} from "@auth0/auth0-react";
 import {isAdmin} from "../auth0";
 import {MotDePasse} from "./mot-de-passe/MotDePasse";
+import {ConfigurationDeLArbre2} from "./arbre/ConfigurationDeLArbre2";
 
 export const Profil2 = () => {
     const {isAuthenticated, user} = useAuth0();
@@ -59,6 +60,7 @@ export const Profil2 = () => {
                     onglets={onglets}
                 />
                 {ongletActif === 2 && <MotDePasse/>}
+                {ongletActif === 3 && <ConfigurationDeLArbre2/>}
             </div>
         </div>
     </main>
