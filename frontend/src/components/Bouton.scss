@@ -34,3 +34,21 @@
     cursor: default;
   }
 }
+
+.danger {
+  background-color: $danger;
+  color: white;
+  border: 1px solid $danger;
+
+  &:hover {
+    background-color: #E5534D;
+    border: 1px solid #E5534D;
+  }
+
+  &:disabled {
+    background-color: $danger;
+    border: 1px solid $danger;
+    cursor: default;
+    opacity: 0.2;
+  }
+}

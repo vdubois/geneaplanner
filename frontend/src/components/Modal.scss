@@ -1,0 +1,107 @@
+@import "../commun/colors";
+@import "../commun/variables";
+
+.darkBG {
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(5px);
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+}
+
+.centered {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.modal {
+  width: 400px;
+  max-height: 50%;
+  background: white;
+  color: white;
+  z-index: 10;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.04);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.modalHeader {
+  display: flex;
+  background: white;
+}
+
+.heading {
+  margin: 0;
+  padding-top: 1rem;
+  color: black;
+  font-size: 2.4rem;
+  font-weight: $font-weight-bold-value;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.modalContent {
+  padding: 10px;
+  color: black;
+  font-size: 1.6rem;
+  text-align: center;
+}
+
+.modalActions {
+  bottom: 2px;
+  width: 100%;
+}
+
+.actionsContainer {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.closeBtn {
+  cursor: pointer;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 8px;
+  border: none;
+  font-size: 18px;
+  color: #2c3e50;
+  background: white;
+  transition: all 0.25s ease;
+  box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.06);
+  position: absolute;
+  right: 0;
+  top: 0;
+  align-self: flex-end;
+  margin-top: -7px;
+  margin-right: -7px;
+}
+
+.closeBtn:hover {
+  box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.04);
+  transform: translate(-4px, 4px);
+}
+
+span.icone-close {
+  mask-image: url("/x.svg");
+  -webkit-mask-image: url("/x.svg");
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  mask-size: 18px;
+  -webkit-mask-size: 18px;
+  background-color: $principale-2;
+  padding: 0 1.8rem 0 0;
+  height: 18px;
+  align-self: center;
+  cursor: pointer;
+}

@@ -1,0 +1,8 @@
+@import "../../commun/colors";
+
+.suppression-arbre {
+  padding: 2rem;
+  background-color: $danger-fond;
+  border-radius: 5px;
+  border-left: 5px solid $danger;
+}

@@ -4,6 +4,7 @@ import {Route, Routes, useNavigate} from "react-router-dom";
 import {Bandeau} from "./commun/Bandeau";
 import {useAuth0} from "@auth0/auth0-react";
 import {Profil2} from "./profil/Profil2";
+import {ImportationDeFichierGedcom} from "./importer-un-fichier-gedcom/ImportationDeFichierGedcom";
 
 export const App2 = () => {
     const { user, isAuthenticated, isLoading, loginWithRedirect, logout } = useAuth0();
@@ -26,6 +27,7 @@ export const App2 = () => {
                 <Route exact path="/" element={<></>}/>
                 <Route exact path="/accueil" element={<></>}/>
                 <Route exact path="/profil" element={<Profil2 />}/>
+                <Route exact path="/importer-un-fichier-gedcom" element={<ImportationDeFichierGedcom />}/>
             </Routes>
         </>
     );

@@ -6,13 +6,13 @@ import {
 } from "./react-query.hooks";
 
 export const useIndividus = (enabled) => {
-    const { isLoading, error, data } = useQueryWithAuth(
+    const { isLoading, error, data, isFetching} = useQueryWithAuth(
         "individus",
         `/arbres/[email]`,
         enabled
     );
     return {
-        individusEnCoursDeChargement: isLoading,
+        individusEnCoursDeChargement: isLoading || isFetching,
         individusEnErreur: error,
         arbre: data || {}
     };
