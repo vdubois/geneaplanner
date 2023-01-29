@@ -1,5 +1,5 @@
 import './Modal.scss';
-import {Bouton} from "./Bouton";
+import {Bouton} from "../bouton/Bouton";
 
 export const Modal = ({setIsOpen, titre, contenu, action}) => {
     return (

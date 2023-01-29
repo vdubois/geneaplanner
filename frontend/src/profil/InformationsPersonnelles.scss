@@ -3,29 +3,16 @@
 @import "../commun/variables";
 
 .personnelles {
-  display: flex;
-  flex-direction: column;
   width: 100%;
   padding-right: 1rem;
-  padding-bottom: 3.7rem;
 
   @include media-breakpoint-down(sm) {
     padding-left: 2rem;
   }
+}
 
-  .form-de-mis-a-jour {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-    margin-top: 10px;
-
-    input {
-      max-width: 35rem;
-    }
-
-    .actions-edition {
-      display: flex;
-      gap: 3rem;
-    }
-  }
+.libelle-champ {
+  font-size: 1.6rem;
+  font-weight: $font-weight-bold-value;
+  color: $principale-4;
 }

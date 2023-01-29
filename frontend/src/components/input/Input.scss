@@ -1,0 +1,15 @@
+@import "../../commun/colors";
+
+input[type=text] {
+  border-radius: 5px;
+  border: 1px solid $principale-4;
+  color: $principale-4;
+  height: 42px;
+  padding: 0 16px 0 16px;
+
+
+  &:disabled {
+    background-color: #F5F5F5;
+    border: 1px solid #F5F5F5;
+  }
+}

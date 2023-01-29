@@ -1,11 +1,11 @@
-import {Bouton} from "../../components/Bouton";
+import {Bouton} from "../../components/bouton/Bouton";
 
 import axios from "axios";
 import {clientId, domain} from "../../auth0";
 import {useAuth0} from "@auth0/auth0-react";
 import {Alert, Snackbar} from "@mui/material";
 import React, {useState} from "react";
-import {MessageDeConfirmation} from "../../components/MessageDeConfirmation";
+import {MessageDeConfirmation} from "../../components/message/MessageDeConfirmation";
 
 export const MotDePasse = () => {
     const {user} = useAuth0();

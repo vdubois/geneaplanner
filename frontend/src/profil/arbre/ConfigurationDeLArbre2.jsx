@@ -3,10 +3,10 @@ import React, {useEffect, useState} from "react";
 import {useAuth0} from "@auth0/auth0-react";
 import {useIndividus, useSupprimerLArbre} from "../../api/arbres.hooks";
 import {useNavigate} from "react-router-dom";
-import {Bouton} from "../../components/Bouton";
+import {Bouton} from "../../components/bouton/Bouton";
 import './ConfigurationDeLArbre.scss';
-import {Loader} from "../../components/Loader";
-import {Modal} from "../../components/Modal";
+import {Loader} from "../../components/loader/Loader";
+import {Modal} from "../../components/modal/Modal";
 
 export const ConfigurationDeLArbre2 = () => {
     const {isAuthenticated, user, isLoading} = useAuth0();
