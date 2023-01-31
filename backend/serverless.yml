@@ -364,3 +364,19 @@ functions:
           method: delete
           authorizer:
             name: accessTokenAuth0
+  recuperation-des-infos-personnelles:
+    handler: src/comptes/infrastructure/primaire/lambdas/recuperationDesInformationsPersonnelles.handler
+    events:
+      - httpApi:
+          path: /utilisateurs/{identifiant}
+          method: get
+          authorizer:
+            name: accessTokenAuth0
+  mise-a-jour-des-infos-personnelles:
+    handler: src/comptes/infrastructure/primaire/lambdas/miseAJourDesInformationsPersonnelles.handler
+    events:
+      - httpApi:
+          path: /utilisateurs/{identifiant}
+          method: put
+          authorizer:
+            name: accessTokenAuth0

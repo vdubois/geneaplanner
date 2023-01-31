@@ -1,7 +1,5 @@
-import {ModeleDArchives} from "./ModeleDArchives";
+import {InformationsPersonnelles} from "./InformationsPersonnelles";
 
 export interface Compte {
-    googleMapsApiKey?: string;
-
-    modelesDArchives?: Array<ModeleDArchives>;
+    informationsPersonnelles: InformationsPersonnelles;
 }

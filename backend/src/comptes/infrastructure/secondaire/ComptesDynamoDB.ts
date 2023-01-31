@@ -8,19 +8,35 @@ export class ComptesDynamoDB implements Comptes {
     }
 
     async recuperer(identifiantDuCompte: string): Promise<Compte> {
-        const modelesDArchives = await this.dynamoDbRepository.findOneByPartitionKey(`archives-modeles`);
+        const compte = await this.dynamoDbRepository.findOneByPartitionKey(`${identifiantDuCompte}#compte`);
+        return compte || {
+            informationsPersonnelles: {
+                nom: '',
+                prenom: ''
+            }
+        };
+        /*const modelesDArchives = await this.dynamoDbRepository.findOneByPartitionKey(`archives-modeles`);
         const compte = await this.dynamoDbRepository.findOneByPartitionKey(`${identifiantDuCompte}#parametres`);
         if (compte) {
             return {...compte, modelesDArchives: modelesDArchives.archives ? modelesDArchives.archives : []};
         }
         return {
             googleMapsApiKey: '',
-            modelesDArchives: []
-        }
+            modelesDArchives: [],
+            informationsPersonnelles: {
+                nom: '',
+                prenom: ''
+            }
+        }*/
     }
 
     async sauvegarder(identifiantDuCompte: string, informationsDuCompte: Compte): Promise<void> {
-        let parametresDeLUtilisateur = await this.dynamoDbRepository.findOneByPartitionKey(`${identifiantDuCompte}#parametres`);
+        const compte = {
+            partitionKey: `${identifiantDuCompte}#compte`,
+            informationsPersonnelles: informationsDuCompte.informationsPersonnelles
+        }
+        await this.dynamoDbRepository.save(compte);
+        /*let parametresDeLUtilisateur = await this.dynamoDbRepository.findOneByPartitionKey(`${identifiantDuCompte}#parametres`);
         if (!parametresDeLUtilisateur) {
             parametresDeLUtilisateur = {
                 partitionKey: `${identifiantDuCompte}#parametres`,
@@ -29,6 +45,6 @@ export class ComptesDynamoDB implements Comptes {
         } else {
             parametresDeLUtilisateur.googleMapsApiKey = informationsDuCompte.googleMapsApiKey;
         }
-        await this.dynamoDbRepository.save(parametresDeLUtilisateur);
+        await this.dynamoDbRepository.save(parametresDeLUtilisateur);*/
     }
 }
