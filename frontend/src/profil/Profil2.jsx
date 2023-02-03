@@ -52,9 +52,8 @@ export const Profil2 = () => {
         }
     }, [user]);
 
-
     return <main>
-        <div className="d-flex flex-column align-items-center gap-2">
+        {!isSmallResolution && <div className="d-flex flex-column align-items-center gap-2">
             <div id="profil-entete" className="conteneur-principal d-flex flex-column gap-3 pl-5 pr-5">
                 <RetourPageAccueil/>
                 <Onglets
@@ -66,6 +65,12 @@ export const Profil2 = () => {
                 {ongletActif === 2 && <MotDePasse/>}
                 {ongletActif === 3 && <ConfigurationDeLArbre2/>}
             </div>
-        </div>
+        </div>}
+        {isSmallResolution && <div id='profil-entete' className="d-flex flex-column align-items-center gap-5">
+            <RetourPageAccueil/>
+            <InformationsPersonnelles/>
+            <MotDePasse/>
+            <ConfigurationDeLArbre2/>
+        </div>}
     </main>
 }

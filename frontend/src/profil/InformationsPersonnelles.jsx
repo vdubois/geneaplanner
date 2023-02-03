@@ -51,6 +51,7 @@ export const InformationsPersonnelles = () => {
     return <>
         {(isLoading || enCoursDeChargement) && <Loader/>}
         {!isLoading && !enCoursDeChargement && <div className={"d-flex flex-column gap-1 personnelles" + (isSmallResolution ? ' align-items-center' : '')}>
+            {isSmallResolution && <h3 className='mb-2 texte-principale-3'>Informations personnelles</h3>}
             <div className='d-flex flex-column gap-1'>
                 <span className='libelle-champ'>Nom<span className='texte-danger'>&#160;*</span></span>
                 <input

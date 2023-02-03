@@ -3,13 +3,14 @@ import {Bouton} from "../../components/bouton/Bouton";
 import axios from "axios";
 import {clientId, domain} from "../../auth0";
 import {useAuth0} from "@auth0/auth0-react";
-import {Alert, Snackbar} from "@mui/material";
+import {Alert, Snackbar, useMediaQuery} from "@mui/material";
 import React, {useEffect, useState} from "react";
 import {MessageDeConfirmation} from "../../components/message/MessageDeConfirmation";
 
 export const MotDePasse = () => {
     const {user} = useAuth0();
     const [afficherSucces, setAfficherSucces] = useState(false);
+    const isSmallResolution = useMediaQuery('(max-width: 400px)')
 
     useEffect(() => {
         if (user) {
@@ -39,7 +40,8 @@ export const MotDePasse = () => {
         }
     }
 
-    return <div>
+    return <div className='d-flex flex-column align-items-center'>
+        {isSmallResolution && <h3 className='mb-2 texte-principale-3'>Mot de passe</h3>}
         {afficherSucces && <MessageDeConfirmation libelle={'La demande de mot de passe a été envoyée à <strong>' + user.email + '</strong>. Veuillez vérifier vos emails.'}/>}
         <Bouton
             id='changement-mot-de-passe'

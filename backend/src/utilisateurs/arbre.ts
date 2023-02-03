@@ -80,7 +80,7 @@ export const rechercherParIdentifiant = async (event: APIGatewayProxyEvent): Pro
   try {
     const detailIndividus = await rechercherIndividuParIdentifiant(utilisateur.email, `@${event.pathParameters?.individu}@`);
     return ok(detailIndividus);
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
     return notFound(error.message);
   }
