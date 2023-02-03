@@ -11,22 +11,40 @@ import {ModificationDUnModeleDArchives} from "../usecases/ModificationDUnModeleD
 import {PublicationDeLArbreDUnCompte} from "../usecases/PublicationDeLArbreDUnCompte";
 import {DefinitionDeLaRacineDeLArbreDUnCompte} from "../usecases/DefinitionDeLaRacineDeLArbreDUnCompte";
 import {MiseAJourDesInformationsPersonnelles} from "../usecases/MiseAJourDesInformationsPersonnelles";
+import {DynamoDbRepositoryFake} from "../../commun/infrastructure/secondaire/DynamoDbRepositoryFake";
 
-const espaceDeStockageDesFichiersGEDCOM = new S3Builder()
-    .withBucketName(process.env.BUCKET_FICHIERS_GEDCOM!)
-    .asStorageService()
-    .build();
+if (process.env.PROD) {
+    const espaceDeStockageDesFichiersGEDCOM = new S3Builder()
+        .withBucketName(process.env.BUCKET_FICHIERS_GEDCOM!)
+        .asStorageService()
+        .build();
 
-const dynamoDBRepository = new DynamoDbBuilder()
-    .withTableName(process.env.TABLE_DONNEES!!)
-    .withPartitionKeyName("partitionKey")
-    .build();
+    const dynamoDBRepository = new DynamoDbBuilder()
+        .withTableName(process.env.TABLE_DONNEES!!)
+        .withPartitionKeyName("partitionKey")
+        .build();
 
-register('SuppressionDeLArbreDUnCompte', () => new SuppressionDeLArbreDUnCompte(new ArbresAWS(espaceDeStockageDesFichiersGEDCOM, dynamoDBRepository)));
-register('RecuperationDesInformationsPersonnelles', () => new RecuperationDesInformationsPersonnelles(new ComptesDynamoDB(dynamoDBRepository)));
-register('AjoutDUnModeleDArchives', () => new AjoutDUnModeleDArchives(new ModelesDArchivesDynamoDB(dynamoDBRepository)));
-register('ModificationDUnModeleDArchives', () => new ModificationDUnModeleDArchives(new ModelesDArchivesDynamoDB(dynamoDBRepository)));
-register('SuppressionDUnModeleDArchives', () => new SuppressionDUnModeleDArchives(new ModelesDArchivesDynamoDB(dynamoDBRepository)));
-register('PublicationDeLArbreDUnCompte', () => new PublicationDeLArbreDUnCompte(new ArbresAWS(espaceDeStockageDesFichiersGEDCOM, dynamoDBRepository)));
-register('DefinitionDeLaRacineDeLArbreDUnCompte', () => new DefinitionDeLaRacineDeLArbreDUnCompte(new ArbresAWS(espaceDeStockageDesFichiersGEDCOM, dynamoDBRepository)));
-register('MiseAJourDesInformationsPersonnelles', () => new MiseAJourDesInformationsPersonnelles(new ComptesDynamoDB(dynamoDBRepository)));
+    register('SuppressionDeLArbreDUnCompte', () => new SuppressionDeLArbreDUnCompte(new ArbresAWS(espaceDeStockageDesFichiersGEDCOM, dynamoDBRepository)));
+    register('RecuperationDesInformationsPersonnelles', () => new RecuperationDesInformationsPersonnelles(new ComptesDynamoDB(dynamoDBRepository)));
+    register('AjoutDUnModeleDArchives', () => new AjoutDUnModeleDArchives(new ModelesDArchivesDynamoDB(dynamoDBRepository)));
+    register('ModificationDUnModeleDArchives', () => new ModificationDUnModeleDArchives(new ModelesDArchivesDynamoDB(dynamoDBRepository)));
+    register('SuppressionDUnModeleDArchives', () => new SuppressionDUnModeleDArchives(new ModelesDArchivesDynamoDB(dynamoDBRepository)));
+    register('PublicationDeLArbreDUnCompte', () => new PublicationDeLArbreDUnCompte(new ArbresAWS(espaceDeStockageDesFichiersGEDCOM, dynamoDBRepository)));
+    register('DefinitionDeLaRacineDeLArbreDUnCompte', () => new DefinitionDeLaRacineDeLArbreDUnCompte(new ArbresAWS(espaceDeStockageDesFichiersGEDCOM, dynamoDBRepository)));
+    register('MiseAJourDesInformationsPersonnelles', () => new MiseAJourDesInformationsPersonnelles(new ComptesDynamoDB(dynamoDBRepository)));
+} else {
+    const dynamoDBRepository = new DynamoDbRepositoryFake();
+
+//register('SuppressionDeLArbreDUnCompte', () => new SuppressionDeLArbreDUnCompte(new ArbresAWS(espaceDeStockageDesFichiersGEDCOM, dynamoDBRepository)));
+//register('RecuperationDesInformationsPersonnelles', () => new RecuperationDesInformationsPersonnelles(new ComptesDynamoDB(dynamoDBRepository)));
+//register('AjoutDUnModeleDArchives', () => new AjoutDUnModeleDArchives(new ModelesDArchivesDynamoDB(dynamoDBRepository)));
+//register('ModificationDUnModeleDArchives', () => new ModificationDUnModeleDArchives(new ModelesDArchivesDynamoDB(dynamoDBRepository)));
+//register('SuppressionDUnModeleDArchives', () => new SuppressionDUnModeleDArchives(new ModelesDArchivesDynamoDB(dynamoDBRepository)));
+//register('PublicationDeLArbreDUnCompte', () => new PublicationDeLArbreDUnCompte(new ArbresAWS(espaceDeStockageDesFichiersGEDCOM, dynamoDBRepository)));
+//register('DefinitionDeLaRacineDeLArbreDUnCompte', () => new DefinitionDeLaRacineDeLArbreDUnCompte(new ArbresAWS(espaceDeStockageDesFichiersGEDCOM, dynamoDBRepository)));
+    register('ComptesDynamoDBTest', () => new DynamoDbBuilder()
+        .withTableName(process.env.TABLE_DONNEES!!)
+        .withPartitionKeyName("partitionKey")
+        .build())
+    register('MiseAJourDesInformationsPersonnelles', () => new MiseAJourDesInformationsPersonnelles(new ComptesDynamoDB(dynamoDBRepository)), {override: true});
+}

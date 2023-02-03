@@ -46,9 +46,11 @@ export const ConfigurationDeLArbre2 = () => {
         </div>}
         {fenetreDeConfirmationDeSuppressionOuverte && <Modal
             titre='Confirmer la suppression'
-            contenu='&Ecirc;tes-vous s&ucirc;r(e) de vouloir supprimer votre arbre ?<br/>Les donn&eacute;es rattach&eacute;es pourraient ne plus &ecirc;tre exploitables.'
             setIsOpen={setFenetreDeConfirmationDeSuppressionOuverte}
             action={supprimerLArbreEtRecharger}
-        />}
+            animation='zoomIn'
+        >
+            &Ecirc;tes-vous s&ucirc;r(e) de vouloir supprimer votre arbre ?<br/>Les donn&eacute;es rattach&eacute;es pourraient ne plus &ecirc;tre exploitables.
+        </Modal>}
     </>
 }

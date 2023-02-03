@@ -1,6 +1,7 @@
 @import "./commun/fonts.scss";
 @import "./commun/variables.scss";
 @import "./commun/bootstrap-mixins";
+@import "./commun/colors";
 
 .MuiIcon-root {
   width: 2em !important;
@@ -85,6 +86,14 @@
   padding-right: 3.2rem !important;
 }
 
+.mb-1 {
+  margin-bottom: 1rem;
+}
+
+.mb-2 {
+  margin-bottom: 2rem;
+}
+
 html {
   font-size: 62.5%;
 }
@@ -120,10 +129,37 @@ body {
   }
 }
 
+.texte-centre {
+  text-align: center;
+}
+
 .texte-danger {
   color: $danger;
+}
+
+.texte-principale-3 {
+  color: $principale-3;
+}
+
+.texte-principale-4 {
+  color: $principale-4;
 }
 
 h3 {
   margin: 0;
 }
+
+input[type=text] {
+  border-radius: 5px;
+  border: 1px solid $principale-4;
+  color: $principale-4;
+  height: 42px;
+  padding: 0 16px 0 16px;
+
+
+  &:disabled {
+    background-color: #F5F5F5;
+    border: 1px solid #F5F5F5;
+  }
+}
+
