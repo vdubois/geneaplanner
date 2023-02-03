@@ -7,11 +7,13 @@ import {isAdmin} from "../auth0";
 import {MotDePasse} from "./mot-de-passe/MotDePasse";
 import {ConfigurationDeLArbre2} from "./arbre/ConfigurationDeLArbre2";
 import {InformationsPersonnelles} from "./InformationsPersonnelles";
+import {useMediaQuery} from "@mui/material";
 
 export const Profil2 = () => {
     const {isAuthenticated, user} = useAuth0();
     const [userAdmin, setUserAdmin] = useState(false);
     const [ongletActif, setOngletActif] = useState(1);
+    const isSmallResolution = useMediaQuery('(max-width: 400px)')
 
     const [onglets, setOnglets] = useState([
         {

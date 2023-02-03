@@ -83,8 +83,11 @@ root.render(
             <Auth0Provider
                 domain={domain}
                 clientId={clientId}
-                redirectUri="http://localhost:5173"
-                audience={audience}
+                authorizationParams={{
+                    redirect_uri: window.location.origin,
+                    audience,
+                    scope: "read:current_user update:current_user_metadata"
+                }}
             >
                 <FetchProvider>
                     <QueryClientProvider client={queryClient}>

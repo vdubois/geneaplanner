@@ -41,11 +41,15 @@ export const App2 = () => {
     }, [renseignerLesInformationsPersonnelles])
 
     const enregistrer = async () => {
-        await modifierInformationsPersonnelles({
-            nom,
-            prenom
-        });
-        setAfficherSucces(true);
+        try {
+            await modifierInformationsPersonnelles({
+                nom: 'DURAND',
+                prenom: 'David'
+            });
+            setAfficherSucces(true);
+        } catch (e) {
+            console.error(e)
+        }
     };
 
     return (

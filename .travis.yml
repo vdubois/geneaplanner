@@ -16,6 +16,7 @@ deploy_job: &DEPLOY_JOB
 
   script:
     - cd ${SERVICE_PATH}
+    - npm test
     - npm run deploy-${STAGE_NAME}
 
 jobs:

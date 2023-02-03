@@ -4,18 +4,26 @@ import axios from "axios";
 import {clientId, domain} from "../../auth0";
 import {useAuth0} from "@auth0/auth0-react";
 import {Alert, Snackbar} from "@mui/material";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {MessageDeConfirmation} from "../../components/message/MessageDeConfirmation";
 
 export const MotDePasse = () => {
     const {user} = useAuth0();
     const [afficherSucces, setAfficherSucces] = useState(false);
 
+    useEffect(() => {
+        if (user) {
+            user.email = user[`https://geneaplanner/email`];
+        }
+    }, [user]);
+
     const demanderUnChangementDuMotDePasse = async () => {
         const options = {
             method: 'POST',
             url: `https://${domain}/dbconnections/change_password`,
-            headers: {'content-type': 'application/json'},
+            headers: {
+                'content-type': 'application/json',
+            },
             data: {
                 client_id: clientId,
                 email: user.email,
