@@ -32,6 +32,7 @@ provider:
         - http://localhost:5173
         - https://geneaplanner-dev.surge.sh
         - https://geneaplanner.surge.sh
+        - https://geneaplanner.netlify.app/
     payload: '2.0'
     authorizers:
       accessTokenAuth0:
