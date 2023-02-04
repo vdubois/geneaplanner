@@ -9,7 +9,7 @@ node('slave') {
                 sh 'npm test'
             }
             dir('frontend') {
-                sh 'npm install'
+                sh 'npm install --force'
                 sh 'npm run build'
             }
         }
