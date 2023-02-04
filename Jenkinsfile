@@ -53,7 +53,7 @@ node('slave') {
     } finally {
         stage('notification') {
             if (currentBuild.result == 'FAILURE') {
-                emailext body: "${currentBuild.currentResult}: Job ${env.JOB_NAME}\nAccès au job ici : ${env.BUILD_URL}",
+                mail body: "${env.BUILD_URL}/console",
                     subject: '[Geneaplanner] BUILD FAILED',
                     to: 'dubois.vct@free.fr'
             }
