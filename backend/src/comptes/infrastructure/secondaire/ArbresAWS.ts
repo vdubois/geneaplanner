@@ -11,7 +11,7 @@ export class ArbresAWS implements Arbres {
 
     async existe(identifiantDuCompte: string): Promise<boolean> {
         const fichierArbre = await this.espaceDeStockageDesFichiersGEDCOM.readFile(`${identifiantDuCompte}.ged`);
-        return fichierArbre !== null;
+        return fichierArbre !== undefined;
     }
 
     async supprimer(identifiantDuCompte: string): Promise<void> {

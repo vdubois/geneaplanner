@@ -1,6 +1,6 @@
 import {APIGatewayProxyEvent} from "aws-lambda";
 
-export const event = (body: any): APIGatewayProxyEvent => ({
+export const event = (body?: any): APIGatewayProxyEvent => ({
     body: JSON.stringify(body),
     // @ts-ignore
     requestContext: {

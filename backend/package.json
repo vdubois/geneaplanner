@@ -4,7 +4,7 @@
   "description": "",
   "main": "handler.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --coverage",
     "test-watch": "jest --watch",
     "deploy-dev": "sed -i 's/THUNDRAAPIKEY/'\"$THUNDRA_API_KEY\"'/g' serverless.yml && serverless deploy --stage=dev",
     "postdeploy-dev": "STAGE=dev AWS_REGION=eu-west-3 serverless migrations up",

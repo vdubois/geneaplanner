@@ -1,6 +1,6 @@
 import {DynamoDbRepository} from "aws-sdk-fluent-builder";
 
-export class DynamoDbRepositoryFake implements DynamoDbRepository {
+export class DynamoDbRepositoryInMemory implements DynamoDbRepository {
     private data = new Map();
 
     deleteByPartitionKey(partitionKeyValue: string): Promise<any> {
