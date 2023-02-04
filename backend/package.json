@@ -1,30 +1,30 @@
 {
   "name": "geneaplanner-backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "Backend de Généaplanner",
   "main": "handler.js",
   "scripts": {
     "test": "jest --coverage",
     "test-watch": "jest --watch",
-    "deploy-dev": "sed -i 's/THUNDRAAPIKEY/'\"$THUNDRA_API_KEY\"'/g' serverless.yml && serverless deploy --stage=dev",
+    "deploy-dev": "sls deploy --stage=dev",
     "postdeploy-dev": "STAGE=dev AWS_REGION=eu-west-3 serverless migrations up",
-    "deploy-prod": "sed -i 's/THUNDRAAPIKEY/'\"$THUNDRA_API_KEY\"'/g' serverless.yml && serverless deploy --stage=prod",
+    "deploy-prod": "sls deploy --stage=prod",
     "postdeploy-prod": "STAGE=prod AWS_REGION=eu-west-3 serverless migrations up",
     "postinstall": "cp -r node_modules/serverless-plugin-umzug/node_modules/umzug-dynamodb-storage node_modules"
   },
-  "author": "",
+  "author": "Vincent Dubois",
   "license": "ISC",
   "dependencies": {
-    "@thundra/core": "2.13.58",
+    "@thundra/core": "2.13.60",
     "aws-lambda-utils": "0.0.2",
     "aws-sdk-fluent-builder": "0.3.1",
     "read-gedcom": "0.3.2",
     "typescript-inject": "0.0.8"
   },
   "devDependencies": {
-    "@types/aws-lambda": "8.10.109",
+    "@types/aws-lambda": "8.10.110",
     "@types/jest": "29.4.0",
-    "@types/node": "16.11.7",
+    "@types/node": "16.11.68",
     "@types/uuid": "9.0.0",
     "jest": "29.4.1",
     "serverless-plugin-typescript": "2.1.4",

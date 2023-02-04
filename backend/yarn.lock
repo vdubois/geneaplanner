@@ -601,10 +601,10 @@
   dependencies:
     "@sinonjs/commons" "^2.0.0"
 
-"@thundra/core@2.13.58":
-  version "2.13.58"
-  resolved "https://registry.npmjs.org/@thundra/core/-/core-2.13.58.tgz"
-  integrity sha512-dYIvErcPiso52vl7br0Ixeiie3dk+G0KmDsyb03hxOGCrzluiNtei/rjkvh0p/mf9FBkG/3giDQ98MfxulMFfg==
+"@thundra/core@2.13.60":
+  version "2.13.60"
+  resolved "https://registry.yarnpkg.com/@thundra/core/-/core-2.13.60.tgz#b8d82236819fa6ac4058dac0a578d2ae91fd71e1"
+  integrity sha512-dcnB5rPGHuIY79nfFo4qrynPBXWCpJsoqA4cXfZB9oX83SecAOgyPH4bkFPkP7Cggxq01wOv1SCigQdILeoKuw==
   dependencies:
     "@thundra/instrumenter" "^1.3.6"
     "@thundra/warmup" "^1.1.2"
@@ -664,10 +664,10 @@
   resolved "https://registry.npmjs.org/@tsconfig/node16/-/node16-1.0.3.tgz"
   integrity sha512-yOlFc+7UtL/89t2ZhjPvvB/DeAr3r+Dq58IgzsFkOAvVC6NMJXmCGjbptdXdR9qsX7pKcTL+s87FtYREi2dEEQ==
 
-"@types/aws-lambda@8.10.109":
-  version "8.10.109"
-  resolved "https://registry.npmjs.org/@types/aws-lambda/-/aws-lambda-8.10.109.tgz"
-  integrity sha512-/ME92FneNyXQzrAfcnQQlW1XkCZGPDlpi2ao1MJwecN+6SbeonKeggU8eybv1DfKli90FAVT1MlIZVXfwVuCyg==
+"@types/aws-lambda@8.10.110":
+  version "8.10.110"
+  resolved "https://registry.yarnpkg.com/@types/aws-lambda/-/aws-lambda-8.10.110.tgz#32a1f9d40b855d69830243492bbb6408098f4c88"
+  integrity sha512-r6egf2Cwv/JaFTTrF9OXFVUB3j/SXTgM9BwrlbBRjWAa2Tu6GWoDoLflppAZ8uSfbUJdXvC7Br3DjuN9pQ2NUQ==
 
 "@types/babel__core@^7.1.14":
   version "7.20.0"
@@ -749,10 +749,15 @@
   resolved "https://registry.npmjs.org/@types/minimatch/-/minimatch-5.1.2.tgz"
   integrity sha512-K0VQKziLUWkVKiRVrx4a40iPaxTUefQmjtkQofBkYRcoaaL/8rhwDWww9qWbrgicNOgnpIsMxyNIUM4+n6dUIA==
 
-"@types/node@*", "@types/node@16.11.7":
+"@types/node@*":
   version "16.11.7"
   resolved "https://registry.npmjs.org/@types/node/-/node-16.11.7.tgz"
   integrity sha512-QB5D2sqfSjCmTuWcBWyJ+/44bcjO7VbjSbOE0ucoVbAsSNQc4Lt6QkgkVXkTDwkL4z/beecZNDvVX15D4P8Jbw==
+
+"@types/node@16.11.68":
+  version "16.11.68"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.11.68.tgz#30ee923f4d940793e0380f5ce61c0bd4b7196b6c"
+  integrity sha512-JkRpuVz3xCNCWaeQ5EHLR/6woMbHZz/jZ7Kmc63AkU+1HxnoUugzSWMck7dsR4DvNYX8jp9wTi9K7WvnxOIQZQ==
 
 "@types/prettier@^2.1.5":
   version "2.7.2"
