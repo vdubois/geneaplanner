@@ -51,7 +51,7 @@ node('slave') {
             }
 
             try {
-                sh "docker run --rm --network host -w /workspace/e2e -v ${pwd()}/cucumber-json-formatter-linux-amd64:/usr/bin/cucumber-json-formatter -v ${pwd()}/e2e/.npm:/.npm -v ${pwd()}:/workspace:rw,z -v ${pwd()}@tmp:/workspace@tmp:rw,z -v ${pwd()}/e2e/.cypress:/.cypress -e CYPRESS_CACHE_FOLDER=/.cypress/cache -e CYPRESS_BASE_URL=https://geneaplanner-dev.surge.sh cypress/included:12.5.1 --e2e --browser chrome --spec **/*.feature --record --key 40e62d58-9151-42d7-b625-5d2482bc7f37"
+                sh "docker run --rm --network host -w /workspace/e2e -v ${pwd()}/cucumber-json-formatter-linux-amd64:/usr/bin/cucumber-json-formatter -v ${pwd()}/e2e/.npm:/.npm -v ${pwd()}:/workspace:rw,z -v ${pwd()}@tmp:/workspace@tmp:rw,z -v ${pwd()}/e2e/.cypress:/.cypress -e CYPRESS_CACHE_FOLDER=/.cypress/cache -e CYPRESS_BASE_URL=https://geneaplanner-dev.surge.sh -e AUTH0_API_CLIENT_ID=${env.AUTH0_API_CLIENT_ID} -e AUTH0_API_CLIENT_SECRET=${env.AUTH0_API_CLIENT_SECRET} cypress/included:12.5.1 --e2e --browser chrome --spec **/*.feature --record --key ${env.CYPRESS_KEY}"
             } catch (erreur) {
                 throw erreur
             } finally {
