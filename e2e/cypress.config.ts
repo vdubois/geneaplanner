@@ -52,6 +52,7 @@ async function setupNodeEvents(
 }
 
 export default defineConfig({
+  projectId: '1qend6',
   e2e: {
     specPattern: "**/*.feature",
     supportFile: false,
