@@ -4,11 +4,6 @@
 
 .personnelles {
   width: 100%;
-  padding-right: 1rem;
-
-  @include media-breakpoint-down(sm) {
-    padding-left: 2rem;
-  }
 }
 
 .libelle-champ {
