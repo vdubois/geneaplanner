@@ -98,6 +98,14 @@
   padding-right: 3.2rem !important;
 }
 
+.mt-1 {
+  margin-top: 1rem;
+}
+
+.mt-2 {
+  margin-top: 2rem;
+}
+
 .mb-1 {
   margin-bottom: 1rem;
 }
@@ -114,6 +122,7 @@ body {
   font-family: "Lato", sans-serif;
   font-weight: $font-weight-regular-value;
   font-size: 1.6rem;
+  overflow-x: hidden;
 }
 
 .button {

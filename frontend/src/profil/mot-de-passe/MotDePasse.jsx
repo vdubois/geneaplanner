@@ -5,9 +5,15 @@ import {clientId, domain} from "../../auth0";
 import {useAuth0} from "@auth0/auth0-react";
 import React, {useEffect, useState} from "react";
 import {MessageDeConfirmation} from "../../components/message/MessageDeConfirmation";
-import {Media} from "../../index";
+import {createMedia} from "@artsy/fresnel";
+import {breakpoints} from "../../index";
 
 export const MotDePasse = () => {
+    const {MediaContextProvider, Media} = createMedia({
+        // breakpoints values can be either strings or integers
+        breakpoints,
+    })
+
     const {user} = useAuth0();
     const [afficherSucces, setAfficherSucces] = useState(false);
 
@@ -39,16 +45,19 @@ export const MotDePasse = () => {
         }
     }
 
-    return <div className='d-flex flex-column align-items-center'>
-        <Media lessThan="sm">
-            <h3 className='mb-2 texte-principale-3'>Mot de passe</h3>
-        </Media>
-        {afficherSucces && <MessageDeConfirmation libelle={'La demande de mot de passe a été envoyée à <strong>' + user.email + '</strong>. Veuillez vérifier vos emails.'}/>}
-        <Bouton
-            id='changement-mot-de-passe'
-            libelle='Changer mon mot de passe'
-            disabled={afficherSucces}
-            variante='secondaire'
-            onClick={demanderUnChangementDuMotDePasse}/>
-    </div>
+    return <MediaContextProvider>
+        <div className='d-flex flex-column align-items-center'>
+            <Media lessThan="sm">
+                <h3 className='mb-2 texte-principale-3'>Mot de passe</h3>
+            </Media>
+            {afficherSucces && <MessageDeConfirmation
+                libelle={'La demande de mot de passe a été envoyée à <strong>' + user.email + '</strong>. Veuillez vérifier vos emails.'}/>}
+            <Bouton
+                id='changement-mot-de-passe'
+                libelle='Changer mon mot de passe'
+                disabled={afficherSucces}
+                variante='secondaire'
+                onClick={demanderUnChangementDuMotDePasse}/>
+        </div>
+    </MediaContextProvider>
 }

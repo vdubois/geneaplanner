@@ -1,33 +1,24 @@
 import React from 'react';
-import { createRoot } from 'react-dom/client';
+import {createRoot} from 'react-dom/client';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 import {BrowserRouter as Router} from "react-router-dom";
 import {Auth0Provider} from "@auth0/auth0-react";
 import {audience, clientId, domain} from './auth0';
-import {createTheme, ThemeProvider} from "@mui/material/styles";
+import {createTheme, StyledEngineProvider, ThemeProvider} from "@mui/material/styles";
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {ReactQueryDevtools} from '@tanstack/react-query-devtools';
 import {FetchProvider} from "./api/FetchProvider";
-import {StyledEngineProvider} from "@mui/material/styles";
 import {TourProvider} from "@reactour/tour";
 import {App2} from "./App2";
-import {createMedia} from "@artsy/fresnel";
 
 export const breakpoints = {
     xs: 0,
-    sm: 400,
+    sm: 430,
     md: 768,
     lg: 1024,
     xl: 1192,
 };
-
-const { MediaContextProvider, Media: FresnelMedia} = createMedia({
-    // breakpoints values can be either strings or integers
-    breakpoints,
-})
-
-export const Media = FresnelMedia;
 
 const theme = createTheme({
     palette: {
@@ -96,34 +87,32 @@ const root = createRoot(container);
 root.render(
     <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
-            <MediaContextProvider>
-                <Auth0Provider
-                    domain={domain}
-                    clientId={clientId}
-                    authorizationParams={{
-                        redirect_uri: window.location.origin,
-                        audience,
-                        scope: "read:current_user update:current_user_metadata"
-                    }}
-                >
-                    <FetchProvider>
-                        <QueryClientProvider client={queryClient}>
-                            <Router>
-                                <TourProvider
-                                    steps={steps}
-                                    badgeContent={({ totalSteps, currentStep }) =>
-                                        `${currentStep + 1}/${totalSteps}`
-                                    }
-                                    styles={{ popover: base => ({ ...base, maxWidth: '600px' }) }}
-                                >
-                                    <App2/>
-                                </TourProvider>
-                            </Router>
-                            <ReactQueryDevtools initialIsOpen={false} />
-                        </QueryClientProvider>
-                    </FetchProvider>
-                </Auth0Provider>
-            </MediaContextProvider>
+            <Auth0Provider
+                domain={domain}
+                clientId={clientId}
+                authorizationParams={{
+                    redirect_uri: window.location.origin,
+                    audience,
+                    scope: "read:current_user update:current_user_metadata"
+                }}
+            >
+                <FetchProvider>
+                    <QueryClientProvider client={queryClient}>
+                        <Router>
+                            <TourProvider
+                                steps={steps}
+                                badgeContent={({totalSteps, currentStep}) =>
+                                    `${currentStep + 1}/${totalSteps}`
+                                }
+                                styles={{popover: base => ({...base, maxWidth: '600px'})}}
+                            >
+                                <App2/>
+                            </TourProvider>
+                        </Router>
+                        <ReactQueryDevtools initialIsOpen={false}/>
+                    </QueryClientProvider>
+                </FetchProvider>
+            </Auth0Provider>
         </ThemeProvider>
     </StyledEngineProvider>
 );

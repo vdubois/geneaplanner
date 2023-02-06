@@ -1,20 +1,17 @@
 import './Profil2.scss';
 import {RetourPageAccueil} from "../commun/RetourPageAccueil";
 import {Onglets} from "./Onglets";
-import {useEffect, useState} from "react";
-import {useAuth0} from "@auth0/auth0-react";
-import {isAdmin} from "../auth0";
+import {useState} from "react";
 import {MotDePasse} from "./mot-de-passe/MotDePasse";
 import {ConfigurationDeLArbre2} from "./arbre/ConfigurationDeLArbre2";
 import {InformationsPersonnelles} from "./InformationsPersonnelles";
-import {Media} from "../index";
+import {breakpoints} from "../index";
+import {createMedia} from "@artsy/fresnel";
 
 export const Profil2 = () => {
-    const {user} = useAuth0();
-    const [userAdmin, setUserAdmin] = useState(false);
     const [ongletActif, setOngletActif] = useState(1);
 
-    const [onglets, setOnglets] = useState([
+    const onglets = [
         {
             valeur: 1,
             libelle: 'Informations personnelles'
@@ -30,50 +27,39 @@ export const Profil2 = () => {
         {
             valeur: 4,
             libelle: 'Stockage des documents'
-        },
-        {
-            valeur: 5,
-            libelle: 'API Google Maps'
-        },
-    ]);
-
-    useEffect(() => {
-        if (user) {
-            const admin = isAdmin(user);
-            setUserAdmin(admin);
-            const ongletArchives = {
-                valeur: 6,
-                libelle: 'Archives'
-            };
-            if (admin && !onglets.some(onglet => onglet.valeur === 6)) {
-                setOnglets([...onglets, ongletArchives]);
-            }
         }
-    }, [user]);
+    ];
 
-    return <main>
-        <Media greaterThanOrEqual="sm">
-            <div className="d-flex flex-column align-items-center gap-2">
-                <div id="profil-entete" className="conteneur-principal d-flex flex-column gap-3 pl-5 pr-5">
-                    <RetourPageAccueil/>
-                    <Onglets
-                        ongletActif={ongletActif}
-                        setOngletActif={setOngletActif}
-                        onglets={onglets}
-                    />
-                    {ongletActif === 1 && <InformationsPersonnelles/>}
-                    {ongletActif === 2 && <MotDePasse/>}
-                    {ongletActif === 3 && <ConfigurationDeLArbre2/>}
+    const {MediaContextProvider, Media} = createMedia({
+        // breakpoints values can be either strings or integers
+        breakpoints,
+    })
+
+    return <MediaContextProvider>
+        <main>
+            <Media greaterThanOrEqual="sm">
+                <div className="d-flex flex-column align-items-center gap-2">
+                    <div id="profil-entete" className="conteneur-principal d-flex flex-column gap-3 pl-5 pr-5">
+                        <RetourPageAccueil/>
+                        <Onglets
+                            ongletActif={ongletActif}
+                            setOngletActif={setOngletActif}
+                            onglets={onglets}
+                        />
+                        {ongletActif === 1 && <InformationsPersonnelles/>}
+                        {ongletActif === 2 && <MotDePasse/>}
+                        {ongletActif === 3 && <ConfigurationDeLArbre2/>}
+                    </div>
                 </div>
-            </div>
-        </Media>
-        <Media lessThan="sm">
-            <div id='profil-entete' className="d-flex flex-column align-items-center gap-5">
-                <RetourPageAccueil/>
-                <InformationsPersonnelles/>
-                <MotDePasse/>
-                <ConfigurationDeLArbre2/>
-            </div>
-        </Media>
-    </main>
+            </Media>
+            <Media lessThan="sm">
+                <div id='profil-entete' className="d-flex flex-column align-items-center gap-5">
+                    <RetourPageAccueil/>
+                    <InformationsPersonnelles/>
+                    <MotDePasse/>
+                    <ConfigurationDeLArbre2/>
+                </div>
+            </Media>
+        </main>
+    </MediaContextProvider>
 }
