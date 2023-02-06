@@ -135,6 +135,14 @@ body {
   padding: .9rem 1.6rem;
   font-size: 1.6rem;
   font-family: "Lato", sans-serif;
+  white-space: nowrap;
+}
+
+@media screen and (max-width: $breakpoint-sm) {
+  .button {
+    max-width: 280px;
+    text-overflow: ellipsis;
+  }
 }
 
 .conteneur-principal {
@@ -184,4 +192,3 @@ input[type=text] {
     border: 1px solid #F5F5F5;
   }
 }
-

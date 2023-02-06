@@ -33,6 +33,7 @@ header {
       flex: 1;
 
       .logo {
+        padding-left: 1rem;
         height: 36px;
         display: inline-block;
         vertical-align: middle;
@@ -180,3 +181,6 @@ header {
   }
 }
 
+#deconnexion {
+  margin-right: 1rem;
+}
