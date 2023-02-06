@@ -7,13 +7,12 @@ import {isAdmin} from "../auth0";
 import {MotDePasse} from "./mot-de-passe/MotDePasse";
 import {ConfigurationDeLArbre2} from "./arbre/ConfigurationDeLArbre2";
 import {InformationsPersonnelles} from "./InformationsPersonnelles";
-import {useMediaQuery} from "@mui/material";
+import {Media} from "../index";
 
 export const Profil2 = () => {
-    const {isAuthenticated, user} = useAuth0();
+    const {user} = useAuth0();
     const [userAdmin, setUserAdmin] = useState(false);
     const [ongletActif, setOngletActif] = useState(1);
-    const isSmallResolution = useMediaQuery('(max-width: 400px)')
 
     const [onglets, setOnglets] = useState([
         {
@@ -53,24 +52,28 @@ export const Profil2 = () => {
     }, [user]);
 
     return <main>
-        {!isSmallResolution && <div className="d-flex flex-column align-items-center gap-2">
-            <div id="profil-entete" className="conteneur-principal d-flex flex-column gap-3 pl-5 pr-5">
-                <RetourPageAccueil/>
-                <Onglets
-                    ongletActif={ongletActif}
-                    setOngletActif={setOngletActif}
-                    onglets={onglets}
-                />
-                {ongletActif === 1 && <InformationsPersonnelles/>}
-                {ongletActif === 2 && <MotDePasse/>}
-                {ongletActif === 3 && <ConfigurationDeLArbre2/>}
+        <Media greaterThanOrEqual="sm">
+            <div className="d-flex flex-column align-items-center gap-2">
+                <div id="profil-entete" className="conteneur-principal d-flex flex-column gap-3 pl-5 pr-5">
+                    <RetourPageAccueil/>
+                    <Onglets
+                        ongletActif={ongletActif}
+                        setOngletActif={setOngletActif}
+                        onglets={onglets}
+                    />
+                    {ongletActif === 1 && <InformationsPersonnelles/>}
+                    {ongletActif === 2 && <MotDePasse/>}
+                    {ongletActif === 3 && <ConfigurationDeLArbre2/>}
+                </div>
             </div>
-        </div>}
-        {isSmallResolution && <div id='profil-entete' className="d-flex flex-column align-items-center gap-5">
-            <RetourPageAccueil/>
-            <InformationsPersonnelles/>
-            <MotDePasse/>
-            <ConfigurationDeLArbre2/>
-        </div>}
+        </Media>
+        <Media lessThan="sm">
+            <div id='profil-entete' className="d-flex flex-column align-items-center gap-5">
+                <RetourPageAccueil/>
+                <InformationsPersonnelles/>
+                <MotDePasse/>
+                <ConfigurationDeLArbre2/>
+            </div>
+        </Media>
     </main>
 }

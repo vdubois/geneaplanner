@@ -7,7 +7,7 @@ import {Bouton} from "../../components/bouton/Bouton";
 import './ConfigurationDeLArbre.scss';
 import {Loader} from "../../components/loader/Loader";
 import {Modal} from "../../components/modal/Modal";
-import {useMediaQuery} from "@mui/material";
+import {Media} from "../../index";
 
 export const ConfigurationDeLArbre2 = () => {
     const {isAuthenticated, user, isLoading} = useAuth0();
@@ -16,7 +16,6 @@ export const ConfigurationDeLArbre2 = () => {
     const [recharger, setRecharger] = useState(false);
     const navigateTo = useNavigate();
     const [fenetreDeConfirmationDeSuppressionOuverte, setFenetreDeConfirmationDeSuppressionOuverte] = useState(false);
-    const isSmallResolution = useMediaQuery('(max-width: 400px)')
 
     const supprimerLArbreEtRecharger = () => {
         supprimerLArbre();
@@ -30,7 +29,9 @@ export const ConfigurationDeLArbre2 = () => {
     return <>
         {(isLoading || individusEnCoursDeChargement || recharger) && <Loader/>}
         {!(isLoading || individusEnCoursDeChargement || recharger) && arbre && arbre?.individus?.length > 0 && <div id="formulaire" className="d-flex flex-column align-items-center">
-            {isSmallResolution && <h3 className='mb-2 texte-principale-3'>Arbre</h3>}
+            <Media lessThan="sm">
+                <h3 className='mb-2 texte-principale-3'>Arbre</h3>
+            </Media>
             <div className="d-flex flex-column gap-1 suppression-arbre">
                 <h3 className='texte-danger'>Supprimer cet arbre</h3>
                 <span>Votre arbre généalogique : <strong>{arbre.individus.length} individus</strong>, dernière mise à jour <strong>{dateAsString(arbre.date)}</strong>.</span>

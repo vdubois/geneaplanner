@@ -6,6 +6,7 @@ import {Loader} from "../components/loader/Loader";
 import {useInformationsPersonnelles, useModifierInformationsPersonnelles} from "../api/informationsPersonnelles.hooks";
 import {tailleInput} from "../commun/tailleInput";
 import {useMediaQuery} from "@mui/material";
+import {breakpoints, Media} from "../index";
 
 export const InformationsPersonnelles = () => {
     const {isLoading, user} = useAuth0();
@@ -15,7 +16,7 @@ export const InformationsPersonnelles = () => {
     const [nom, setNom] = useState('');
     const [prenom, setPrenom] = useState('');
     const [formulaireValide, setFormulaireValide] = useState(false);
-    const isSmallResolution = useMediaQuery('(max-width: 400px)')
+    const isSmallResolution = useMediaQuery(`(max-width: ${breakpoints.sm}px)`)
 
     const mettreAJour = async () => {
         await enregistrerLaModificationDesInformationsPersonnelles({
@@ -51,7 +52,9 @@ export const InformationsPersonnelles = () => {
     return <>
         {(isLoading || enCoursDeChargement) && <Loader/>}
         {!isLoading && !enCoursDeChargement && <div className={"d-flex flex-column gap-1 personnelles" + (isSmallResolution ? ' align-items-center' : '')}>
-            {isSmallResolution && <h3 className='mb-2 texte-principale-3'>Informations personnelles</h3>}
+            <Media lessThan="sm">
+                <h3 className='mb-2 texte-principale-3'>Informations personnelles</h3>
+            </Media>
             <div className='d-flex flex-column gap-1'>
                 <span className='libelle-champ'>Nom<span className='texte-danger'>&#160;*</span></span>
                 <input
