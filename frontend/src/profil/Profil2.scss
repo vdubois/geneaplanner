@@ -1,24 +1,24 @@
-@import "../commun/bootstrap-mixins";
-@import "../commun/colors.scss";
+@import "../commun/colors";
+@import "../commun/variables";
 
 #profil-entete {
   margin-top: -30px;
 
-  @include media-breakpoint-down(lg) {
+  @media screen and (max-width: $breakpoint-lg) {
     margin-top: -64px;
   }
 
-  @include media-breakpoint-down(sm) {
+  @media screen and (max-width: $breakpoint-sm) {
     margin-top: -30px;
   }
 
   padding: 3.4rem 2rem 4rem;
 
-  @include media-breakpoint-up(sm) {
+  @media screen and (min-width: $breakpoint-sm) {
     padding: 3.4rem 4rem 4rem;
   }
 
-  @include media-breakpoint-up(lg) {
+  @media screen and (min-width: $breakpoint-lg) {
     padding: 3.4rem 2rem 4rem;
   }
 
