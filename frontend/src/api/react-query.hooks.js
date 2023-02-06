@@ -1,5 +1,5 @@
 import {useAuth0} from "@auth0/auth0-react";
-import {useMutation, useQuery, useQueryClient} from "react-query";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {BACKEND_URL} from "./api";
 import jwt_decode from "jwt-decode";
 

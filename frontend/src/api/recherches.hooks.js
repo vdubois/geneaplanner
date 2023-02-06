@@ -1,13 +1,13 @@
 import {useDeleteMutationWithAuth, usePostMutationWithAuth, useQueryWithAuth} from './react-query.hooks';
 
 export const useRecherches = (enabled) => {
-  const { isLoading, error, data } = useQueryWithAuth(
-    "recherches",
+  const { isInitialLoading, error, data } = useQueryWithAuth(
+    ["recherches"],
     `/utilisateurs/[email]/recherches`,
     enabled
   );
   return {
-    recherchesEnCoursDeChargement: isLoading,
+    recherchesEnCoursDeChargement: isInitialLoading,
     recherchesEnErreur: error,
     recherches: data
   };

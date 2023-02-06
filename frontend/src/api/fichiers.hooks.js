@@ -8,26 +8,26 @@ export const useConnexionFichiers = () =>
     usePostMutationWithAuth(`/fichiers/[email]`, ['fichiers'])
 
 export const useParametrageFichiers = (enabled) => {
-    const { isLoading, error, data } = useQueryWithAuth(
-        "fichiers",
+    const { isInitialLoading, error, data } = useQueryWithAuth(
+        ["fichiers"],
         `/fichiers/[email]`,
         enabled
     );
     return {
-        parametrageFichiersEnCoursDeChargement: isLoading,
+        parametrageFichiersEnCoursDeChargement: isInitialLoading,
         parametrageFichiersEnErreur: error,
         parametrageFichiers: data
     };
 }
 
 export const useFichiers = (identifiantIndividu, enabled) => {
-    const { isLoading, error, data } = useQueryWithAuth(
+    const { isInitialLoading, error, data } = useQueryWithAuth(
         ["fichiersIndividu", identifiantIndividu],
         `/arbres/[email]/fichiers/${identifiantIndividu}`,
         enabled
     );
     return {
-        fichiersEnCoursDeChargement: isLoading,
+        fichiersEnCoursDeChargement: isInitialLoading,
         fichiersEnErreur: error,
         fichiers: data
     };

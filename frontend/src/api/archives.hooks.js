@@ -6,13 +6,13 @@ import {
 } from './react-query.hooks';
 
 export const useArchives = (enabled) => {
-  const { isLoading, error, data } = useQueryWithAuth(
-    "archives",
+  const { isInitialLoading, error, data } = useQueryWithAuth(
+    ["archives"],
     `/utilisateurs/[email]/archives`,
     enabled
   );
   return {
-    archivesEnCoursDeChargement: isLoading,
+    archivesEnCoursDeChargement: isInitialLoading,
     archivesEnErreur: error,
     archives: data
   };
@@ -28,13 +28,13 @@ export const useSupprimerArchive = (identifiantArchive) =>
   useDeleteMutationWithAuth(`/utilisateurs/[email]/archives/${identifiantArchive}`, ['archives']);
 
 export const useDetailArchives = (identifiantArchives, enabled) => {
-  const { isLoading, error, data } = useQueryWithAuth(
+  const { isInitialLoading, error, data } = useQueryWithAuth(
     ["archives", identifiantArchives],
     `/utilisateurs/[email]/archives/${identifiantArchives}`,
     enabled
   );
   return {
-    archivesEnCoursDeChargement: isLoading,
+    archivesEnCoursDeChargement: isInitialLoading,
     archivesEnErreur: error,
     archives: data
   };

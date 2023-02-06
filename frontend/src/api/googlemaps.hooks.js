@@ -4,13 +4,13 @@ export const useEnregistrerGoogleMapsApiKey = () =>
     usePostMutationWithAuth(`/googlemaps/[email]`, ['googlemaps'])
 
 export const useParametrageGoogleMapsApiKey = (enabled) => {
-    const { isLoading, error, data } = useQueryWithAuth(
-        "googlemaps",
+    const { isInitialLoading, error, data } = useQueryWithAuth(
+        ["googlemaps"],
         `/googlemaps/[email]`,
         enabled
     );
     return {
-        apiKeyEnCoursDeChargement: isLoading,
+        apiKeyEnCoursDeChargement: isInitialLoading,
         apiKeyEnErreur: error,
         apiKey: data
     };

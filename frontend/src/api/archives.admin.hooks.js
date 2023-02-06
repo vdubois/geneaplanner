@@ -6,13 +6,13 @@ import {
 } from './react-query.hooks';
 
 export const useAdminArchives = (enabled) => {
-  const { isLoading, error, data } = useQueryWithAuth(
-    "archives-admin",
+  const { isInitialLoading, error, data } = useQueryWithAuth(
+    ["archives-admin"],
     `/utilisateurs/[email]/modeles-archives`,
     enabled
   );
   return {
-    archivesEnCoursDeChargement: isLoading,
+    archivesEnCoursDeChargement: isInitialLoading,
     archivesEnErreur: error,
     archives: data
   };
