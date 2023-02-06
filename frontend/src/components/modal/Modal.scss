@@ -34,7 +34,7 @@
   flex-direction: column;
 }
 
-@media screen and (max-width: 430px) {
+@media screen and (max-width: $breakpoint-sm) {
   .modal {
     min-width: 100%;
     width: 100vw;
@@ -51,7 +51,7 @@
   justify-content: center;
 }
 
-@media screen and (max-width: 430px) {
+@media screen and (max-width: $breakpoint-sm) {
   .modalHeader {
     height: 10rem;
     display: flex;
@@ -88,7 +88,7 @@
   width: 100%;
 }
 
-@media screen and (max-width: 430px) {
+@media screen and (max-width: $breakpoint-sm) {
   .modalActions {
     height: 10rem;
     display: flex;
