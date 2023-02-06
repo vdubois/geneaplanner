@@ -1,6 +1,6 @@
 import './Bandeau.scss';
 
-export const Bandeau = ({retournerVersLaPageDAccueil, prenom, nomComplet, accederAuProfil, meDeconnecter}) => {
+export const Bandeau = ({retournerVersLaPageDAccueil, titre, nomComplet, accederAuProfil, meDeconnecter}) => {
     return <header>
         <div className="content">
             <div className="top">
@@ -10,7 +10,7 @@ export const Bandeau = ({retournerVersLaPageDAccueil, prenom, nomComplet, accede
                 src="/logo.png"/>
             </div>
             <div id="titre-page">
-                <span className="message">Bonjour {prenom} !</span>
+                <span className="message">{titre}</span>
             </div>
             <div className="top right">
                 <div className="actions">

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import './App.scss';
-import {Route, Routes, useNavigate} from "react-router-dom";
+import {Route, Routes, useLocation, useNavigate} from "react-router-dom";
 import {Bandeau} from "./commun/Bandeau";
 import {useAuth0} from "@auth0/auth0-react";
 import {Profil2} from "./profil/Profil2";
@@ -21,6 +21,9 @@ export const App2 = () => {
     const [prenom, setPrenom] = useState('');
     const [afficherSucces, setAfficherSucces] = useState(false);
     const navigateTo = useNavigate();
+    const location = useLocation();
+    const [titre, setTitre] = useState('');
+    const [nomComplet, setNomComplet] = useState('');
 
     useEffect(() => {
         if (!isAuthenticated && !isLoading) {
@@ -40,6 +43,26 @@ export const App2 = () => {
         }
     }, [renseignerLesInformationsPersonnelles])
 
+    useEffect(() => {
+        if (location.pathname.includes('/profil')) {
+            setTitre('Mes paramètres');
+        } else {
+            if (!informationsPersonnelles?.nom && !informationsPersonnelles?.prenom) {
+                setTitre(`Bonjour ${!user?.given_name ? user?.given_name : user?.name} !`);
+            } else if (informationsPersonnelles?.nom && informationsPersonnelles?.prenom) {
+                setTitre(`Bonjour ${informationsPersonnelles.prenom} !`);
+            }
+        }
+    }, [location, informationsPersonnelles, user]);
+
+    useEffect(() => {
+        if (!informationsPersonnelles?.nom && !informationsPersonnelles?.prenom) {
+            setNomComplet(user?.name);
+        } else if (informationsPersonnelles?.nom && informationsPersonnelles?.prenom) {
+            setNomComplet(informationsPersonnelles.prenom + ' ' + informationsPersonnelles.nom);
+        }
+    }, [informationsPersonnelles, user]);
+
     const enregistrer = async () => {
         try {
             await modifierInformationsPersonnelles({
@@ -56,20 +79,13 @@ export const App2 = () => {
         <>
             {(isLoading || enCoursDeChargement) && <div className='d-flex justify-content-center align-items-center' style={{width: '100%', height: '100vh'}}><Loader/></div>}
             {!isLoading && !enCoursDeChargement && <>
-                {!informationsPersonnelles?.nom && !informationsPersonnelles?.prenom && <Bandeau
+                <Bandeau
                     meDeconnecter={() => logout()}
                     retournerVersLaPageDAccueil={() => navigateTo('/')}
-                    prenom={user?.given_name ? user?.given_name : user?.name}
-                    nomComplet={user?.name}
+                    titre={titre}
+                    nomComplet={nomComplet}
                     accederAuProfil={() => navigateTo('/profil')}
-                />}
-                {informationsPersonnelles?.nom && informationsPersonnelles?.prenom && <Bandeau
-                    meDeconnecter={() => logout()}
-                    retournerVersLaPageDAccueil={() => navigateTo('/')}
-                    prenom={informationsPersonnelles.prenom}
-                    nomComplet={informationsPersonnelles.prenom + ' ' + informationsPersonnelles.nom}
-                    accederAuProfil={() => navigateTo('/profil')}
-                />}
+                />
             </>}
             {renseignerLesInformationsPersonnelles && <Modal
                 titre='Bienvenue !'
