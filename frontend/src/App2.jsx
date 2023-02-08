@@ -11,6 +11,8 @@ import {Modal} from "./components/modal/Modal";
 import {tailleInput} from "./commun/tailleInput";
 import 'animate.css';
 import {Checkmark} from "./components/Checkmark";
+import {useMediaQuery} from "@mui/material";
+import {breakpoints} from "./index";
 
 export const App2 = () => {
     const { user, isAuthenticated, isLoading, loginWithRedirect, logout } = useAuth0();
@@ -24,6 +26,7 @@ export const App2 = () => {
     const location = useLocation();
     const [titre, setTitre] = useState('');
     const [nomComplet, setNomComplet] = useState('');
+    const isSmallResolution = useMediaQuery(`(max-width: ${breakpoints.sm}px)`)
 
     useEffect(() => {
         if (!isAuthenticated && !isLoading) {
@@ -103,7 +106,7 @@ export const App2 = () => {
                             <input
                                 id='nom'
                                 type='text'
-                                style={{width: tailleInput('400px')}}
+                                style={{width: tailleInput(isSmallResolution ? '280px' : '400px')}}
                                 value={nom}
                                 autoComplete='new-password'
                                 onChange={(event) => setNom(event.target.value)}
@@ -114,7 +117,7 @@ export const App2 = () => {
                             <input
                                 id='prenom'
                                 type='text'
-                                style={{width: tailleInput('400px')}}
+                                style={{width: tailleInput(isSmallResolution ? '280px' : '400px')}}
                                 value={prenom}
                                 autoComplete='new-password'
                                 onChange={(event) => setPrenom(event.target.value)}

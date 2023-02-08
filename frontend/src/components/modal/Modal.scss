@@ -83,6 +83,13 @@
   text-align: center;
 }
 
+@media screen and (max-width: $breakpoint-sm) {
+  .modalContent {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}
+
 .modalActions {
   bottom: 2px;
   width: 100%;

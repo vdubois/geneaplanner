@@ -39,7 +39,7 @@ export const Modal = ({setIsOpen, titre, actionDisabled = false, action, childre
                     </div>
                     <div className='modalActions mt-2'>
                         <div className='actionsContainer'>
-                            {variant != 'close' && <>
+                            {variant !== 'close' && <>
                                 <Bouton
                                     libelle='Valider'
                                     disabled={actionDisabled}
@@ -52,7 +52,7 @@ export const Modal = ({setIsOpen, titre, actionDisabled = false, action, childre
                                     variante='secondaire'
                                     onClick={() => setIsOpen(false)}/>}
                             </>}
-                            {variant == 'close' && <Bouton
+                            {variant === 'close' && <Bouton
                                 libelle='Fermer'
                                 onClick={() => setIsOpen(false)} />
                             }
