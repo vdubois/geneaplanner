@@ -7,8 +7,8 @@ import {Bouton} from "../../components/bouton/Bouton";
 import './ConfigurationDeLArbre.scss';
 import {Loader} from "../../components/loader/Loader";
 import {Modal} from "../../components/modal/Modal";
+import {useMediaQuery} from "../../hooks/useMediaQuery";
 import {breakpoints} from "../../index";
-import {createMedia} from "@artsy/fresnel";
 
 export const ConfigurationDeLArbre2 = () => {
     const {isAuthenticated, user, isLoading} = useAuth0();
@@ -17,10 +17,7 @@ export const ConfigurationDeLArbre2 = () => {
     const [recharger, setRecharger] = useState(false);
     const navigateTo = useNavigate();
     const [fenetreDeConfirmationDeSuppressionOuverte, setFenetreDeConfirmationDeSuppressionOuverte] = useState(false);
-    const {MediaContextProvider, Media} = createMedia({
-        // breakpoints values can be either strings or integers
-        breakpoints,
-    })
+    const isSmallResolution = useMediaQuery(`(max-width: ${breakpoints.sm}px)`)
 
     const supprimerLArbreEtRecharger = () => {
         supprimerLArbre();
@@ -31,12 +28,10 @@ export const ConfigurationDeLArbre2 = () => {
         setRecharger(false);
     }, [arbre]);
 
-    return <MediaContextProvider>
+    return <>
         {(isLoading || individusEnCoursDeChargement || recharger) && <Loader/>}
         {!(isLoading || individusEnCoursDeChargement || recharger) && arbre && arbre?.individus?.length > 0 && <div id="formulaire" className="d-flex flex-column align-items-center">
-            <Media lessThan="sm">
-                <h3 className='mb-2 texte-principale-3'>Arbre</h3>
-            </Media>
+            {isSmallResolution && <h3 className='mb-2 texte-principale-3'>Arbre</h3>}
             <div className="d-flex flex-column gap-1 suppression-arbre">
                 <h3 className='texte-danger'>Supprimer cet arbre</h3>
                 <span>Votre arbre généalogique : <strong>{arbre.individus.length} individus</strong>, dernière mise à jour <strong>{dateAsString(arbre.date)}</strong>.</span>
@@ -62,5 +57,5 @@ export const ConfigurationDeLArbre2 = () => {
         >
             &Ecirc;tes-vous s&ucirc;r(e) de vouloir supprimer votre arbre ?<br/>Les donn&eacute;es rattach&eacute;es pourraient ne plus &ecirc;tre exploitables.
         </Modal>}
-    </MediaContextProvider>
+    </>
 }

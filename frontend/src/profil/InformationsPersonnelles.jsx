@@ -5,9 +5,8 @@ import {useAuth0} from "@auth0/auth0-react";
 import {Loader} from "../components/loader/Loader";
 import {useInformationsPersonnelles, useModifierInformationsPersonnelles} from "../api/informationsPersonnelles.hooks";
 import {tailleInput} from "../commun/tailleInput";
-import {useMediaQuery} from "@mui/material";
 import {breakpoints} from "../index";
-import {createMedia} from "@artsy/fresnel";
+import {useMediaQuery} from "../hooks/useMediaQuery";
 
 export const InformationsPersonnelles = () => {
     const {isLoading, user} = useAuth0();
@@ -18,10 +17,6 @@ export const InformationsPersonnelles = () => {
     const [prenom, setPrenom] = useState('');
     const [formulaireValide, setFormulaireValide] = useState(false);
     const isSmallResolution = useMediaQuery(`(max-width: ${breakpoints.sm}px)`)
-    const {MediaContextProvider, Media} = createMedia({
-        // breakpoints values can be either strings or integers
-        breakpoints,
-    })
 
     const mettreAJour = async () => {
         await enregistrerLaModificationDesInformationsPersonnelles({
@@ -54,12 +49,10 @@ export const InformationsPersonnelles = () => {
         }
     }, [informationsPersonnelles, user]);
 
-    return <MediaContextProvider>
+    return <>
         {(isLoading || enCoursDeChargement) && <Loader/>}
         {!isLoading && !enCoursDeChargement && <div className={"d-flex flex-column gap-1 personnelles" + (isSmallResolution ? ' align-items-center' : '')}>
-            <Media lessThan="sm">
-                <h3 className='mb-2 texte-principale-3'>Informations personnelles</h3>
-            </Media>
+            {isSmallResolution && <h3 className='mb-2 texte-principale-3'>Informations personnelles</h3>}
             <div className='d-flex flex-column gap-1'>
                 <span className='libelle-champ'>Nom<span className='texte-danger'>&#160;*</span></span>
                 <input
@@ -108,5 +101,5 @@ export const InformationsPersonnelles = () => {
                     libelle='Annuler'/>
             </div>}
         </div>}
-    </MediaContextProvider>;
+    </>;
 }

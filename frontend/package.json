@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@artsy/fresnel": "6.1.0",
     "@auth0/auth0-react": "2.0.0",
     "@auth0/auth0-spa-js": "2.0.3",
     "@emotion/react": "11.10.5",

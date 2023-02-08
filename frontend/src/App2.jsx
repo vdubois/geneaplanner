@@ -11,8 +11,8 @@ import {Modal} from "./components/modal/Modal";
 import {tailleInput} from "./commun/tailleInput";
 import 'animate.css';
 import {Checkmark} from "./components/Checkmark";
-import {useMediaQuery} from "@mui/material";
 import {breakpoints} from "./index";
+import {useMediaQuery} from "./hooks/useMediaQuery";
 
 export const App2 = () => {
     const { user, isAuthenticated, isLoading, loginWithRedirect, logout } = useAuth0();
@@ -99,7 +99,7 @@ export const App2 = () => {
                 animation='zoomIn'
             >
                 <div className="d-flex flex-column gap-1 personnelles">
-                    <h3 className='texte-principale-4 mb-2'>Afin de personnaliser au mieux votre exp&eacute;rience, veuillez tout d'abord renseigner vos informations personnelles :</h3>
+                    <h3 className='texte-principale-4 mb-2 texte-centre'>Afin de personnaliser au mieux votre exp&eacute;rience, veuillez tout d'abord renseigner vos informations personnelles :</h3>
                     <div className='d-flex flex-column align-items-center gap-1'>
                         <div className='d-flex flex-column gap-1'>
                             <span className='libelle-champ'>Nom<span className='texte-danger'>&#160;*</span></span>
