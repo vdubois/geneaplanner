@@ -49,13 +49,14 @@ export const ConfigurationDeLArbre2 = () => {
                 variante='secondaire'
                 onClick={() => navigateTo('/importer-un-fichier-gedcom')}/>
         </div>}
-        {fenetreDeConfirmationDeSuppressionOuverte && <Modal
+        <Modal
+            open={fenetreDeConfirmationDeSuppressionOuverte}
             titre='Confirmer la suppression'
             setIsOpen={setFenetreDeConfirmationDeSuppressionOuverte}
             action={supprimerLArbreEtRecharger}
             animation='zoomIn'
         >
             &Ecirc;tes-vous s&ucirc;r(e) de vouloir supprimer votre arbre ?<br/>Les donn&eacute;es rattach&eacute;es pourraient ne plus &ecirc;tre exploitables.
-        </Modal>}
+        </Modal>
     </>
 }

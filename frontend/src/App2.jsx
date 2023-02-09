@@ -32,18 +32,21 @@ export const App2 = () => {
         if (!isAuthenticated && !isLoading) {
             loginWithRedirect();
         }
-    });
+        console.log('useEffect 1')
+    }, [isAuthenticated, isLoading]);
 
     useEffect(() => {
         if (!isLoading && !enCoursDeChargement && !informationsPersonnelles?.nom && !informationsPersonnelles?.prenom) {
             setRenseignerLesInformationsPersonnelles(true);
         }
+        console.log('useEffect 2')
     }, [isLoading, enCoursDeChargement, informationsPersonnelles]);
 
     useEffect(() => {
         if (renseignerLesInformationsPersonnelles) {
-            document.getElementById('nom').focus();
+            document.getElementById('nom')?.focus();
         }
+        console.log('useEffect 3')
     }, [renseignerLesInformationsPersonnelles])
 
     useEffect(() => {
@@ -51,11 +54,12 @@ export const App2 = () => {
             setTitre('Mes paramètres');
         } else {
             if (!informationsPersonnelles?.nom && !informationsPersonnelles?.prenom) {
-                setTitre(`Bonjour ${!user?.given_name ? user?.given_name : user?.name} !`);
+                setTitre(`Bonjour ${(!user?.given_name ? user?.given_name : user?.name) || ''} !`);
             } else if (informationsPersonnelles?.nom && informationsPersonnelles?.prenom) {
-                setTitre(`Bonjour ${informationsPersonnelles.prenom} !`);
+                setTitre(`Bonjour ${informationsPersonnelles.prenom || ''} !`);
             }
         }
+        console.log('useEffect 4')
     }, [location, informationsPersonnelles, user]);
 
     useEffect(() => {
@@ -64,13 +68,14 @@ export const App2 = () => {
         } else if (informationsPersonnelles?.nom && informationsPersonnelles?.prenom) {
             setNomComplet(informationsPersonnelles.prenom + ' ' + informationsPersonnelles.nom);
         }
+        console.log('useEffect 5')
     }, [informationsPersonnelles, user]);
 
     const enregistrer = async () => {
         try {
             await modifierInformationsPersonnelles({
-                nom: 'DURAND',
-                prenom: 'David'
+                nom,
+                prenom
             });
             setAfficherSucces(true);
         } catch (e) {
@@ -90,13 +95,13 @@ export const App2 = () => {
                     accederAuProfil={() => navigateTo('/profil')}
                 />
             </>}
-            {renseignerLesInformationsPersonnelles && <Modal
+            <Modal
+                open={renseignerLesInformationsPersonnelles}
                 titre='Bienvenue !'
                 actionDisabled={!nom || !prenom}
                 setIsOpen={setRenseignerLesInformationsPersonnelles}
                 action={enregistrer}
                 canClose={false}
-                animation='zoomIn'
             >
                 <div className="d-flex flex-column gap-1 personnelles">
                     <h3 className='texte-principale-4 mb-2 texte-centre'>Afin de personnaliser au mieux votre exp&eacute;rience, veuillez tout d'abord renseigner vos informations personnelles :</h3>
@@ -125,8 +130,9 @@ export const App2 = () => {
                         </div>
                     </div>
                 </div>
-            </Modal>}
-            {afficherSucces && <Modal
+            </Modal>
+            <Modal
+                open={afficherSucces}
                 titre='Merci !'
                 variant='close'
                 setIsOpen={setAfficherSucces}
@@ -135,7 +141,7 @@ export const App2 = () => {
                     <Checkmark/>
                     <h3 className='texte-principale-4 texte-centre mb-1'>Vos informations ont &eacute;t&eacute; prises en compte, vous pouvez d&egrave;s &agrave; pr&eacute;sent profiter des fonctionnalit&eacute;s de G&eacute;n&eacute;aplanner.</h3>
                 </div>
-            </Modal>}
+            </Modal>
             <Routes>
                 <Route exact path="/" element={<></>}/>
                 <Route exact path="/accueil" element={<></>}/>
