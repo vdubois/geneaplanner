@@ -11,7 +11,7 @@ When(/^je me connecte avec "(.*)" et "(.*)"$/, (login: string, motDePasse: strin
     cy.origin('https://geneaplanner.eu.auth0.com', { args: {login, motDePasse} }, ({login, motDePasse}) => {
         cy.get(`#username`).then(element => element.val(login))
         cy.get('#password').then(element => element.val(motDePasse))
-        cy.get("body > div > main > section > div > div > div > form > div.c3082a2a5 > button").click()
+        cy.get("body > div > main > section > div > div > div > form > div > button").click()
     })
 })
 
