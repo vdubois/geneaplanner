@@ -5,7 +5,7 @@
   "main": "handler.js",
   "scripts": {
     "test": "vitest --coverage",
-    "test-watch": "vitest --ui",
+    "test-ui": "vitest --ui",
     "deploy-dev": "sls deploy --stage=dev",
     "postdeploy-dev": "STAGE=dev AWS_REGION=eu-west-3 serverless migrations up",
     "deploy-prod": "sls deploy --stage=prod",
