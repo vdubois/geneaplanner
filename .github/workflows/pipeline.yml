@@ -1,0 +1,53 @@
+name: Généaplanner pipeline
+
+on:
+  push:
+    branches:
+      - 'master'
+
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+      -
+        name: Setup Node JS
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.18.x
+          cache: npm
+      -
+        name: Build backend
+        run: |
+          npm install
+          npm test
+        working-directory: backend
+      -
+        name: Build frontend
+        run: |
+          npm install --force
+          npm run build
+        working-directory: frontend
+      -
+        name: Deploy backend on dev
+        run: npm run deploy-dev
+        working-directory: backend
+      -
+        name: Deploy frontend on dev
+        run: npm run deploy-dev
+        working-directory: frontend
+      -
+        name: Run end-to-end tests
+        uses: cypress-io/github-action@v5
+        env:
+          CYPRESS_BASE_URL: https://geneaplanner-dev.surge.sh
+          CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
+        with:
+          browser: chrome
+        working-directory: e2e
+      -
+        name: Deploy backend on prod
+        run: npm run deploy-prod
+        working-directory: backend
