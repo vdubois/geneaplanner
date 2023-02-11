@@ -8,7 +8,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import classNames from "classnames";
 import {useEffect} from "react";
 
-export const Modal = ({ open, setIsOpen, titre, actionDisabled = false, action, children, canClose = true, variant = '', animation = 'zoomIn' }) => {
+export const Modal = ({ open, setIsOpen, titre, actionDisabled = false, action, children, canClose = true, variant = 'validate-cancel', animation = 'zoomIn' }) => {
     const isSmallXResolution = useMediaQuery(`(max-width: ${breakpoints.sm}px)`);
     const isSmallYResolution = useMediaQuery(`(max-height: ${breakpoints.sm}px)`);
 
@@ -35,10 +35,6 @@ export const Modal = ({ open, setIsOpen, titre, actionDisabled = false, action, 
             </DialogTitle>
         );
     }
-
-    useEffect(() => {
-        console.log(isSmallXResolution || isSmallYResolution);
-    }, []);
 
     const handleClose = () => {
         if (canClose) {
@@ -73,8 +69,8 @@ export const Modal = ({ open, setIsOpen, titre, actionDisabled = false, action, 
             <DialogContent className='modalContent'>
                 {children}
             </DialogContent>
-            <DialogActions className='modalActions'>
-                {variant !== 'close' && <>
+            <DialogActions className={variant !== 'no-action' ? 'modalActions' : ''}>
+                {variant === 'validate-cancel' && <>
                     <Bouton
                         libelle='Valider'
                         disabled={actionDisabled}

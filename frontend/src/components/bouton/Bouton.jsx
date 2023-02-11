@@ -1,7 +1,7 @@
 import './Bouton.scss';
 import classNames from "classnames";
 
-export const Bouton = ({id, libelle, onClick, disabled = false, variante = 'principale', taille}) => {
+export const Bouton = ({id, libelle, onClick, disabled = false, variante = 'principale', taille, children}) => {
     return <button
         id={id}
         className={classNames('button', variante)}
@@ -9,5 +9,5 @@ export const Bouton = ({id, libelle, onClick, disabled = false, variante = 'prin
         style={{
             maxWidth: taille ? taille : ''
         }}
-        disabled={disabled}>{libelle}</button>
+        disabled={disabled}>{libelle}{children}</button>
 }
