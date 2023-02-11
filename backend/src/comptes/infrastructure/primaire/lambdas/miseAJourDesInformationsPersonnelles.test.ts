@@ -1,3 +1,5 @@
+import { expect, test, describe } from 'vitest'
+
 import {handler as miseAJourDesInformationsPersonnelles} from "./miseAJourDesInformationsPersonnelles";
 import {
     event,

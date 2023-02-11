@@ -1,3 +1,4 @@
+import { expect, test, describe, afterEach } from 'vitest'
 import {handler as recuperationDesInformationsPersonnelles} from "./recuperationDesInformationsPersonnelles";
 import {event} from "../../../../commun/infrastructure/primaire/event";
 import {inject} from "typescript-inject";

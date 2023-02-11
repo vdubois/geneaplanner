@@ -43,7 +43,7 @@ if (process.env.PROD) {
 //register('AjoutDUnModeleDArchives', () => new AjoutDUnModeleDArchives(new ModelesDArchivesDynamoDB(dynamoDBRepository)));
 //register('ModificationDUnModeleDArchives', () => new ModificationDUnModeleDArchives(new ModelesDArchivesDynamoDB(dynamoDBRepository)));
 //register('SuppressionDUnModeleDArchives', () => new SuppressionDUnModeleDArchives(new ModelesDArchivesDynamoDB(dynamoDBRepository)));
-//register('PublicationDeLArbreDUnCompte', () => new PublicationDeLArbreDUnCompte(new ArbresAWS(espaceDeStockageDesFichiersGEDCOM, dynamoDBRepository)));
+    register('PublicationDeLArbreDUnCompte', () => new PublicationDeLArbreDUnCompte(new ArbresAWS(s3StorageService, dynamoDBRepository)));
 //register('DefinitionDeLaRacineDeLArbreDUnCompte', () => new DefinitionDeLaRacineDeLArbreDUnCompte(new ArbresAWS(espaceDeStockageDesFichiersGEDCOM, dynamoDBRepository)));
     register('SuppressionDeLArbreDUnCompte', () => new SuppressionDeLArbreDUnCompte(new ArbresAWS(s3StorageService, dynamoDBRepository)));
     register('MiseAJourDesInformationsPersonnelles', () => new MiseAJourDesInformationsPersonnelles(new ComptesDynamoDB(dynamoDBRepository)));

@@ -11,8 +11,12 @@ export class PublicationDeLArbreDUnCompte implements UseCase<PublierLArbreDUnCom
     }
 
     async executer(commande: PublierLArbreDUnCompte): Promise<ResultatDeCommande<Array<Individu>, Irregularite>> {
-        const individusDeLArbre = await this.arbres.publier(commande.identifiantDuCompte, commande.arbre);
-        return ResultatDeCommande.succes(individusDeLArbre, new UnArbreAEtePublie(commande.identifiantDuCompte));
+        try {
+            const individusDeLArbre = await this.arbres.publier(commande.identifiantDuCompte, commande.arbre);
+            return ResultatDeCommande.succes(individusDeLArbre, new UnArbreAEtePublie(commande.identifiantDuCompte));
+        } catch (erreur) {
+            return ResultatDeCommande.irregularite(erreur as unknown as Irregularite);
+        }
     }
 }
 
