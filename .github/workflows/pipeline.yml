@@ -46,7 +46,7 @@ jobs:
           CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
         with:
           browser: chrome
-        working-directory: e2e
+          working-directory: e2e
       -
         name: Deploy backend on prod
         run: npm run deploy-prod
