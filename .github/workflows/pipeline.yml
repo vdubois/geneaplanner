@@ -11,7 +11,7 @@ jobs:
     steps:
       -
         name: Test
-        run: echo var ${{ env.MY_VAR }}
+        run: echo var ${{ vars.MY_VAR }}
       -
         name: Checkout
         uses: actions/checkout@v2
