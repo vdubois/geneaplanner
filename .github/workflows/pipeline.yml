@@ -16,7 +16,7 @@ jobs:
         name: Setup Node JS
         uses: actions/setup-node@v3
         with:
-          node-version: 16.18.x
+          node-version: 16.18.11
       -
         name: Build backend
         run: |
