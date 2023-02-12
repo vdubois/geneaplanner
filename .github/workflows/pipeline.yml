@@ -52,6 +52,8 @@ jobs:
         env:
           CYPRESS_BASE_URL: https://geneaplanner-dev.surge.sh
           CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
+          AUTH0_API_CLIENT_ID: ${{ secrets.AUTH0_API_CLIENT_ID }}
+          AUTH0_API_CLIENT_SECRET: ${{ secrets.AUTH0_API_CLIENT_SECRET }}
         with:
           browser: chrome
           working-directory: e2e
