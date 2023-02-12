@@ -28,11 +28,5 @@
   },
   "engines": {
     "node": ">=16.18.11"
-  },
-  "cypress-cucumber-preprocessor": {
-    "json": {
-      "enabled": true,
-      "output": "./cypress/reports/cucumber-report.json"
-    }
   }
 }
