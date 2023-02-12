@@ -10,61 +10,53 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       -
-        name: Echo
+        name: Checkout
+        uses: actions/checkout@v2
+      -
+        name: Setup Node JS
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.18.x
+      -
+        name: Build backend
         run: |
-          echo "The GitHub Action Secret will be masked:  "
-          echo ${{ secrets.SURGE_LOGIN }}
-#      -
-#        name: Test
-#        run: echo var ${{ vars.MY_VAR }}
-#      -
-#        name: Checkout
-#        uses: actions/checkout@v2
-#      -
-#        name: Setup Node JS
-#        uses: actions/setup-node@v3
-#        with:
-#          node-version: 16.18.x
-#      -
-#        name: Build backend
-#        run: |
-#          npm install
-#          npm test
-#        working-directory: backend
-#      -
-#        name: Build frontend
-#        run: |
-#          npm install --force
-#          npm run build
-#        working-directory: frontend
-#      -
-#        name: Deploy backend on dev
-#        run: npm run deploy-dev
-#        env:
-#          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#        working-directory: backend
-#      -
-#        name: Deploy frontend on dev
-#        run: npm run deploy-dev
-#        env:
-#          OAUTH0_DEV_CLIENT_ID: ${{ secrets.OAUTH0_DEV_CLIENT_ID }}
-#          SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
-#          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
-#        working-directory: frontend
-#      -
-#        name: Run end-to-end tests
-#        uses: cypress-io/github-action@v5
-#        env:
-#          CYPRESS_BASE_URL: https://geneaplanner-dev.surge.sh
-#          CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
-#        with:
-#          browser: chrome
-#          working-directory: e2e
-#      -
-#        name: Deploy backend on prod
-#        run: npm run deploy-prod
-#        env:
-#          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#        working-directory: backend
+          npm install
+          npm test
+        working-directory: backend
+      -
+        name: Build frontend
+        run: |
+          npm install --force
+          npm run build
+        working-directory: frontend
+      -
+        name: Deploy backend on dev
+        run: npm run deploy-dev
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        working-directory: backend
+      -
+        name: Deploy frontend on dev
+        run: npm run deploy-dev
+        env:
+          OAUTH0_DEV_CLIENT_ID: ${{ secrets.OAUTH0_DEV_CLIENT_ID }}
+          SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
+          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+        working-directory: frontend
+      -
+        name: Run end-to-end tests
+        uses: cypress-io/github-action@v5
+        env:
+          CYPRESS_BASE_URL: https://geneaplanner-dev.surge.sh
+          CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
+        with:
+          browser: chrome
+          working-directory: e2e
+      -
+        name: Deploy backend on prod
+        run: npm run deploy-prod
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        working-directory: backend
