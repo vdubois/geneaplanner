@@ -81,7 +81,7 @@ export const PremiereConnexion = () => {
     }, [enCoursDeChargement, informationsPersonnelles]);
 
     useEffect(() => {
-        if (!renseignerLesInformationsPersonnelles && !individusEnCoursDeChargement && arbre && arbre?.individus?.length > 0) {
+        if (!renseignerLesInformationsPersonnelles && !individusEnCoursDeChargement && arbre && !arbre?.individus?.length > 0) {
             setImporterUnFichierGedcom(true);
         }
     }, [arbre, individusEnCoursDeChargement, renseignerLesInformationsPersonnelles]);
@@ -127,13 +127,11 @@ export const PremiereConnexion = () => {
             open={importerUnFichierGedcom}
             titre='Importer un fichier GEDCOM'
             actionDisabled={true}
-            action={() => setAfficherSucces(true)}
-            setIsOpen={setAfficherSucces}
             canClose={false}
             variant='no-action'
         >
             <div className='d-flex flex-column align-items-center gap-2'>
-                {!importDeFichierGedcomEnCours && <>
+                {!importDeFichierGedcomEnCours && !individus?.length > 0 && (!arbre || arbre?.individus?.length === 0) && <>
                     <h3 className='texte-centre'>Veuillez sélectionnez un fichier GEDCOM permettant d'importer votre arbre généalogique dans GénéaPlanner.</h3>
                     <img src='/upload.png' style={{width: '100%'}} />
                     <Bouton
@@ -143,7 +141,7 @@ export const PremiereConnexion = () => {
                     >
                         <input
                             ref={inputFichier}
-                            accept="*"
+                            accept=".ged"
                             style={{ display: 'none' }}
                             type="file"
                             onChange={selectionnerUnFichierGEDCOM}
@@ -153,6 +151,24 @@ export const PremiereConnexion = () => {
                 {importDeFichierGedcomEnCours && <>
                     <h3 className='texte-centre'>Import du fichier GEDCOM en cours, veuillez patienter...</h3>
                     <CircularProgress/>
+                </>}
+                {!importDeFichierGedcomEnCours && individus?.length > 0 && <>
+                    <Checkmark/>
+                    <h3 className='texte-centre'>Import du fichier terminé avec succès.<br/>Votre arbre comporte {individus?.length} individus.</h3>
+                    <Bouton
+                        id='valider'
+                        libelle='Valider'
+                        style={{
+                            marginBottom: '-2rem',
+                            marginTop: '2rem'
+                        }}
+                        onClick={() => {
+                            setImporterUnFichierGedcom(false);
+                            // FIXME
+                            setIndividus([]);
+                            setAfficherSucces(true);
+                        }}
+                    />
                 </>}
             </div>
         </Modal>

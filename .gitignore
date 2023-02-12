@@ -31,3 +31,4 @@
 
 e2e/yarn-error.log
 e2e/package-lock.json
+e2e/coverage

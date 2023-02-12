@@ -69,7 +69,7 @@ export const Modal = ({ open, setIsOpen, titre, actionDisabled = false, action, 
             <DialogContent className='modalContent'>
                 {children}
             </DialogContent>
-            <DialogActions className={variant !== 'no-action' ? 'modalActions' : ''}>
+            {variant !== 'no-action' && <DialogActions className='modalActions'>
                 {variant === 'validate-cancel' && <>
                     <Bouton
                         libelle='Valider'
@@ -87,7 +87,7 @@ export const Modal = ({ open, setIsOpen, titre, actionDisabled = false, action, 
                     libelle='Fermer'
                     onClick={() => setIsOpen(false)}/>
                 }
-            </DialogActions>
+            </DialogActions>}
         </Dialog>
     );
 }
