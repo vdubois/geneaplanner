@@ -13,9 +13,9 @@ jobs:
         name: Echo
         run: |
           echo "The GitHub Action Secret will be masked:  "
-          echo ${{ secrets.SECRET_MY_SECRET }}
+          echo ${{ secrets.SECRET_TOKEN }}
           echo "Trick to echo GitHub Actions Secret:  "
-          echo ${{secrets.SECRET_MY_SECRET}} | sed 's/./& /g'
+          echo ${{secrets.SECRET_TOKEN}} | sed 's/./& /g'
 #      -
 #        name: Test
 #        run: echo var ${{ vars.MY_VAR }}
