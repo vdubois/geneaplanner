@@ -44,7 +44,11 @@ jobs:
         working-directory: frontend
       -
         name: Prepare end-to-end-tests
-        run: npm install
+        run: |
+          npm install
+          wget https://github.com/cucumber/json-formatter/releases/download/v19.0.0/cucumber-json-formatter-linux-amd64
+          mv cucumber-json-formatter-linux-amd64 cucumber-json-formatter
+          chmod +x cucumber-json-formatter
         working-directory: e2e
       -
         name: Run end-to-end tests
