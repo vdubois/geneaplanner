@@ -26,7 +26,7 @@
     "@types/node": "16.11.68",
     "@types/uuid": "9.0.0",
     "@vitest/coverage-c8": "0.28.4",
-    "@vitest/ui": "0.28.4",
+    "@vitest/ui": "0.28.5",
     "serverless-plugin-thundra": "2.6.2",
     "serverless-plugin-typescript": "2.1.4",
     "serverless-plugin-umzug": "1.3.0",
