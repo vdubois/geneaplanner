@@ -9,8 +9,7 @@
     "deploy-dev": "sls deploy --stage=dev",
     "postdeploy-dev": "STAGE=dev AWS_REGION=eu-west-3 serverless migrations up",
     "deploy-prod": "sls deploy --stage=prod",
-    "postdeploy-prod": "STAGE=prod AWS_REGION=eu-west-3 serverless migrations up",
-    "postinstall": "cp -r node_modules/serverless-plugin-umzug/node_modules/umzug-dynamodb-storage node_modules"
+    "postdeploy-prod": "STAGE=prod AWS_REGION=eu-west-3 serverless migrations up"
   },
   "author": "Vincent Dubois",
   "license": "ISC",
