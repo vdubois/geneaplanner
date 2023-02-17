@@ -51,7 +51,7 @@ jobs:
         uses: cypress-io/github-action@v5
         env:
           CYPRESS_BASE_URL: https://geneaplanner-dev.surge.sh
-          CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_KEY }}
           AUTH0_API_CLIENT_ID: ${{ secrets.AUTH0_API_CLIENT_ID }}
           AUTH0_API_CLIENT_SECRET: ${{ secrets.AUTH0_API_CLIENT_SECRET }}
         with:
