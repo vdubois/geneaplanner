@@ -14,7 +14,7 @@
   "author": "Vincent Dubois",
   "license": "ISC",
   "dependencies": {
-    "@thundra/core": "2.13.60",
+    "@thundra/core": "2.13.61",
     "aws-lambda-utils": "0.0.2",
     "aws-sdk-fluent-builder": "0.3.1",
     "read-gedcom": "0.3.2",
