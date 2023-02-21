@@ -58,6 +58,6 @@
     "@vitejs/plugin-react": "3.1.0",
     "surge": "0.23.1",
     "sass": "1.58.3",
-    "vite": "4.1.2"
+    "vite": "4.1.3"
   }
 }
