@@ -1,6 +1,15 @@
 import './Bandeau.scss';
+import {FC} from "react";
 
-export const Bandeau = ({retournerVersLaPageDAccueil, titre, nomComplet, accederAuProfil, meDeconnecter}) => {
+interface BandeauProps {
+    retournerVersLaPageDAccueil: () => void;
+    titre: string;
+    nomComplet: string;
+    accederAuProfil: () => void;
+    meDeconnecter: () => void;
+}
+
+export const Bandeau: FC<BandeauProps> = ({retournerVersLaPageDAccueil, titre, nomComplet, accederAuProfil, meDeconnecter}) => {
     return <header>
         <div className="content">
             <div className="top">

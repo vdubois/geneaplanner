@@ -1,7 +1,12 @@
 import React, {useEffect, useState} from "react";
 import {Alert, Snackbar} from "@mui/material";
 
-export const Erreur = ({message, setMessage}) => {
+interface MessageProps {
+    message: string;
+    setMessage: (message: string) => void;
+}
+
+export const Erreur = ({message, setMessage}: MessageProps) => {
     const [affichee, setAffichee] = useState(true);
     useEffect(() => {
         setTimeout(() => {

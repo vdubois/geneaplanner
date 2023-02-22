@@ -1,31 +1,31 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import {Button, CircularProgress, Container, Step, StepContent, StepLabel, Stepper, Typography} from "@mui/material";
 import './ImportationDeFichierGedcom.css';
 import CheckIcon from '@mui/icons-material/Check';
 import {usePublierArbre, usePublierRacineDeLArbre} from "../api/arbres.hooks";
 import {Erreur} from "../components/Erreur";
-import {SelectionRacine} from "./selection-racine/SelectionRacine";
+import {Individu, SelectionRacine} from "./selection-racine/SelectionRacine";
 import {useNavigate} from "react-router-dom";
 
 export const ImportationDeFichierGedcom = () => {
     const [etapeActive, setEtapeActive] = useState(0);
-    const [erreur, setErreur] = useState();
+    const [erreur, setErreur] = useState<string>();
     const etapeSuivante = () => setEtapeActive(etapePrecedente => etapePrecedente + 1);
     const etapePrecedente = () => setEtapeActive(etapePrecedente => etapePrecedente - 1);
     const [individus, setIndividus] = useState([]);
     const publierArbre = usePublierArbre();
     const publierRacineDeLArbre = usePublierRacineDeLArbre();
     const navigateTo = useNavigate();
-    const [racineDeLArbre, setRacineDeLArbre] = useState(null);
+    const [racineDeLArbre, setRacineDeLArbre] = useState<Individu | null>(null);
 
-    const selectionnerUnFichierGEDCOM = ({target}) => {
+    const selectionnerUnFichierGEDCOM = ({target}: any) => {
         const fichier = target.files[0];
         if (fichier) {
             const fileReader = new FileReader();
             fileReader.readAsDataURL(fichier);
             fileReader.onload = async ({target}) => {
-                const contenuDuFichier = target.result;
-                if (!contenuDuFichier.startsWith('data:application/x-gedcom')) {
+                const contenuDuFichier = target?.result as string;
+                if (!contenuDuFichier?.startsWith('data:application/x-gedcom')) {
                     setErreur(`Le fichier ${fichier.name} n'est pas de type GEDCOM`);
                 } else {
                     etapeSuivante();
@@ -35,7 +35,7 @@ export const ImportationDeFichierGedcom = () => {
                         const arbre = await publierArbre(contenuDuFichierGEDCOM);
                         setIndividus(arbre.individus);
                         etapeSuivante();
-                    } catch (erreur) {
+                    } catch (erreur: any) {
                         setErreur(erreur.message);
                         etapePrecedente();
                     }
@@ -44,13 +44,13 @@ export const ImportationDeFichierGedcom = () => {
         }
     }
 
-    const selectionnerRacineDeLArbre = async (racine) => {
+    const selectionnerRacineDeLArbre = async (racine: Individu | null) => {
         try {
             const resultat = await publierRacineDeLArbre(racine);
             console.log(resultat);
-            setRacineDeLArbre(racine);
+            setRacineDeLArbre(racine!);
             etapeSuivante();
-        } catch (erreur) {
+        } catch (erreur: any) {
             setErreur(erreur.message);
         }
     };
@@ -93,8 +93,7 @@ export const ImportationDeFichierGedcom = () => {
                         <div className="ImportationDeFichierGedcomChoixRacine">
                             <SelectionRacine
                                 individus={individus}
-                                racineSelectionnee={(racine) => selectionnerRacineDeLArbre(racine)}
-                                afficherBouton={true}
+                                racineSelectionnee={(racine: Individu | null) => selectionnerRacineDeLArbre(racine)}
                             />
                         </div>
                     </StepContent>
@@ -108,7 +107,7 @@ export const ImportationDeFichierGedcom = () => {
                                 <Typography className="ImportationDeFichierGedcomSyntheseTexte">Fichier GEDCOM importé avec succès, {individus?.length} individus ont été importés</Typography>
                             </div>
                             <div className="ImportationDeFichierGedcomActions">
-                                <Button variant="contained" color="primary" component="span" onClick={() => navigateTo("/recherche-d-individus/" + racineDeLArbre.id)}>
+                                <Button variant="contained" color="primary" component="span" onClick={() => navigateTo("/recherche-d-individus/" + racineDeLArbre?.id)}>
                                     Voir votre généalogie
                                 </Button>
                             </div>
@@ -116,7 +115,7 @@ export const ImportationDeFichierGedcom = () => {
                     </StepContent>
                 </Step>
             </Stepper>
-            {erreur && <Erreur message={erreur} />}
+            {erreur && <Erreur message={erreur} setMessage={setErreur} />}
         </Container>
     );
 };

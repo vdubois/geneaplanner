@@ -6,13 +6,35 @@ import {useMediaQuery} from "../../hooks/useMediaQuery";
 import {Dialog, DialogActions, DialogContent, DialogTitle, IconButton} from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import classNames from "classnames";
-import {useEffect} from "react";
+import {ReactNode} from "react";
 
-export const Modal = ({ open, setIsOpen, titre, actionDisabled = false, action, children, canClose = true, variant = 'validate-cancel', animation = 'zoomIn' }) => {
+type ModalVariant = 'validate-cancel' | 'no-action' | 'close';
+
+type ModalAnimation = 'zoomIn';
+
+interface ModalProps {
+    open: boolean;
+    setIsOpen?: (open: boolean) => void;
+    actionDisabled?: boolean;
+    action?: () => void;
+    children: ReactNode;
+    canClose?: boolean;
+    variant?: ModalVariant;
+    titre: string;
+    animation?: ModalAnimation;
+}
+
+interface DialogTitleProps {
+    children: ReactNode;
+    onClose: () => void;
+    canClose: boolean;
+}
+
+export const Modal = ({ open, setIsOpen, titre, actionDisabled = false, action, children, canClose = true, variant = 'validate-cancel', animation = 'zoomIn' }: ModalProps) => {
     const isSmallXResolution = useMediaQuery(`(max-width: ${breakpoints.sm}px)`);
     const isSmallYResolution = useMediaQuery(`(max-height: ${breakpoints.sm}px)`);
 
-    const BootstrapDialogTitle = (props) => {
+    const BootstrapDialogTitle = (props: DialogTitleProps) => {
         const {children, onClose, canClose, ...other} = props;
 
         return (
@@ -38,7 +60,9 @@ export const Modal = ({ open, setIsOpen, titre, actionDisabled = false, action, 
 
     const handleClose = () => {
         if (canClose) {
-            setIsOpen(false);
+            if (setIsOpen) {
+                setIsOpen(false);
+            }
         }
     }
 
@@ -75,17 +99,29 @@ export const Modal = ({ open, setIsOpen, titre, actionDisabled = false, action, 
                         libelle='Valider'
                         disabled={actionDisabled}
                         onClick={() => {
-                            action();
-                            setIsOpen(false);
+                            if (action) {
+                                action();
+                            }
+                            if (setIsOpen) {
+                                setIsOpen(false);
+                            }
                         }}/>
                     {canClose && <Bouton
                         libelle='Annuler'
                         variante='secondaire'
-                        onClick={() => setIsOpen(false)}/>}
+                        onClick={() => {
+                            if (setIsOpen) {
+                                setIsOpen(false)
+                            }
+                        }}/>}
                 </>}
                 {variant === 'close' && <Bouton
                     libelle='Fermer'
-                    onClick={() => setIsOpen(false)}/>
+                    onClick={() => {
+                        if (setIsOpen) {
+                            setIsOpen(false)
+                        }
+                    }}/>
                 }
             </DialogActions>}
         </Dialog>

@@ -1,6 +1,18 @@
 import './Onglets.scss';
+import {FC} from "react";
 
-export const Onglets = ({ongletActif, setOngletActif, onglets}) => {
+interface Onglet {
+    valeur: number;
+    libelle: string;
+}
+
+interface OngletsProps {
+    ongletActif: number;
+    setOngletActif: (onglet: number) => void;
+    onglets: Array<Onglet>;
+}
+
+export const Onglets: FC<OngletsProps> = ({ongletActif, setOngletActif, onglets}) => {
     return <div className='d-flex gap-2 flex-wrap'>
         {onglets && onglets.map(onglet => (
             <button

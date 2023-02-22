@@ -1,7 +1,7 @@
 import {Modal} from "../components/modal/Modal";
 import {tailleInput} from "../commun/tailleInput";
 import {Checkmark} from "../components/Checkmark";
-import React, {useEffect, useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {useMediaQuery} from "../hooks/useMediaQuery";
 import {breakpoints} from "../index";
 import {useInformationsPersonnelles, useModifierInformationsPersonnelles} from "../api/informationsPersonnelles.hooks";
@@ -19,10 +19,10 @@ export const PremiereConnexion = () => {
     const [importerUnFichierGedcom, setImporterUnFichierGedcom] = useState(false);
     const [afficherSucces, setAfficherSucces] = useState(false);
     const [importDeFichierGedcomEnCours, setImportDeFichierGedcomEnCours] = useState(false);
-    const [erreur, setErreur] = useState();
+    const [erreur, setErreur] = useState<string>();
     const [individus, setIndividus] = useState([]);
 
-    const inputFichier = useRef();
+    const inputFichier = useRef<HTMLInputElement|undefined>();
 
     const {enCoursDeChargement, enErreur, informationsPersonnelles} = useInformationsPersonnelles();
     const modifierInformationsPersonnelles = useModifierInformationsPersonnelles();
@@ -47,14 +47,14 @@ export const PremiereConnexion = () => {
         }
     };
 
-    const selectionnerUnFichierGEDCOM = ({target}) => {
+    const selectionnerUnFichierGEDCOM = ({target}: any) => {
         console.log('coucou')
         const fichier = target.files[0];
         if (fichier) {
             const fileReader = new FileReader();
             fileReader.readAsDataURL(fichier);
             fileReader.onload = async ({target}) => {
-                const contenuDuFichier = target.result;
+                const contenuDuFichier = target?.result as string;
                 if (!contenuDuFichier.startsWith('data:application/x-gedcom')) {
                     setErreur(`Le fichier ${fichier.name} n'est pas de type GEDCOM`);
                 } else {
@@ -64,7 +64,7 @@ export const PremiereConnexion = () => {
                             contenuDuFichier.split('data:application/x-gedcom;base64,')[1];
                         const arbre = await publierArbre(contenuDuFichierGEDCOM);
                         setIndividus(arbre.individus);
-                    } catch (erreur) {
+                    } catch (erreur: any) {
                         setErreur(erreur.message);
                     } finally {
                         setImportDeFichierGedcomEnCours(false);
@@ -137,7 +137,7 @@ export const PremiereConnexion = () => {
                     <Bouton
                         id='importer-un-fichier-gedcom'
                         libelle='Sélectionner un fichier'
-                        onClick={() => inputFichier.current.click()}
+                        onClick={() => inputFichier?.current?.click()}
                     >
                         <input
                             ref={inputFichier}

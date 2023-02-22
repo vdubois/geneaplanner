@@ -1,8 +1,17 @@
 import {Autocomplete, Button, FormControl, InputLabel, TextField} from "@mui/material";
-import React, {useState} from "react";
+import {useState} from "react";
 
-export const SelectionRacine = ({individus, racineSelectionnee}) => {
-    const [racine, setRacine] = useState(null);
+export interface Individu {
+    id: string;
+    nom: string;
+}
+interface SelectionRacineProps {
+    individus: Array<Individu>;
+    racineSelectionnee: (racine: Individu | null) => Promise<void>;
+}
+
+export const SelectionRacine = ({individus, racineSelectionnee}: SelectionRacineProps) => {
+    const [racine, setRacine] = useState<Individu | null>(null);
     return <>
         <FormControl variant="outlined" className="ChampFenetreDeSaisie" fullWidth sx={{marginBottom: '10px'}}>
             <Autocomplete

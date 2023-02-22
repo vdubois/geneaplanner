@@ -39,7 +39,7 @@ export const App2 = () => {
 
     useEffect(() => {
         if (!informationsPersonnelles?.nom && !informationsPersonnelles?.prenom) {
-            setNomComplet(user?.name);
+            setNomComplet(user?.name!);
         } else if (informationsPersonnelles?.nom && informationsPersonnelles?.prenom) {
             setNomComplet(informationsPersonnelles.prenom + ' ' + informationsPersonnelles.nom);
         }
@@ -59,10 +59,10 @@ export const App2 = () => {
                 />
             </>}
             <Routes>
-                <Route exact path="/" element={<></>}/>
-                <Route exact path="/accueil" element={<></>}/>
-                <Route exact path="/profil" element={<Profil2 />}/>
-                <Route exact path="/importer-un-fichier-gedcom" element={<ImportationDeFichierGedcom />}/>
+                <Route path="/" element={<></>}/>
+                <Route path="/accueil" element={<></>}/>
+                <Route path="/profil" element={<Profil2 />}/>
+                <Route path="/importer-un-fichier-gedcom" element={<ImportationDeFichierGedcom />}/>
             </Routes>
         </>
     );

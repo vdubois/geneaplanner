@@ -1,4 +1,12 @@
-export const dateAsString = ({day, month, year}) => {
+interface Year {
+    value: number;
+}
+interface Date {
+    day: number;
+    month: number;
+    year: Year;
+}
+export const dateAsString = ({day, month, year}: Date) => {
     if (!day && !month) {
         return `en ${year.value ? year.value : year}`;
     }
@@ -23,7 +31,7 @@ export const dateAsString = ({day, month, year}) => {
     return `le ${day} ${mois} ${year.value ? year.value : year}`;
 };
 
-export const dateAsShortString = ({day, month, year}) => {
+export const dateAsShortString = ({day, month, year}: Date) => {
     if (!day && !month) {
         return year.value ? year.value : year;
     }

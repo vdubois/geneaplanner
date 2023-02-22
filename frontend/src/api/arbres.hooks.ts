@@ -5,7 +5,7 @@ import {
     useQueryWithAuth
 } from "./react-query.hooks";
 
-export const useIndividus = (enabled) => {
+export const useIndividus = (enabled?: boolean) => {
     const { isInitialLoading, error, data, isFetching} = useQueryWithAuth(
         ["individus"],
         `/arbres/[email]`,
@@ -18,7 +18,7 @@ export const useIndividus = (enabled) => {
     };
 }
 
-export const useArbre = (individu, enabled) => {
+export const useArbre = (individu: string, enabled: boolean) => {
     const { isInitialLoading, error, data } = useQueryWithAuth(
         ["arbre"],
         `/arbres/[email]/detail/${individu}`,
@@ -43,7 +43,7 @@ export const usePublierRacineDeLArbre = () =>
 export const useSupprimerLArbre = () =>
     useDeleteMutationWithAuth(`/arbres/[email]`, ['individus'])
 
-export const useIndividu = (identifiantIndividu) => {
+export const useIndividu = (identifiantIndividu: string) => {
     const { isInitialLoading, error, data } = useQueryWithAuth(
       ["individu", identifiantIndividu],
       `/arbres/[email]/individus/${identifiantIndividu}`

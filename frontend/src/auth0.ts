@@ -6,11 +6,15 @@ export const audience = "https://geneaplanner-api-gateway/";
 
 export default new Auth0Client({
     domain,
-    client_id: clientId,
-    audience
+    clientId,
+    //audience
 });
 
-export const isAdmin = (user) => {
-    const roles = user['https://geneaplanner/roles'];
+interface Auth0User {
+    'https://geneaplanner/roles': string;
+}
+
+export const isAdmin = (user: Auth0User) => {
+    const roles = user["https://geneaplanner/roles"];
     return roles.includes('GENEAPLANNER_ADMIN');
 }

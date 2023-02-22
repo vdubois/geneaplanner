@@ -19,8 +19,9 @@ export const ConfigurationDeLArbre2 = () => {
     const [fenetreDeConfirmationDeSuppressionOuverte, setFenetreDeConfirmationDeSuppressionOuverte] = useState(false);
     const isSmallResolution = useMediaQuery(`(max-width: ${breakpoints.sm}px)`)
 
-    const supprimerLArbreEtRecharger = () => {
-        supprimerLArbre();
+    const supprimerLArbreEtRecharger = async () => {
+        // @ts-ignore
+        await supprimerLArbre();
         setRecharger(true);
     }
 

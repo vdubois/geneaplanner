@@ -28,7 +28,7 @@ export const InformationsPersonnelles = () => {
 
     useEffect(() => {
         if (enCoursDeModification) {
-            document.getElementById('nom').focus();
+            document.getElementById('nom')?.focus();
         }
     }, [enCoursDeModification])
 

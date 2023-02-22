@@ -3,7 +3,7 @@ import {usePutMutationWithAuth, useQueryWithAuth} from "./react-query.hooks";
 export const useModifierInformationsPersonnelles = () =>
     usePutMutationWithAuth(`/utilisateurs/[email]`, ['informationsPersonnelles'])
 
-export const useInformationsPersonnelles = (enabled) => {
+export const useInformationsPersonnelles = (enabled?: boolean) => {
     const { isInitialLoading, error, data } = useQueryWithAuth(
         ["informationsPersonnelles"],
         `/utilisateurs/[email]`,

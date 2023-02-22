@@ -72,11 +72,7 @@ export const Recherche = () => {
                                     setOptions([]);
                                     setOpen(false);
                                     setLoading(true);
-                                    const medicaments = await callApi({
-                                        endpoint: '/medicaments',
-                                        query: "recherche=" + motCle,
-                                        method: 'GET'
-                                    });
+                                    const medicaments = [];
                                     setOpen(true);
                                     setLoading(false);
                                     setOptions(medicaments);

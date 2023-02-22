@@ -1,15 +1,15 @@
 import {useAuth0} from "@auth0/auth0-react";
-import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
+import {QueryKey, useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {BACKEND_URL} from "./api";
 import jwt_decode from "jwt-decode";
 
 const CHAMP_EMAIL_TOKEN_AUTH0 = 'https://geneaplanner/email';
 
-export const useQueryWithAuth = (queryKey, serviceUrl, enabled = true) => {
+export const useQueryWithAuth = (queryKey: QueryKey, serviceUrl: string, enabled = true) => {
   const {getAccessTokenSilently} = useAuth0();
   return useQuery(queryKey, async () => {
       const token = await getAccessTokenSilently();
-      const accessToken = jwt_decode(token);
+      const accessToken = jwt_decode(token) as any;
       const response = await fetch(
         `${BACKEND_URL}${serviceUrl.replace(/\[email\]/g, accessToken[CHAMP_EMAIL_TOKEN_AUTH0])}`,
         {
@@ -19,7 +19,7 @@ export const useQueryWithAuth = (queryKey, serviceUrl, enabled = true) => {
         }
       );
       if (!response.ok) {
-        throw new Error(response.json());
+        throw new Error(response.statusText);
       }
       return response.json();
     },
@@ -27,21 +27,23 @@ export const useQueryWithAuth = (queryKey, serviceUrl, enabled = true) => {
   );
 }
 
-export const usePostMutationWithAuth = (serviceUrl, queriesToInvalidate = []) =>
+export const usePostMutationWithAuth = (serviceUrl: string, queriesToInvalidate: Array<string> = []) =>
   useMutationWithAuth('POST', serviceUrl, queriesToInvalidate);
-export const usePutMutationWithAuth = (serviceUrl, queriesToInvalidate = []) =>
+export const usePutMutationWithAuth = (serviceUrl: string, queriesToInvalidate: Array<string> = []) =>
   useMutationWithAuth('PUT', serviceUrl, queriesToInvalidate);
-export const usePatchMutationWithAuth = (serviceUrl, queriesToInvalidate = []) =>
+export const usePatchMutationWithAuth = (serviceUrl: string, queriesToInvalidate: Array<string> = []) =>
   useMutationWithAuth('PATCH', serviceUrl, queriesToInvalidate);
-export const useDeleteMutationWithAuth = (serviceUrl, queriesToInvalidate = []) =>
+export const useDeleteMutationWithAuth = (serviceUrl: string, queriesToInvalidate: Array<string> = []) =>
   useMutationWithAuth('DELETE', serviceUrl, queriesToInvalidate);
 
-const useMutationWithAuth = (method, serviceUrl, queriesToInvalidate = []) => {
+type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+
+const useMutationWithAuth = (method: Method, serviceUrl: string, queriesToInvalidate: Array<string> = []) => {
   const queryClient = useQueryClient();
   const {getAccessTokenSilently} = useAuth0();
-  const {mutateAsync} = useMutation(async body => {
+  const {mutateAsync} = useMutation(async (body?: any) => {
     const token = await getAccessTokenSilently();
-    const accessToken = jwt_decode(token);
+    const accessToken = jwt_decode(token) as any;
     const response = await fetch(
       `${BACKEND_URL}${serviceUrl.replace(/\[email\]/g, accessToken[CHAMP_EMAIL_TOKEN_AUTH0])}`,
       {
@@ -62,6 +64,7 @@ const useMutationWithAuth = (method, serviceUrl, queriesToInvalidate = []) => {
   }, {
     onSuccess: () => {
       if (queriesToInvalidate.length > 0) {
+        // @ts-ignore
         queriesToInvalidate.forEach(query => queryClient.invalidateQueries(query));
       }
     }
