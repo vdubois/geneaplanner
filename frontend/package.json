@@ -33,8 +33,8 @@
     "start": "vite --mode development",
     "build": "vite build --mode production",
     "test": "echo test",
-    "deploy-dev": "sed -i 's/cVoGtUWf2frEb37nk32xcABCycMSlgoE/'\\\\\\\"$OAUTH0_DEV_CLIENT_ID\\\\\\\"'/g' src/auth0.ts && sed -i 's/http:\\\\\\\\/\\\\\\\\/localhost:5173/https:\\\\\\\\/\\\\\\\\/geneaplanner-dev\\\\\\\\.surge\\\\\\\\.sh/g' src/index.tsx && npm run build && surge dist/ geneaplanner-dev.surge.sh",
-    "deploy-prod": "sed -i 's/6fag2ujwlh/phxvjdlowb/g' src/api/api.ts && sed -i 's/cVoGtUWf2frEb37nk32xcABCycMSlgoE/'\\\\\\\\\\\\\\\"$OAUTH0_PROD_CLIENT_ID\\\\\\\\\\\\\\\"'/g' src/auth0.ts && sed -i 's/http:\\\\\\\\\\\\\\\\/\\\\\\\\\\\\\\\\/localhost:5173/https:\\\\\\\\\\\\\\\\/\\\\\\\\\\\\\\\\/geneaplanner\\\\\\\\\\\\\\\\.netlify\\\\\\\\\\\\\\\\.app/g' src/index.tsx && npm run build"
+    "deploy-dev": "sed -i 's/cVoGtUWf2frEb37nk32xcABCycMSlgoE/'\"$OAUTH0_DEV_CLIENT_ID\"'/g' src/auth0.ts && npm run build && surge dist/ geneaplanner-dev.surge.sh",
+    "deploy-prod": "sed -i 's/6fag2ujwlh/phxvjdlowb/g' src/api/api.ts && sed -i 's/cVoGtUWf2frEb37nk32xcABCycMSlgoE/'\"$OAUTH0_PROD_CLIENT_ID\"'/g' src/auth0.ts && npm run build"
   },
   "eslintConfig": {
     "extends": "react-app"

@@ -22,7 +22,7 @@ export const PremiereConnexion = () => {
     const [erreur, setErreur] = useState<string>();
     const [individus, setIndividus] = useState([]);
 
-    const inputFichier = useRef<HTMLInputElement|undefined>();
+    const inputFichier = useRef<HTMLInputElement>(null);
 
     const {enCoursDeChargement, enErreur, informationsPersonnelles} = useInformationsPersonnelles();
     const modifierInformationsPersonnelles = useModifierInformationsPersonnelles();
@@ -81,7 +81,7 @@ export const PremiereConnexion = () => {
     }, [enCoursDeChargement, informationsPersonnelles]);
 
     useEffect(() => {
-        if (!renseignerLesInformationsPersonnelles && !individusEnCoursDeChargement && arbre && !arbre?.individus?.length > 0) {
+        if (!renseignerLesInformationsPersonnelles && !individusEnCoursDeChargement && arbre && !(arbre?.individus?.length > 0)) {
             setImporterUnFichierGedcom(true);
         }
     }, [arbre, individusEnCoursDeChargement, renseignerLesInformationsPersonnelles]);
@@ -131,7 +131,7 @@ export const PremiereConnexion = () => {
             variant='no-action'
         >
             <div className='d-flex flex-column align-items-center gap-2'>
-                {!importDeFichierGedcomEnCours && !individus?.length > 0 && (!arbre || arbre?.individus?.length === 0) && <>
+                {!importDeFichierGedcomEnCours && !(individus?.length > 0) && (!arbre || arbre?.individus?.length === 0) && <>
                     <h3 className='texte-centre'>Veuillez sélectionnez un fichier GEDCOM permettant d'importer votre arbre généalogique dans GénéaPlanner.</h3>
                     <img src='/upload.png' style={{width: '100%'}} />
                     <Bouton
