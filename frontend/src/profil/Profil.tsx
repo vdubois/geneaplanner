@@ -1,14 +1,14 @@
-import './Profil2.scss';
+import './Profil.scss';
 import {RetourPageAccueil} from "../commun/RetourPageAccueil";
 import {Onglets} from "./Onglets";
 import {useState} from "react";
 import {MotDePasse} from "./mot-de-passe/MotDePasse";
 import {ConfigurationDeLArbre2} from "./arbre/ConfigurationDeLArbre2";
-import {InformationsPersonnelles} from "./InformationsPersonnelles";
+import {InformationsPersonnelles} from "./informations-personnelles/InformationsPersonnelles";
 import {useMediaQuery} from "../hooks/useMediaQuery";
 import {breakpoints} from "../index";
 
-export const Profil2 = () => {
+export const Profil = () => {
     const [ongletActif, setOngletActif] = useState(1);
     const isSmallResolution = useMediaQuery(`(max-width: ${breakpoints.sm}px)`)
     const isGreaterThanSmallResolution = useMediaQuery(`(min-width: ${breakpoints.sm}px)`);

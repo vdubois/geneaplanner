@@ -10,8 +10,8 @@ import {
   FormControl,
   TextField
 } from '@mui/material';
-import {Erreur} from '../../components/Erreur';
-import {useAdminAjouterArchive, useAdminModifierArchive} from "../../api/archives.admin.hooks";
+import {Erreur} from '../../../components/Erreur';
+import {useAdminAjouterArchive, useAdminModifierArchive} from "../../../api/archives.admin.hooks";
 
 export const FenetreDeSaisieDArchive = ({ouverte, fermer, archive}) => {
   const [libelle, setLibelle] = useState('');

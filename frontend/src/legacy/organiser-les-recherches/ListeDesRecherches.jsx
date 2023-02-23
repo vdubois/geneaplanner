@@ -7,7 +7,7 @@ import React, {useEffect, useState} from "react";
 import {ChevronRight} from '@mui/icons-material';
 import {libellePriorite} from './priorites';
 import {useNavigate} from 'react-router-dom';
-import {MarqueurDeSelection} from '../../components/MarqueurDeSelection';
+import {MarqueurDeSelection} from '../components/MarqueurDeSelection';
 import {styled} from "@mui/material/styles";
 
 const SQUELETTES = Array.from(

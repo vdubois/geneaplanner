@@ -10,7 +10,7 @@ import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {ReactQueryDevtools} from '@tanstack/react-query-devtools';
 import {FetchProvider} from "./api/FetchProvider";
 import {TourProvider} from "@reactour/tour";
-import {App2} from "./App2";
+import {App} from "./App";
 
 export const breakpoints = {
     xs: 0,
@@ -106,7 +106,7 @@ root.render(
                                 }
                                 styles={{popover: base => ({...base, maxWidth: '600px'})}}
                             >
-                                <App2/>
+                                <App/>
                             </TourProvider>
                         </Router>
                         <ReactQueryDevtools initialIsOpen={false}/>

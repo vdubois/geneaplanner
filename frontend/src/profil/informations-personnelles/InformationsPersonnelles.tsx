@@ -1,12 +1,12 @@
-import {Bouton} from "../components/bouton/Bouton";
+import {Bouton} from "../../components/bouton/Bouton";
 import {useEffect, useState} from "react";
 import './InformationsPersonnelles.scss';
 import {useAuth0} from "@auth0/auth0-react";
-import {Loader} from "../components/loader/Loader";
-import {useInformationsPersonnelles, useModifierInformationsPersonnelles} from "../api/informationsPersonnelles.hooks";
-import {tailleInput} from "../commun/tailleInput";
-import {breakpoints} from "../index";
-import {useMediaQuery} from "../hooks/useMediaQuery";
+import {Loader} from "../../components/loader/Loader";
+import {useInformationsPersonnelles, useModifierInformationsPersonnelles} from "../../api/informationsPersonnelles.hooks";
+import {tailleInput} from "../../commun/tailleInput";
+import {breakpoints} from "../../index";
+import {useMediaQuery} from "../../hooks/useMediaQuery";
 
 export const InformationsPersonnelles = () => {
     const {isLoading, user} = useAuth0();

@@ -1,7 +1,7 @@
 import {Delete} from "@mui/icons-material";
 import {IconButton} from "@mui/material";
 import React, {useState} from "react";
-import {useAdminSupprimerArchive} from "../../api/archives.admin.hooks";
+import {useAdminSupprimerArchive} from "../../../api/archives.admin.hooks";
 import {ConfirmerLaSuppressionDeLArchive} from "./ConfirmerLaSuppressionDeLArchive";
 
 export const Supprimer = ({archive}) => {

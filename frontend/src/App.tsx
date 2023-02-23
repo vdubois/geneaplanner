@@ -3,14 +3,14 @@ import './App.scss';
 import {Route, Routes, useLocation, useNavigate} from "react-router-dom";
 import {Bandeau} from "./commun/Bandeau";
 import {useAuth0} from "@auth0/auth0-react";
-import {Profil2} from "./profil/Profil2";
+import {Profil} from "./profil/Profil";
 import {ImportationDeFichierGedcom} from "./importer-un-fichier-gedcom/ImportationDeFichierGedcom";
 import {useInformationsPersonnelles} from "./api/informationsPersonnelles.hooks";
 import {Loader} from "./components/loader/Loader";
 import 'animate.css';
 import {PremiereConnexion} from "./premiere-connexion/PremiereConnexion";
 
-export const App2 = () => {
+export const App = () => {
     const { user, isAuthenticated, isLoading, loginWithRedirect, logout } = useAuth0();
     const {enCoursDeChargement, informationsPersonnelles} = useInformationsPersonnelles();
 
@@ -61,7 +61,7 @@ export const App2 = () => {
             <Routes>
                 <Route path="/" element={<></>}/>
                 <Route path="/accueil" element={<></>}/>
-                <Route path="/profil" element={<Profil2 />}/>
+                <Route path="/profil" element={<Profil />}/>
                 <Route path="/importer-un-fichier-gedcom" element={<ImportationDeFichierGedcom />}/>
             </Routes>
         </>

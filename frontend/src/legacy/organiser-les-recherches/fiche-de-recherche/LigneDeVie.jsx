@@ -10,7 +10,7 @@ import {
 import Typography from '@mui/material/Typography';
 import React from "react";
 import {dateAsString} from "../../../dates";
-import {capitalize} from "../../../strings";
+import {capitalize} from "../../strings";
 
 export const LigneDeVie = ({individu}) => {
   return <Timeline align="alternate">

@@ -1,7 +1,7 @@
 import {useNavigate} from 'react-router-dom';
 import {Hidden, ListItem, ListItemButton, Skeleton} from '@mui/material';
 import Typography from '@mui/material/Typography';
-import {MarqueurDeSelection} from '../../components/MarqueurDeSelection';
+import {MarqueurDeSelection} from '../components/MarqueurDeSelection';
 import Divider from '@mui/material/Divider';
 import React from 'react';
 import List from '@mui/material/List';

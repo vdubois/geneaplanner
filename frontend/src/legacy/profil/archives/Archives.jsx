@@ -2,10 +2,10 @@ import {Box, Button} from "@mui/material";
 import {Add} from "@mui/icons-material";
 import React, {useState} from "react";
 import {useAuth0} from "@auth0/auth0-react";
-import {useAdminArchives, useAdminModifierArchive, useAdminSupprimerArchive} from "../../api/archives.admin.hooks";
+import {useAdminArchives, useAdminModifierArchive, useAdminSupprimerArchive} from "../../../api/archives.admin.hooks";
 import {ListeDesArchives} from "./ListeDesArchives";
 import {FenetreDeSaisieDArchive} from "./FenetreDeSaisieDArchive";
-import {Erreur} from "../../components/Erreur";
+import {Erreur} from "../../../components/Erreur";
 
 export const Archives = ({}) => {
     const [fenetreDeSaisieOuverte, setFenetreDeSaisieOuverte] = useState(false);

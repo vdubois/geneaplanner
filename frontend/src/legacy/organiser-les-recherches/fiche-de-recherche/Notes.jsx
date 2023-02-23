@@ -1,6 +1,6 @@
 import {Box, Button, Hidden, ListItem, Skeleton} from '@mui/material';
 import Typography from '@mui/material/Typography';
-import {FlexGrow} from '../../../components/FlexGrow';
+import {FlexGrow} from '../../components/FlexGrow';
 import {LigneNote} from './LigneNote';
 import Divider from '@mui/material/Divider';
 import React from 'react';

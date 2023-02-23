@@ -9,7 +9,7 @@ import {useAuth0} from '@auth0/auth0-react';
 import {useIndividus} from '../../../api/arbres.hooks';
 import {FenetreDeSaisieDeRegistre} from './FenetreDeSaisieDeRegistre';
 import {ListeDesRegistres} from './ListeDesRegistres';
-import {FlexGrow} from '../../../components/FlexGrow';
+import {FlexGrow} from '../../components/FlexGrow';
 
 export const FicheDArchives = () => {
   const navigateTo = useNavigate();

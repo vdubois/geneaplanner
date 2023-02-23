@@ -1,8 +1,8 @@
 import {Box, Button, FormControl, FormGroup, InputLabel, Step, StepLabel, Stepper} from "@mui/material";
 import React, {useEffect, useState} from "react";
 import Typography from "@mui/material/Typography";
-import {useConnexionFichiers, useModifierParametrageFichiers, useParametrageFichiers} from "../../api/fichiers.hooks";
-import {Erreur} from "../../components/Erreur";
+import {useConnexionFichiers, useModifierParametrageFichiers, useParametrageFichiers} from "../../../api/fichiers.hooks";
+import {Erreur} from "../../../components/Erreur";
 import {ConfigurationGitlabEtape1} from "./ConfigurationGitlabEtape1";
 import {ConfigurationGitlabEtape2} from "./ConfigurationGitlabEtape2";
 import {useQueryClient} from "react-query";

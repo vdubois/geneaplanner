@@ -7,7 +7,7 @@ import naissance from '/calendar.png';
 import bapteme from '/cross.png';
 import {Box} from "@mui/material";
 import {dateAsShortString, dateAsString} from "../../dates";
-import {capitalize} from "../../strings";
+import {capitalize} from "../strings";
 
 export const FamilyNode = React.memo(({ node, isRoot, onSubClick, style }) => {
     const navigateTo = useNavigate();

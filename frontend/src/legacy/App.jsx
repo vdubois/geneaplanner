@@ -1,15 +1,15 @@
 import React, {useState} from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
-import './App.scss';
+import '../App.scss';
 import {Route, Routes} from "react-router-dom";
-import {OrganisationDesRecherches} from "./legacy/organiser-les-recherches/OrganisationDesRecherches";
-import {PreparationPassageAuxArchives} from "./legacy/preparer-passage-aux-archives/PreparationPassageAuxArchives";
-import {RechercheDIndividus} from "./legacy/recherche-d-individus/RechercheDIndividus";
-import {Accueil} from "./legacy/accueil/Accueil";
-import {ImportationDeFichierGedcom} from "./importer-un-fichier-gedcom/ImportationDeFichierGedcom";
-import {ApportDeCorrections} from "./legacy/apporter-des-corrections/ApportDeCorrections";
-import {FicheDeRecherche} from "./legacy/organiser-les-recherches/fiche-de-recherche/FicheDeRecherche";
-import {FicheDArchives} from './legacy/preparer-passage-aux-archives/fiche-d-archives/FicheDArchives';
+import {OrganisationDesRecherches} from "./organiser-les-recherches/OrganisationDesRecherches";
+import {PreparationPassageAuxArchives} from "./preparer-passage-aux-archives/PreparationPassageAuxArchives";
+import {RechercheDIndividus} from "./recherche-d-individus/RechercheDIndividus";
+import {Accueil} from "./accueil/Accueil";
+import {ImportationDeFichierGedcom} from "../importer-un-fichier-gedcom/ImportationDeFichierGedcom";
+import {ApportDeCorrections} from "./apporter-des-corrections/ApportDeCorrections";
+import {FicheDeRecherche} from "./organiser-les-recherches/fiche-de-recherche/FicheDeRecherche";
+import {FicheDArchives} from './preparer-passage-aux-archives/fiche-d-archives/FicheDArchives';
 import {styled} from "@mui/material/styles";
 
 export const App = () => {
