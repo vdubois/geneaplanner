@@ -8,8 +8,8 @@ export class UseCaseEvenementiel<T extends Commande, R extends ResultatDeCommand
     constructor(private useCase: UseCase<T, R>, private emetteurDEvenements: EmetteurDEvenements) {
     }
 
-    executer(commande: T): R {
-        const resultat = this.useCase.executer(commande);
+    async executer(commande: T): Promise<R> {
+        const resultat = await this.useCase.executer(commande);
         resultat.evenementsProduits.forEach(evenement => this.emetteurDEvenements.emettre(evenement));
         return resultat;
     }

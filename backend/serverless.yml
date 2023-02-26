@@ -101,6 +101,11 @@ package:
     - "node_modules/typescript-inject/**"
     - "node_modules/@thundra/core/**"
     - "node_modules/@aws-sdk/**"
+    - "node_modules/mnemonist/**"
+    - "node_modules/obliterator/**"
+    - "node_modules/fast-xml-parser/**"
+    - "node_modules/strnum/**"
+    - "node_modules/@aws-crypto/**"
 
 functions:
   connexion-fichiers:

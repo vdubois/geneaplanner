@@ -5,6 +5,7 @@ import {readGedcom} from "read-gedcom";
 import {DynamoDbBuilder, S3Builder} from "aws-sdk-fluent-builder";
 import {APIGatewayProxyEvent} from "aws-lambda";
 import {Fichier, Individu} from "./fichier.model";
+import {autoriserUtilisateur} from "../commun/infrastructure/primaire/autoriserUtilisateur";
 
 const dynamoDBRepository = new DynamoDbBuilder()
     .withTableName(process.env.TABLE_DONNEES!)
@@ -16,45 +17,43 @@ const espaceDeStockageDesFichiersGEDCOM = new S3Builder()
     .build();
 
 export const parametres = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
-    const utilisateur = new Utilisateur(event);
-    if (utilisateur.estNonAutorise()) {
-        return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
-    }
-    try {
-        let parametresDeLUtilisateur = await dynamoDBRepository.findOneByPartitionKey(`${utilisateur.email}#parametres`);
-        if (!parametresDeLUtilisateur) {
+    // @ts-ignore
+    return autoriserUtilisateur(event, async (event: APIGatewayProxyEvent, utilisateur: Utilisateur): Promise<LambdaResult> => {
+        try {
+            let parametresDeLUtilisateur = await dynamoDBRepository.findOneByPartitionKey(`${utilisateur.email}#parametres`);
+            if (!parametresDeLUtilisateur) {
+                return ok({host: '', token: '', project: ''});
+            } else {
+                return ok(parametresDeLUtilisateur.gitlab);
+            }
+        } catch (erreur) {
+            console.error(erreur);
             return ok({host: '', token: '', project: ''});
-        } else {
-            return ok(parametresDeLUtilisateur.gitlab);
         }
-    } catch (erreur) {
-        console.error(erreur);
-        return ok({host: '', token: '', project: ''});
-    }
+    });
 }
 
 export const connecter = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
-    const utilisateur = new Utilisateur(event);
-    if (utilisateur.estNonAutorise()) {
-        return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
-    }
-    try {
-        const parametresDeConnexion = JSON.parse(event.body!);
-        let parametresDeLUtilisateur = await dynamoDBRepository.findOneByPartitionKey(`${utilisateur.email}#parametres`);
-        if (!parametresDeLUtilisateur) {
-            parametresDeLUtilisateur = {
-                partitionKey: `${utilisateur.email}#parametres`,
-                gitlab: parametresDeConnexion
-            };
-        } else {
-            parametresDeLUtilisateur.gitlab = parametresDeConnexion;
+    // @ts-ignore
+    return autoriserUtilisateur(event, async (event: APIGatewayProxyEvent, utilisateur: Utilisateur): Promise<LambdaResult> => {
+        try {
+            const parametresDeConnexion = JSON.parse(event.body!);
+            let parametresDeLUtilisateur = await dynamoDBRepository.findOneByPartitionKey(`${utilisateur.email}#parametres`);
+            if (!parametresDeLUtilisateur) {
+                parametresDeLUtilisateur = {
+                    partitionKey: `${utilisateur.email}#parametres`,
+                    gitlab: parametresDeConnexion
+                };
+            } else {
+                parametresDeLUtilisateur.gitlab = parametresDeConnexion;
+            }
+            await dynamoDBRepository.save(parametresDeLUtilisateur);
+            return ok(true);
+        } catch (erreur) {
+            console.error(erreur);
+            return ok(false);
         }
-        await dynamoDBRepository.save(parametresDeLUtilisateur);
-        return ok(true);
-    } catch (erreur) {
-        console.error(erreur);
-        return ok(false);
-    }
+    });
 }
 
 export const enregistrerProjet = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
@@ -123,18 +122,17 @@ export const enregistrerFichiers = async (event: APIGatewayProxyEvent): Promise<
 }
 
 export const recupererFichiers = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
-    const utilisateur = new Utilisateur(event);
-    if (utilisateur.estNonAutorise()) {
-        return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
-    }
-    try {
-        const fichiers = await dynamoDBRepository.findOneByPartitionKey(`${utilisateur.email}#fichiers-arbre`);
-        if (!fichiers) {
-            return ok([]);
+    // @ts-ignore
+    return autoriserUtilisateur(event, async (event: APIGatewayProxyEvent, utilisateur: Utilisateur): Promise<LambdaResult> => {
+        try {
+            const fichiers = await dynamoDBRepository.findOneByPartitionKey(`${utilisateur.email}#fichiers-arbre`);
+            if (!fichiers) {
+                return ok([]);
+            }
+            return ok(fichiers.fichiers.filter((fichier: Fichier) => fichier.type === 'blob' && fichier.individu === event.pathParameters?.identifiantIndividu));
+        } catch (erreur) {
+            console.error(erreur);
+            return serverError(erreur);
         }
-        return ok(fichiers.fichiers.filter((fichier: Fichier) => fichier.type === 'blob' && fichier.individu === event.pathParameters?.identifiantIndividu));
-    } catch (erreur) {
-        console.error(erreur);
-        return serverError(erreur);
-    }
+    });
 }

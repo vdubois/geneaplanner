@@ -170,20 +170,19 @@ export const supprimerUneNoteDUnIndividu = async (event: APIGatewayProxyEvent): 
 }
 
 export const supprimerUneRechercheDUnIndividu = async (event: APIGatewayProxyEvent): Promise<LambdaResult> => {
-  const utilisateur = new Utilisateur(event);
-  if (utilisateur.estNonAutorise()) {
-    return unauthorized(`Non autorisé pour le compte ${utilisateur.email}`);
-  }
-  let recherchesDeLUtilisateur = await dynamoDBRepository.findOneByPartitionKey(`${utilisateur.email}#recherches`);
-  const individu = event.pathParameters?.individu as string;
-  if (!recherchesDeLUtilisateur
-    || !recherchesDeLUtilisateur.recherches[individu]
-    || !recherchesDeLUtilisateur.recherches[individu].recherches.find((recherche: Recherche) => recherche.id === event.pathParameters?.recherche)) {
-    return badRequest(`La recherche n'existe pas`);
-  } else {
-    recherchesDeLUtilisateur.recherches[individu].recherches =
-      recherchesDeLUtilisateur.recherches[individu].recherches.filter((recherche: Recherche) => recherche.id !== event.pathParameters?.recherche);
-  }
-  await dynamoDBRepository.save(recherchesDeLUtilisateur);
-  return noContent();
+  // @ts-ignore
+  return autoriserUtilisateur(event, async (event: APIGatewayProxyEvent, utilisateur: Utilisateur): Promise<LambdaResult> => {
+    let recherchesDeLUtilisateur = await dynamoDBRepository.findOneByPartitionKey(`${utilisateur.email}#recherches`);
+    const individu = event.pathParameters?.individu as string;
+    if (!recherchesDeLUtilisateur
+        || !recherchesDeLUtilisateur.recherches[individu]
+        || !recherchesDeLUtilisateur.recherches[individu].recherches.find((recherche: Recherche) => recherche.id === event.pathParameters?.recherche)) {
+      return badRequest(`La recherche n'existe pas`);
+    } else {
+      recherchesDeLUtilisateur.recherches[individu].recherches =
+          recherchesDeLUtilisateur.recherches[individu].recherches.filter((recherche: Recherche) => recherche.id !== event.pathParameters?.recherche);
+    }
+    await dynamoDBRepository.save(recherchesDeLUtilisateur);
+    return noContent();
+  });
 }
