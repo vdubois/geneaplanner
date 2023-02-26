@@ -14,7 +14,7 @@
   "author": "Vincent Dubois",
   "license": "ISC",
   "dependencies": {
-    "@thundra/core": "2.13.63",
+    "@thundra/core": "2.13.64",
     "aws-lambda-utils": "0.0.2",
     "aws-sdk-fluent-builder": "0.4.1",
     "read-gedcom": "0.3.2",
@@ -24,14 +24,14 @@
     "@types/aws-lambda": "8.10.111",
     "@types/node": "16.11.68",
     "@types/uuid": "9.0.1",
-    "@vitest/coverage-c8": "0.28.5",
-    "@vitest/ui": "0.28.5",
+    "@vitest/coverage-c8": "0.29.1",
+    "@vitest/ui": "0.29.1",
     "serverless-plugin-thundra": "2.6.2",
     "serverless-plugin-typescript": "2.1.4",
     "serverless-plugin-umzug": "1.3.0",
     "ts-node": "10.9.1",
     "typescript": "4.9.5",
-    "vitest": "0.28.5"
+    "vitest": "0.29.1"
   },
   "overrides": {
     "serverless-plugin-umzug": {
