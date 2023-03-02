@@ -11,7 +11,7 @@
     "@mui/lab": "5.0.0-alpha.121",
     "@mui/material": "5.11.11",
     "@mui/styles": "5.11.11",
-    "@reactour/tour": "3.2.1",
+    "@reactour/tour": "3.3.0",
     "@tanstack/react-query": "4.24.10",
     "@tanstack/react-query-devtools": "4.24.12",
     "animate.css": "4.1.1",
