@@ -13,7 +13,7 @@
     "@cucumber/pretty-formatter": "1.0.0",
     "@cypress/webpack-preprocessor": "5.17.0",
     "@types/auth0": "2.35.9",
-    "@types/node": "16.18.11",
+    "@types/node": "18.14.4",
     "@typescript-eslint/eslint-plugin": "5.54.0",
     "@typescript-eslint/parser": "5.54.0",
     "auth0": "3.2.0",
