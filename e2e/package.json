@@ -15,7 +15,7 @@
     "@types/auth0": "2.35.11",
     "@types/node": "16.18.11",
     "@typescript-eslint/eslint-plugin": "5.55.0",
-    "@typescript-eslint/parser": "5.55.0",
+    "@typescript-eslint/parser": "5.56.0",
     "auth0": "3.3.0",
     "cypress": "12.8.1",
     "eslint": "8.36.0",
