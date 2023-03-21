@@ -13,7 +13,7 @@
     "@mui/styles": "5.11.13",
     "@reactour/tour": "3.3.0",
     "@tanstack/react-query": "4.28.0",
-    "@tanstack/react-query-devtools": "4.26.1",
+    "@tanstack/react-query-devtools": "4.28.0",
     "animate.css": "4.1.1",
     "axios": "1.3.4",
     "bulma": "0.9.4",
