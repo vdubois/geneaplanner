@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "@types/aws-lambda": "8.10.114",
-    "@types/node": "16.11.68",
+    "@types/node": "18.15.10",
     "@types/uuid": "9.0.1",
     "@vitest/coverage-c8": "0.29.7",
     "@vitest/ui": "0.29.7",
