@@ -8,7 +8,7 @@
   "dependencies": {
   },
   "devDependencies": {
-    "@badeball/cypress-cucumber-preprocessor": "16.0.2",
+    "@badeball/cypress-cucumber-preprocessor": "16.0.3",
     "@cucumber/cucumber": "9.1.0",
     "@cucumber/pretty-formatter": "1.0.0",
     "@cypress/webpack-preprocessor": "5.17.0",
