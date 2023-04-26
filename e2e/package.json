@@ -14,7 +14,7 @@
     "@cypress/webpack-preprocessor": "5.17.0",
     "@types/auth0": "3.3.1",
     "@types/node": "16.18.25",
-    "@typescript-eslint/eslint-plugin": "5.59.0",
+    "@typescript-eslint/eslint-plugin": "5.59.1",
     "@typescript-eslint/parser": "5.59.1",
     "auth0": "3.3.0",
     "cypress": "12.10.0",
