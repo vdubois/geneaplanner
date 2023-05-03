@@ -24,7 +24,7 @@
     "@types/aws-lambda": "8.10.114",
     "@types/node": "16.18.25",
     "@types/uuid": "9.0.1",
-    "@vitest/coverage-c8": "0.30.1",
+    "@vitest/coverage-c8": "0.31.0",
     "@vitest/ui": "0.30.1",
     "serverless-plugin-thundra": "2.6.2",
     "serverless-plugin-typescript": "2.1.4",
