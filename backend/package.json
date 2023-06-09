@@ -21,7 +21,7 @@
     "typescript-inject": "0.0.8"
   },
   "devDependencies": {
-    "@types/aws-lambda": "8.10.115",
+    "@types/aws-lambda": "8.10.117",
     "@types/node": "16.18.25",
     "@types/uuid": "9.0.1",
     "@vitest/coverage-c8": "0.31.1",
